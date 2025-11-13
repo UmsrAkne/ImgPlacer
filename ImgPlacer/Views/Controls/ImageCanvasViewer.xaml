@@ -1,0 +1,36 @@
+﻿<UserControl
+    x:Class="ImgPlacer.Views.Controls.ImageCanvasViewer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="Root"
+    Width="{Binding ElementName=Root, Path=FrameWidth}"
+    Height="{Binding ElementName=Root, Path=FrameHeight}"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+    <Border Background="Transparent" ClipToBounds="True">
+        <Viewbox
+            Width="{Binding FrameWidth, ElementName=Root}"
+            Height="{Binding FrameHeight, ElementName=Root}"
+            Stretch="Uniform">
+            <Canvas
+                x:Name="PartCanvas"
+                Background="Transparent"
+                MouseLeftButtonDown="OnCanvasMouseLeftButtonDown"
+                MouseLeftButtonUp="OnCanvasMouseLeftButtonUp"
+                MouseMove="OnCanvasMouseMove">
+
+                <Image
+                    x:Name="PartImage"
+                    Source="{Binding ImageSource, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                    Stretch="None">
+                    <Image.RenderTransform>
+                        <TranslateTransform X="{Binding OffsetX, RelativeSource={RelativeSource AncestorType=UserControl}}" Y="{Binding OffsetY, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                    </Image.RenderTransform>
+                </Image>
+            </Canvas>
+        </Viewbox>
+    </Border>
+</UserControl>
