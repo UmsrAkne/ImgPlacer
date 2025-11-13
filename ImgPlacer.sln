@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImgPlacer", "ImgPlacer\ImgPlacer.csproj", "{DE5C1E2F-533A-4E31-A201-262CE5FECDAB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DE5C1E2F-533A-4E31-A201-262CE5FECDAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE5C1E2F-533A-4E31-A201-262CE5FECDAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE5C1E2F-533A-4E31-A201-262CE5FECDAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE5C1E2F-533A-4E31-A201-262CE5FECDAB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
