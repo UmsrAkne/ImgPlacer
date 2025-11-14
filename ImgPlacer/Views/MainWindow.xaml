@@ -37,7 +37,9 @@
             Margin="20"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            DataContext="{Binding Path=ImageCanvasViewerViewModel}">
+            DataContext="{Binding Path=ImageCanvasViewerViewModel}"
+            OffsetX="{Binding OffsetX}"
+            OffsetY="{Binding OffsetY}">
             <controls:ImageCanvasViewer.LayoutTransform>
                 <ScaleTransform ScaleX="0.25" ScaleY="0.25" />
             </controls:ImageCanvasViewer.LayoutTransform>
