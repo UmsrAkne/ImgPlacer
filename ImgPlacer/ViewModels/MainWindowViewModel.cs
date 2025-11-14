@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using Prism.Commands;
+using Prism.Mvvm;
 
 namespace ImgPlacer.ViewModels;
 
@@ -11,4 +12,6 @@ public class MainWindowViewModel : BindableBase
         get => title;
         set => SetProperty(ref title, value);
     }
+
+    public ImageLayerManagerViewModel ImageLayerManagerViewModel { get; set; } = new ();
 }

@@ -124,9 +124,9 @@ namespace ImgPlacer.Utils.Behaviors
                 Console.WriteLine($"FolderDropBehavior: {dir}");
             }
 
-            if (FolderDroppedCommand != null && FolderDroppedCommand.CanExecute(dirs))
+            if (FolderDroppedCommand != null && FolderDroppedCommand.CanExecute(dirs.First()))
             {
-                FolderDroppedCommand.Execute(dirs);
+                FolderDroppedCommand.Execute(dirs.First());
             }
 
             e.Handled = true;

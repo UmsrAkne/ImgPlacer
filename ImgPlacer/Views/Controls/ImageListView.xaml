@@ -10,10 +10,7 @@
     d:DesignWidth="300"
     mc:Ignorable="d">
 
-    <Border
-        Background="LightGreen"
-        BorderBrush="Black"
-        BorderThickness="1">
+    <Border Margin="2,0" Background="LightGreen">
         <ListBox
             x:Name="PartListBox"
             MinWidth="100"

@@ -3,21 +3,41 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:behaviors="clr-namespace:ImgPlacer.Utils.Behaviors"
+    xmlns:controls="clr-namespace:ImgPlacer.Views.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:viewModels="clr-namespace:ImgPlacer.ViewModels"
     Title="{Binding Title}"
-    Width="525"
+    Width="600"
     Height="350"
     d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>
-        <behaviors:FolderDropBehavior />
+        <behaviors:FolderDropBehavior FolderDroppedCommand="{Binding ImageLayerManagerViewModel.LoadImagesCommand}" />
     </i:Interaction.Behaviors>
     <Grid>
-        <ContentControl prism:RegionManager.RegionName="ContentRegion" />
+        <Grid.RowDefinitions>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <controls:ImageCanvasViewer Grid.Row="0" Grid.Column="0" />
+        <ItemsControl
+            Grid.Row="0"
+            Grid.Column="1"
+            ItemsSource="{Binding ImageLayerManagerViewModel.Layers}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <controls:ImageListView />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </Window>
