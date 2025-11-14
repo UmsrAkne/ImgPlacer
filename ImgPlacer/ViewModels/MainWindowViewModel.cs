@@ -27,7 +27,7 @@ public class MainWindowViewModel : BindableBase
         set => SetProperty(ref title, value);
     }
 
-    public ImageLayerManagerViewModel ImageLayerManagerViewModel { get; }
+    public ImageLayerManagerViewModel ImageLayerManagerViewModel { get; private set; }
 
-    public ImageCanvasViewerViewModel ImageCanvasViewerViewModel { get; }
+    public ImageCanvasViewerViewModel ImageCanvasViewerViewModel { get; private set; }
 }

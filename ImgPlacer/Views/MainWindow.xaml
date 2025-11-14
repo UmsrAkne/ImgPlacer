@@ -10,8 +10,8 @@
     xmlns:prism="http://prismlibrary.com/"
     xmlns:viewModels="clr-namespace:ImgPlacer.ViewModels"
     Title="{Binding Title}"
-    Width="600"
-    Height="350"
+    Width="1280"
+    Height="720"
     d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
@@ -21,22 +21,40 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
+            <ColumnDefinition Width="460" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
         <controls:ImageCanvasViewer
             Grid.Row="0"
             Grid.Column="0"
-            DataContext="{Binding Path=ImageCanvasViewerViewModel}" />
+            Width="1680"
+            Height="720"
+            Margin="20"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            DataContext="{Binding Path=ImageCanvasViewerViewModel}">
+            <controls:ImageCanvasViewer.LayoutTransform>
+                <ScaleTransform ScaleX="0.25" ScaleY="0.25" />
+            </controls:ImageCanvasViewer.LayoutTransform>
+        </controls:ImageCanvasViewer>
 
         <ItemsControl
             Grid.Row="0"
+            Grid.RowSpan="2"
             Grid.Column="1"
             ItemsSource="{Binding ImageLayerManagerViewModel.Layers}">
+
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="1" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <controls:ImageListView />

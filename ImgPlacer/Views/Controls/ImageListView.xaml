@@ -8,6 +8,7 @@
     d:DataContext="{d:DesignInstance viewModels:ImageListViewModel}"
     d:DesignHeight="300"
     d:DesignWidth="300"
+    Background="DeepSkyBlue"
     mc:Ignorable="d">
 
     <Border Margin="2,0" Background="LightGreen">
