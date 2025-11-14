@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -22,6 +23,12 @@ public partial class ImageCanvasViewer
 
     public static readonly DependencyProperty OffsetYProperty = DependencyProperty.Register(
         nameof(OffsetY), typeof(double), typeof(ImageCanvasViewer), new PropertyMetadata(0d));
+
+    public static readonly DependencyProperty ZoomProperty = DependencyProperty.Register(
+        nameof(Zoom), typeof(double), typeof(ImageCanvasViewer), new PropertyMetadata(1.0d));
+
+    private const double MinZoom = 0.05;
+    private const double MaxZoom = 20.0;
 
     private Point? dragStartPoint;
     private double startOffsetX;
@@ -55,6 +62,12 @@ public partial class ImageCanvasViewer
     {
         get => (double)GetValue(OffsetYProperty);
         set => SetValue(OffsetYProperty, value);
+    }
+
+    public double Zoom
+    {
+        get => (double)GetValue(ZoomProperty);
+        set => SetValue(ZoomProperty, value);
     }
 
     public ImageCanvasViewer()
@@ -107,6 +120,41 @@ public partial class ImageCanvasViewer
         dragStartPoint = null;
         ((UIElement)sender).ReleaseMouseCapture();
         Mouse.OverrideCursor = null;
+        e.Handled = true;
+    }
+
+    private void OnCanvasPreviewMouseWheel(object sender, MouseWheelEventArgs e)
+    {
+        // Zoom only when Ctrl is pressed
+        if ((Keyboard.Modifiers & ModifierKeys.Control) != ModifierKeys.Control)
+        {
+            return;
+        }
+
+        var canvas = (IInputElement)sender;
+        var mousePos = e.GetPosition(canvas);
+
+        var oldZoom = Zoom;
+
+        var ticks = e.Delta / 120;
+        var factor = Math.Pow(1.05, ticks);
+        var newZoom = Math.Clamp(oldZoom * factor, MinZoom, MaxZoom);
+
+        if (Math.Abs(newZoom - oldZoom) < 0.0001)
+        {
+            e.Handled = true;
+            return;
+        }
+
+        // Keep the point under the mouse stationary: x = cX * z + offX => offX' = x - cX * z'
+        var contentX = (mousePos.X - OffsetX) / oldZoom;
+        var contentY = (mousePos.Y - OffsetY) / oldZoom;
+
+        Zoom = newZoom;
+
+        OffsetX = mousePos.X - (contentX * newZoom);
+        OffsetY = mousePos.Y - (contentY * newZoom);
+
         e.Handled = true;
     }
 }

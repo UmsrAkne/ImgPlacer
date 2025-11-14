@@ -22,7 +22,8 @@
                         Background="Transparent"
                         MouseLeftButtonDown="OnCanvasMouseLeftButtonDown"
                         MouseLeftButtonUp="OnCanvasMouseLeftButtonUp"
-                        MouseMove="OnCanvasMouseMove" />
+                        MouseMove="OnCanvasMouseMove"
+                        PreviewMouseWheel="OnCanvasPreviewMouseWheel" />
 
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
@@ -36,7 +37,10 @@
                         Source="{Binding SelectedImage.Thumbnail}"
                         Stretch="None">
                         <Image.RenderTransform>
-                            <TranslateTransform X="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:ImageCanvasViewer}, Path=OffsetX}" Y="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:ImageCanvasViewer}, Path=OffsetY}" />
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:ImageCanvasViewer}, Path=Zoom}" ScaleY="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:ImageCanvasViewer}, Path=Zoom}" />
+                                <TranslateTransform X="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:ImageCanvasViewer}, Path=OffsetX}" Y="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:ImageCanvasViewer}, Path=OffsetY}" />
+                            </TransformGroup>
                         </Image.RenderTransform>
                     </Image>
                 </DataTemplate>
