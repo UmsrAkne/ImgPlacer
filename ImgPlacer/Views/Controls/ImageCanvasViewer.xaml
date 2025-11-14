@@ -11,26 +11,21 @@
     d:DesignWidth="400"
     mc:Ignorable="d">
     <Border Background="Transparent" ClipToBounds="True">
-        <Viewbox
-            Width="{Binding FrameWidth, ElementName=Root}"
-            Height="{Binding FrameHeight, ElementName=Root}"
-            Stretch="Uniform">
-            <Canvas
-                x:Name="PartCanvas"
-                Background="Transparent"
-                MouseLeftButtonDown="OnCanvasMouseLeftButtonDown"
-                MouseLeftButtonUp="OnCanvasMouseLeftButtonUp"
-                MouseMove="OnCanvasMouseMove">
+        <Canvas
+            x:Name="PartCanvas"
+            Background="Transparent"
+            MouseLeftButtonDown="OnCanvasMouseLeftButtonDown"
+            MouseLeftButtonUp="OnCanvasMouseLeftButtonUp"
+            MouseMove="OnCanvasMouseMove">
 
-                <Image
-                    x:Name="PartImage"
-                    Source="{Binding ImageSource, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                    Stretch="None">
-                    <Image.RenderTransform>
-                        <TranslateTransform X="{Binding OffsetX, RelativeSource={RelativeSource AncestorType=UserControl}}" Y="{Binding OffsetY, RelativeSource={RelativeSource AncestorType=UserControl}}" />
-                    </Image.RenderTransform>
-                </Image>
-            </Canvas>
-        </Viewbox>
+            <Image
+                x:Name="PartImage"
+                Source="{Binding ImageSource, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                Stretch="None">
+                <Image.RenderTransform>
+                    <TranslateTransform X="{Binding OffsetX, RelativeSource={RelativeSource AncestorType=UserControl}}" Y="{Binding OffsetY, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                </Image.RenderTransform>
+            </Image>
+        </Canvas>
     </Border>
 </UserControl>
