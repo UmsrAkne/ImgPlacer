@@ -28,7 +28,11 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <controls:ImageCanvasViewer Grid.Row="0" Grid.Column="0" />
+        <controls:ImageCanvasViewer
+            Grid.Row="0"
+            Grid.Column="0"
+            DataContext="{Binding Path=ImageCanvasViewerViewModel}" />
+
         <ItemsControl
             Grid.Row="0"
             Grid.Column="1"

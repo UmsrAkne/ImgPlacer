@@ -76,20 +76,15 @@ public partial class ImageCanvasViewer
         // Keep the control's size equal to the frame size
         Width = FrameWidth;
         Height = FrameHeight;
-
-        if (PartCanvas != null)
-        {
-            PartCanvas.Width = FrameWidth;
-            PartCanvas.Height = FrameHeight;
-        }
     }
 
     private void OnCanvasMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        dragStartPoint = e.GetPosition(PartCanvas);
+        var canvas = (IInputElement)sender;
+        dragStartPoint = e.GetPosition(canvas);
         startOffsetX = OffsetX;
         startOffsetY = OffsetY;
-        PartCanvas.CaptureMouse();
+        ((UIElement)sender).CaptureMouse();
         Mouse.OverrideCursor = Cursors.Hand;
         e.Handled = true;
     }
@@ -98,7 +93,8 @@ public partial class ImageCanvasViewer
     {
         if (dragStartPoint.HasValue && e.LeftButton == MouseButtonState.Pressed)
         {
-            var current = e.GetPosition(PartCanvas);
+            var canvas = (IInputElement)sender;
+            var current = e.GetPosition(canvas);
             var delta = current - dragStartPoint.Value;
             OffsetX = startOffsetX + delta.X;
             OffsetY = startOffsetY + delta.Y;
@@ -109,7 +105,7 @@ public partial class ImageCanvasViewer
     private void OnCanvasMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
         dragStartPoint = null;
-        PartCanvas.ReleaseMouseCapture();
+        ((UIElement)sender).ReleaseMouseCapture();
         Mouse.OverrideCursor = null;
         e.Handled = true;
     }
