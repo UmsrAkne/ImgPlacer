@@ -7,15 +7,7 @@ namespace ImgPlacer.ViewModels
     // ReSharper disable once ClassNeverInstantiated.Global
     public class ImageLayerManagerViewModel : BindableBase
     {
-        public ImageLayerManagerViewModel()
-        {
-            Layers.Add(new ImageListViewModel());
-            Layers.Add(new ImageListViewModel());
-            Layers.Add(new ImageListViewModel());
-            Layers.Add(new ImageListViewModel());
-        }
-
-        public ObservableCollection<ImageListViewModel> Layers { get; } = new ();
+        public ObservableCollection<ImageListViewModel> Layers { get; set; } = new ();
 
         public ImageListViewModel PrimaryLayer => Layers[0];
 
