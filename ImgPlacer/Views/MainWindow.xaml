@@ -20,7 +20,7 @@
     </i:Interaction.Behaviors>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
 
@@ -61,5 +61,9 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+
+        <StackPanel Grid.Row="1" Grid.Column="0">
+            <controls:CanvasSliderPanel DataContext="{Binding CanvasSliderPanelViewModel}" />
+        </StackPanel>
     </Grid>
 </Window>

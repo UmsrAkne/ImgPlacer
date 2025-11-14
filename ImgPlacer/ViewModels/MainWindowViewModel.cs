@@ -11,6 +11,7 @@ public class MainWindowViewModel : BindableBase
     {
         ImageLayerManagerViewModel = new ImageLayerManagerViewModel();
         ImageCanvasViewerViewModel = new ImageCanvasViewerViewModel();
+        CanvasSliderPanelViewModel = new CanvasSliderPanelViewModel(ImageCanvasViewerViewModel);
         var layers = new ObservableCollection<ImageListViewModel>();
         for (var i = 0; i < 4; i++)
         {
@@ -30,4 +31,6 @@ public class MainWindowViewModel : BindableBase
     public ImageLayerManagerViewModel ImageLayerManagerViewModel { get; private set; }
 
     public ImageCanvasViewerViewModel ImageCanvasViewerViewModel { get; private set; }
+
+    public CanvasSliderPanelViewModel CanvasSliderPanelViewModel { get; private set; }
 }
