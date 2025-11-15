@@ -10,6 +10,9 @@ namespace ImgPlacer.ViewModels
         private int distance;
         private int degree;
         private int duration;
+        private int repeatCount;
+        private int delay;
+        private int interval;
 
         public CanvasSliderPanelViewModel(ImageCanvasViewerViewModel imageCanvasViewerViewModel)
         {
@@ -23,6 +26,12 @@ namespace ImgPlacer.ViewModels
         public int Degree { get => degree; set => SetProperty(ref degree, value); }
 
         public int Duration { get => duration; set => SetProperty(ref duration, value); }
+
+        public int RepeatCount { get => repeatCount; set => SetProperty(ref repeatCount, value); }
+
+        public int Delay { get => delay; set => SetProperty(ref delay, value); }
+
+        public int Interval { get => interval; set => SetProperty(ref interval, value); }
 
         public DelegateCommand SlideCommand => new DelegateCommand(() =>
         {

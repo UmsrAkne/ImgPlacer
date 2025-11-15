@@ -10,27 +10,50 @@
 
     <StackPanel Margin="10">
         <StackPanel Orientation="Horizontal">
-            <TextBlock VerticalAlignment="Center" Text="Distance" />
-            <TextBox
-                Width="50"
-                Margin="10,0"
-                Text="{Binding Distance, UpdateSourceTrigger=PropertyChanged}" />
+            <StackPanel Width="130" Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Text="Distance:" />
+                <TextBox
+                    Width="50"
+                    Margin="5,0"
+                    Text="{Binding Distance, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
 
-            <Border Width="20" />
+            <StackPanel Width="130" Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Text="Degree:" />
+                <TextBox
+                    Width="50"
+                    Margin="5,0"
+                    Text="{Binding Degree, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
 
-            <TextBlock VerticalAlignment="Center" Text="Degree" />
-            <TextBox
-                Width="50"
-                Margin="10,0"
-                Text="{Binding Degree, UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
 
-            <Border Width="20" />
+        <StackPanel Orientation="Horizontal">
+            <StackPanel Width="130" Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Text="Delay:" />
+                <TextBox
+                    Width="40"
+                    Margin="10,0"
+                    Text="{Binding Delay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
 
-            <TextBlock VerticalAlignment="Center" Text="Duration" />
-            <TextBox
-                Width="50"
-                Margin="10,0"
-                Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}" />
+
+            <StackPanel Width="130" Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Text="Interval:" />
+
+                <TextBox
+                    Width="40"
+                    Margin="10,0"
+                    Text="{Binding Interval, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+
+            <StackPanel Width="130" Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Text="Repeat:" />
+                <TextBox
+                    Width="40"
+                    Margin="10,0"
+                    Text="{Binding RepeatCount, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
 
         </StackPanel>
 
