@@ -41,5 +41,12 @@ namespace ImgPlacer.ViewModels
                 offset.X + imageCenter.X - canvasCenter.X,
                 offset.Y + imageCenter.Y - canvasCenter.Y);
         }
+
+        public void SetCenteredOffset(double centeredX, double centeredY, double scale)
+        {
+            Zoom = scale;
+            OffsetX = centeredX + (CanvasWidth / 2.0) - (ImageWidth * scale / 2.0);
+            OffsetY = centeredY + (CanvasHeight / 2.0) - (ImageHeight * scale / 2.0);
+        }
     }
 }
