@@ -32,8 +32,8 @@
         <controls:ImageCanvasViewer
             Grid.Row="0"
             Grid.Column="0"
-            Width="1680"
-            Height="720"
+            Width="{Binding CanvasWidth}"
+            Height="{Binding CanvasHeight}"
             Margin="20"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"

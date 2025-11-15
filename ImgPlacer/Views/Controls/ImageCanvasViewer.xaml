@@ -7,8 +7,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:ImgPlacer.ViewModels"
     x:Name="Root"
-    Width="{Binding ElementName=Root, Path=FrameWidth}"
-    Height="{Binding ElementName=Root, Path=FrameHeight}"
     d:DataContext="{d:DesignInstance viewModels:ImageCanvasViewerViewModel}"
     d:DesignHeight="300"
     d:DesignWidth="400"
