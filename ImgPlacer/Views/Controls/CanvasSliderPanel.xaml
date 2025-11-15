@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:ImgPlacer.ViewModels"
     d:DataContext="{d:DesignInstance viewModels:CanvasSliderPanelViewModel}"
@@ -70,8 +71,21 @@
                 Height="25"
                 Margin="10,0"
                 HorizontalAlignment="Left"
-                Command="{Binding SlideHoldCommand}"
-                Content="Slide (Hold)" />
+                Content="Slide (Hold)">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                        <i:InvokeCommandAction Command="{Binding SlideHoldPressCommand}" />
+                    </i:EventTrigger>
+
+                    <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                        <i:InvokeCommandAction Command="{Binding SlideHoldReleaseCommand}" />
+                    </i:EventTrigger>
+
+                    <i:EventTrigger EventName="MouseLeave">
+                        <i:InvokeCommandAction Command="{Binding SlideHoldReleaseCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
 
         </StackPanel>
     </StackPanel>

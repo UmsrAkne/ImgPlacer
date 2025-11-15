@@ -14,6 +14,10 @@ namespace ImgPlacer.ViewModels
         private int delay;
         private int interval;
 
+        private bool isHolding;
+        private double originalOffsetX;
+        private double originalOffsetY;
+
         public CanvasSliderPanelViewModel(ImageCanvasViewerViewModel imageCanvasViewerViewModel)
         {
             ImageCanvasViewerViewModel = imageCanvasViewerViewModel;
@@ -53,9 +57,49 @@ namespace ImgPlacer.ViewModels
             ImageCanvasViewerViewModel.OffsetY += dy;
         });
 
-        public DelegateCommand SlideHoldCommand => new DelegateCommand(() =>
+        // 押している間だけ移動させ、離したら元の座標に戻す
+        public DelegateCommand SlideHoldPressCommand => new DelegateCommand(() =>
         {
-            Console.WriteLine("Slide Command Executed");
+            if (isHolding)
+            {
+                return;
+            }
+
+            // 安全確保：Distance, Degree が有効値かチェック
+            if (double.IsNaN(Distance) || double.IsNaN(Degree))
+            {
+                return;
+            }
+
+            isHolding = true;
+
+            // 現在位置を保存
+            originalOffsetX = ImageCanvasViewerViewModel.OffsetX;
+            originalOffsetY = ImageCanvasViewerViewModel.OffsetY;
+
+            // 角度をラジアンに変換
+            var rad = Degree * Math.PI / 180.0;
+
+            // 移動量（1回分）
+            var dx = Distance * Math.Cos(rad);
+            var dy = Distance * Math.Sin(rad);
+
+            // 一時的な位置へ移動
+            ImageCanvasViewerViewModel.OffsetX = originalOffsetX + dx;
+            ImageCanvasViewerViewModel.OffsetY = originalOffsetY + dy;
+        });
+
+        public DelegateCommand SlideHoldReleaseCommand => new DelegateCommand(() =>
+        {
+            if (!isHolding)
+            {
+                return;
+            }
+
+            // 元の位置へ戻す
+            ImageCanvasViewerViewModel.OffsetX = originalOffsetX;
+            ImageCanvasViewerViewModel.OffsetY = originalOffsetY;
+            isHolding = false;
         });
     }
 }
