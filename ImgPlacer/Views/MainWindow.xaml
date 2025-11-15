@@ -44,6 +44,7 @@
 
             <i:Interaction.Behaviors>
                 <behaviors:CanvasDragBehavior />
+                <behaviors:CanvasZoomBehavior />
             </i:Interaction.Behaviors>
 
         </controls:ImageCanvasViewer>

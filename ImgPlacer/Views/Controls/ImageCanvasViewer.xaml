@@ -18,7 +18,7 @@
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <!-- Canvasを使うことで、同一位置に重ねて表示可能 -->
-                    <Canvas Background="Transparent" PreviewMouseWheel="OnCanvasPreviewMouseWheel" />
+                    <Canvas Background="Transparent" />
 
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
@@ -33,7 +33,7 @@
                         Stretch="None">
                         <Image.RenderTransform>
                             <TransformGroup>
-                                <ScaleTransform ScaleX="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:ImageCanvasViewer}, Path=Zoom}" ScaleY="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:ImageCanvasViewer}, Path=Zoom}" />
+                                <ScaleTransform ScaleX="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:ImageCanvasViewer}, Path=DataContext.Zoom}" ScaleY="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:ImageCanvasViewer}, Path=DataContext.Zoom}" />
                                 <TranslateTransform X="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:ImageCanvasViewer}, Path=DataContext.OffsetX}" Y="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:ImageCanvasViewer}, Path=DataContext.OffsetY}" />
                             </TransformGroup>
                         </Image.RenderTransform>
