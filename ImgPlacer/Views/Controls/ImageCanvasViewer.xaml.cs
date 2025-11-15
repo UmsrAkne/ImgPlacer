@@ -7,24 +7,34 @@ namespace ImgPlacer.Views.Controls;
 
 public partial class ImageCanvasViewer
 {
-    public static readonly DependencyProperty FrameWidthProperty = DependencyProperty.Register(
-        nameof(FrameWidth), typeof(double), typeof(ImageCanvasViewer),
-        new FrameworkPropertyMetadata(300d, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender, OnFrameSizeChanged));
+    public readonly static DependencyProperty FrameWidthProperty = DependencyProperty.Register(
+        nameof(FrameWidth),
+        typeof(double),
+        typeof(ImageCanvasViewer),
+        new FrameworkPropertyMetadata(
+            300d,
+            FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
+            OnFrameSizeChanged));
 
-    public static readonly DependencyProperty FrameHeightProperty = DependencyProperty.Register(
-        nameof(FrameHeight), typeof(double), typeof(ImageCanvasViewer),
-        new FrameworkPropertyMetadata(200d, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender, OnFrameSizeChanged));
+    public readonly static DependencyProperty FrameHeightProperty = DependencyProperty.Register(
+        nameof(FrameHeight),
+        typeof(double),
+        typeof(ImageCanvasViewer),
+        new FrameworkPropertyMetadata(
+            200d,
+            FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
+            OnFrameSizeChanged));
 
-    public static readonly DependencyProperty ImageSourceProperty = DependencyProperty.Register(
+    public readonly static DependencyProperty ImageSourceProperty = DependencyProperty.Register(
         nameof(ImageSource), typeof(ImageSource), typeof(ImageCanvasViewer), new PropertyMetadata(null));
 
-    public static readonly DependencyProperty OffsetXProperty = DependencyProperty.Register(
+    public readonly static DependencyProperty OffsetXProperty = DependencyProperty.Register(
         nameof(OffsetX), typeof(double), typeof(ImageCanvasViewer), new PropertyMetadata(0d));
 
-    public static readonly DependencyProperty OffsetYProperty = DependencyProperty.Register(
+    public readonly static DependencyProperty OffsetYProperty = DependencyProperty.Register(
         nameof(OffsetY), typeof(double), typeof(ImageCanvasViewer), new PropertyMetadata(0d));
 
-    public static readonly DependencyProperty ZoomProperty = DependencyProperty.Register(
+    public readonly static DependencyProperty ZoomProperty = DependencyProperty.Register(
         nameof(Zoom), typeof(double), typeof(ImageCanvasViewer), new PropertyMetadata(1.0d));
 
     private const double MinZoom = 0.05;
@@ -33,6 +43,12 @@ public partial class ImageCanvasViewer
     private Point? dragStartPoint;
     private double startOffsetX;
     private double startOffsetY;
+
+    public ImageCanvasViewer()
+    {
+        InitializeComponent();
+        UpdateSizeBindings();
+    }
 
     public double FrameWidth
     {
@@ -68,12 +84,6 @@ public partial class ImageCanvasViewer
     {
         get => (double)GetValue(ZoomProperty);
         set => SetValue(ZoomProperty, value);
-    }
-
-    public ImageCanvasViewer()
-    {
-        InitializeComponent();
-        UpdateSizeBindings();
     }
 
     private static void OnFrameSizeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
