@@ -89,5 +89,60 @@ namespace ImgPlacer.Tests.Utils
                 Assert.That(el.Attribute("d")?.Value, Is.EqualTo(""));
             });
         }
+
+        [Test]
+        public void GenerateDrawTag_UsesAnimeThenTrimsAndRenames()
+        {
+            var vm = new ImageCanvasViewerViewModel
+            {
+                Layers = new System.Collections.ObjectModel.ObservableCollection<ImageListViewModel>
+                {
+                    new () { SelectedImage = new ImageItem { FileName = "a.png", }, },
+                    new () { SelectedImage = new ImageItem { FileName = "b.png", }, },
+                    new () { SelectedImage = new ImageItem { FileName = "c.png", }, },
+                    new () { SelectedImage = new ImageItem { FileName = "d.png", }, },
+                },
+            };
+
+            var el = TagGenerator.GenerateDrawTag(vm);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(el.Name.LocalName, Is.EqualTo("anime"));
+                Assert.That(el.Attribute("name")?.Value, Is.EqualTo("draw"));
+
+                // Only b, c, d remain (and name)
+                Assert.That(el.Attribute("b")?.Value, Is.EqualTo("b.png"));
+                Assert.That(el.Attribute("c")?.Value, Is.EqualTo("c.png"));
+                Assert.That(el.Attribute("d")?.Value, Is.EqualTo("d.png"));
+
+                Assert.That(el.Attribute("a"), Is.Null);
+                Assert.That(el.Attribute("x"), Is.Null);
+                Assert.That(el.Attribute("y"), Is.Null);
+                Assert.That(el.Attribute("scale"), Is.Null);
+            });
+        }
+
+        [Test]
+        public void GenerateDrawTag_MissingLayers_YieldsEmptyStrings()
+        {
+            var vm = new ImageCanvasViewerViewModel
+            {
+                Layers = new System.Collections.ObjectModel.ObservableCollection<ImageListViewModel>
+                {
+                    new () { SelectedImage = new ImageItem { FileName = "onlyA.png", }, },
+                    new (),
+                },
+            };
+
+            var el = TagGenerator.GenerateDrawTag(vm);
+            Assert.Multiple(() =>
+            {
+                Assert.That(el.Attribute("name")?.Value, Is.EqualTo("draw"));
+                Assert.That(el.Attribute("b")?.Value, Is.EqualTo(""));
+                Assert.That(el.Attribute("c")?.Value, Is.EqualTo(""));
+                Assert.That(el.Attribute("d")?.Value, Is.EqualTo(""));
+            });
+        }
     }
 }

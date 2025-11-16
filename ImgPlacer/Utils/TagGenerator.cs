@@ -74,5 +74,42 @@ namespace ImgPlacer.Utils
 
             return element;
         }
+
+        /// <summary>
+        /// GenerateAnimeTag を内部で実行し、属性を削って name を "draw" にして返します。
+        /// 返却形式の例:
+        /// <anime name="draw" b="name2" c="name3" d="name4" />
+        /// </summary>
+        /// <param name="vm">
+        /// タグの生成元の viewModel.
+        /// </param>
+        /// <returns>
+        /// vm から生成した draw タグ.
+        /// </returns>
+        public static XElement GenerateDrawTag(ImageCanvasViewerViewModel vm)
+        {
+            var el = GenerateAnimeTag(vm);
+
+            // name を draw に変更
+            var nameAttr = el.Attribute("name");
+            if (nameAttr != null)
+            {
+                nameAttr.Value = "draw";
+            }
+            else
+            {
+                el.Add(new XAttribute("name", "draw"));
+            }
+
+            // 残すのは b, c, d のみ。その他を削除
+            var allowed = new[] { "name", "b", "c", "d", };
+            var toRemove = el.Attributes().Where(a => !allowed.Contains(a.Name.LocalName)).ToList();
+            foreach (var a in toRemove)
+            {
+                a.Remove();
+            }
+
+            return el;
+        }
     }
 }
