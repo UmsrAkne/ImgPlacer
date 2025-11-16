@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Globalization;
+using System.Linq;
 using System.Xml.Linq;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -38,6 +39,26 @@ namespace ImgPlacer.ViewModels
                     GetValueFromXElement(xElement, "scale", 1.0, s => double.Parse(s, CultureInfo.InvariantCulture));
 
                 imageCanvasViewerViewModel.SetCenteredOffset(point.X, point.Y, scale);
+
+                var names = new[]
+                {
+                    xElement.Attribute("a")?.Value,
+                    xElement.Attribute("b")?.Value,
+                    xElement.Attribute("c")?.Value,
+                    xElement.Attribute("d")?.Value,
+                };
+
+                for (var i = 0; i < Math.Min(names.Length, imageCanvasViewerViewModel.Layers.Count); i++)
+                {
+                    var name = names[i];
+                    if (string.IsNullOrWhiteSpace(name))
+                    {
+                        continue;
+                    }
+
+                    var imageItem = imageCanvasViewerViewModel.Layers[i].Images.FirstOrDefault(img => img.FileName == name);
+                    imageCanvasViewerViewModel.Layers[i].SelectedImage = imageItem;
+                }
             }
             catch (Exception e)
             {
