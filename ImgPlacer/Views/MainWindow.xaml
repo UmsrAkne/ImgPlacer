@@ -83,6 +83,8 @@
 
         <StackPanel Grid.Row="1" Grid.Column="0">
             <controls:CanvasSliderPanel DataContext="{Binding CanvasSliderPanelViewModel}" />
+            <Border Height="10" />
+            <controls:XElementInputPanel DataContext="{Binding XElementInputPanelViewModel}" />
         </StackPanel>
     </Grid>
 </Window>

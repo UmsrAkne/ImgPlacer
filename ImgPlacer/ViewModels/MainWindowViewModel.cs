@@ -1,4 +1,8 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows;
+using System.Xml.Linq;
+using ImgPlacer.Utils;
+using Prism.Commands;
 using Prism.Mvvm;
 
 namespace ImgPlacer.ViewModels;
@@ -20,6 +24,7 @@ public class MainWindowViewModel : BindableBase
 
         ImageLayerManagerViewModel.Layers = layers;
         ImageCanvasViewerViewModel.Layers = layers;
+        XElementInputPanelViewModel = new XElementInputPanelViewModel(ImageCanvasViewerViewModel);
     }
 
     public string Title
@@ -33,4 +38,25 @@ public class MainWindowViewModel : BindableBase
     public ImageCanvasViewerViewModel ImageCanvasViewerViewModel { get; private set; }
 
     public CanvasSliderPanelViewModel CanvasSliderPanelViewModel { get; private set; }
+
+    public XElementInputPanelViewModel XElementInputPanelViewModel { get; private set; }
+
+    public DelegateCommand<string> CopyTagCommand => new ((param) =>
+    {
+        XElement text = null;
+        switch (param)
+        {
+            case "animation-image":
+                text = TagGenerator.GenerateAnimeTag(ImageCanvasViewerViewModel);
+                break;
+            case "animation-draw":
+                text = TagGenerator.GenerateDrawTag(ImageCanvasViewerViewModel);
+                break;
+        }
+
+        if (text != null)
+        {
+            Clipboard.SetText(text.ToString());
+        }
+    });
 }
