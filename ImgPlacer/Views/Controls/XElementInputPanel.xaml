@@ -23,6 +23,7 @@
 
         <Button
             Grid.Row="2"
+            Height="25"
             HorizontalAlignment="Right"
             Command="{Binding ApplyImageInfoCommand}"
             Content="Apply (Ctrl + Enter)" />

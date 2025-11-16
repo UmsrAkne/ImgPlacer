@@ -16,12 +16,14 @@ public class MainWindowViewModel : BindableBase
         ImageLayerManagerViewModel = new ImageLayerManagerViewModel();
         ImageCanvasViewerViewModel = new ImageCanvasViewerViewModel();
         CanvasSliderPanelViewModel = new CanvasSliderPanelViewModel(ImageCanvasViewerViewModel);
-        var layers = new ObservableCollection<ImageListViewModel>();
-        // A, B, C, D の4リストを作成し、各レイヤーに先頭文字フィルタを設定
-        layers.Add(new ImageListViewModel { FilterPrefix = "A" });
-        layers.Add(new ImageListViewModel { FilterPrefix = "B" });
-        layers.Add(new ImageListViewModel { FilterPrefix = "C" });
-        layers.Add(new ImageListViewModel { FilterPrefix = "D" });
+        var layers = new ObservableCollection<ImageListViewModel>
+        {
+            // A, B, C, D の4リストを作成し、各レイヤーに先頭文字フィルタを設定
+            new () { FilterPrefix = "A", },
+            new () { FilterPrefix = "B", },
+            new () { FilterPrefix = "C", },
+            new () { FilterPrefix = "D", },
+        };
 
         ImageLayerManagerViewModel.Layers = layers;
         ImageCanvasViewerViewModel.Layers = layers;
