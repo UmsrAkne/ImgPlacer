@@ -18,6 +18,19 @@
     <i:Interaction.Behaviors>
         <behaviors:FolderDropBehavior FolderDroppedCommand="{Binding ImageLayerManagerViewModel.LoadImagesCommand}" />
     </i:Interaction.Behaviors>
+    <Window.InputBindings>
+        <KeyBinding
+            Key="I"
+            Command="{Binding CopyTagCommand}"
+            CommandParameter="animation-image"
+            Modifiers="Control+Shift" />
+
+        <KeyBinding
+            Key="D"
+            Command="{Binding CopyTagCommand}"
+            CommandParameter="animation-draw"
+            Modifiers="Control+Shift" />
+    </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
