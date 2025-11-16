@@ -10,6 +10,7 @@ namespace ImgPlacer.ViewModels
         private string resolutionText;
         private string leadingLetter;
         private bool isNamingValid;
+        private string firstTwoDigits;
 
         public ImageSource Thumbnail { get => thumbnail; set => SetProperty(ref thumbnail, value); }
 
@@ -26,5 +27,8 @@ namespace ImgPlacer.ViewModels
 
         // ファイル名が "Axxxx.png" 形式（先頭英字 + 4 桁）に合致しているか
         public bool IsNamingValid { get => isNamingValid; set => SetProperty(ref isNamingValid, value); }
+
+        // 先頭文字の直後の2桁（例: A0101 -> "01"）。Aリスト選択に連動した絞り込み用
+        public string FirstTwoDigits { get => firstTwoDigits; set => SetProperty(ref firstTwoDigits, value); }
     }
 }

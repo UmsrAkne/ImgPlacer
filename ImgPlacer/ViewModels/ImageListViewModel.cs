@@ -17,13 +17,16 @@ namespace ImgPlacer.ViewModels
         // 先頭文字でフィルタ（例: "A"/"B"/"C"/"D"）。null/空なら全件
         public string FilterPrefix { get; set; }
 
+        // Aリストの選択に連動して絞り込む2桁（null/空なら無効）
+        public string FilterNumberHead2 { get; set; }
+
         public ObservableCollection<ImageItem> Images { get; } = new();
 
         public ImageItem SelectedImage { get => selectedImage; set => SetProperty(ref selectedImage, value); }
 
         /// <summary>
         /// 指定したディレクトリから png 画像を読み込み、ImageItem として Images に追加します。
-        /// さらに、先頭文字と命名規則の適合可否を各 ImageItem に記録し、FilterPrefix に従って表示対象を制限します。
+        /// さらに、先頭文字と命名規則の適合可否を各 ImageItem に記録し、FilterPrefix/FilterNumberHead2 に従って表示対象を制限します。
         /// </summary>
         /// <param name="dirPath">ディレクトリのフルパス</param>
         public void LoadFromDirectory(string dirPath)
@@ -58,10 +61,26 @@ namespace ImgPlacer.ViewModels
                         : null;
                     var isValid = NamingRegex.IsMatch(fileNameOnly);
 
+                    // 2桁を抽出（命名が有効な場合のみ）
+                    string head2 = null;
+                    if (isValid)
+                    {
+                        head2 = fileNameOnly.Substring(1, 2); // A0101.png の "01"
+                    }
+
                     // フィルタ: FilterPrefix が設定されている場合は一致する先頭文字のみ表示
                     if (!string.IsNullOrEmpty(FilterPrefix))
                     {
                         if (!string.Equals(leading, FilterPrefix, StringComparison.OrdinalIgnoreCase))
+                        {
+                            continue;
+                        }
+                    }
+
+                    // フィルタ: FilterNumberHead2 が設定されている場合は一致する2桁のみ
+                    if (!string.IsNullOrEmpty(FilterNumberHead2))
+                    {
+                        if (!string.Equals(head2, FilterNumberHead2, StringComparison.Ordinal))
                         {
                             continue;
                         }
@@ -82,6 +101,7 @@ namespace ImgPlacer.ViewModels
                         ResolutionText = $"{bitmap.PixelWidth}x{bitmap.PixelHeight}",
                         LeadingLetter = leading,
                         IsNamingValid = isValid,
+                        FirstTwoDigits = head2,
                     };
 
                     Images.Add(item);
