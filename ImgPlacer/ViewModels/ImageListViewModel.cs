@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Media.Imaging;
 using Prism.Mvvm;
 
@@ -10,7 +11,11 @@ namespace ImgPlacer.ViewModels
     // ReSharper disable once ClassNeverInstantiated.Global
     public class ImageListViewModel : BindableBase
     {
+        private readonly static Regex NamingRegex = new Regex(@"^[A-Za-z]\d{4}\.png$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private ImageItem selectedImage;
+
+        // 先頭文字でフィルタ（例: "A"/"B"/"C"/"D"）。null/空なら全件
+        public string FilterPrefix { get; set; }
 
         public ObservableCollection<ImageItem> Images { get; } = new();
 
@@ -18,6 +23,7 @@ namespace ImgPlacer.ViewModels
 
         /// <summary>
         /// 指定したディレクトリから png 画像を読み込み、ImageItem として Images に追加します。
+        /// さらに、先頭文字と命名規則の適合可否を各 ImageItem に記録し、FilterPrefix に従って表示対象を制限します。
         /// </summary>
         /// <param name="dirPath">ディレクトリのフルパス</param>
         public void LoadFromDirectory(string dirPath)
@@ -46,6 +52,21 @@ namespace ImgPlacer.ViewModels
             {
                 try
                 {
+                    var fileNameOnly = Path.GetFileName(file);
+                    var leading = !string.IsNullOrEmpty(fileNameOnly) && char.IsLetter(fileNameOnly[0])
+                        ? char.ToUpperInvariant(fileNameOnly[0]).ToString()
+                        : null;
+                    var isValid = NamingRegex.IsMatch(fileNameOnly);
+
+                    // フィルタ: FilterPrefix が設定されている場合は一致する先頭文字のみ表示
+                    if (!string.IsNullOrEmpty(FilterPrefix))
+                    {
+                        if (!string.Equals(leading, FilterPrefix, StringComparison.OrdinalIgnoreCase))
+                        {
+                            continue;
+                        }
+                    }
+
                     var bitmap = new BitmapImage();
                     bitmap.BeginInit();
                     bitmap.CacheOption = BitmapCacheOption.OnLoad; // ファイルロック回避
@@ -57,8 +78,10 @@ namespace ImgPlacer.ViewModels
                     var item = new ImageItem
                     {
                         Thumbnail = bitmap,
-                        FileName = Path.GetFileName(file),
+                        FileName = fileNameOnly,
                         ResolutionText = $"{bitmap.PixelWidth}x{bitmap.PixelHeight}",
+                        LeadingLetter = leading,
+                        IsNamingValid = isValid,
                     };
 
                     Images.Add(item);
