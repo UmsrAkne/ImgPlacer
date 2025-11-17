@@ -65,4 +65,18 @@ public class MainWindowViewModel : BindableBase
             CopyHistories.Add(ImageCanvasViewerViewModel.GetClone());
         }
     });
+
+    public DelegateCommand<ImageCanvasViewerViewModel> RestoreHistoryCommand => new DelegateCommand<ImageCanvasViewerViewModel>((param) =>
+    {
+        if (param == null)
+        {
+            return;
+        }
+
+        var x = TagGenerator.GenerateAnimeTag(param);
+        var temp = XElementInputPanelViewModel.InputText;
+        XElementInputPanelViewModel.InputText = x.ToString();
+        XElementInputPanelViewModel.ApplyImageInfoCommand.Execute();
+        XElementInputPanelViewModel.InputText = temp;
+    });
 }

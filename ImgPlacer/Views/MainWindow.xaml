@@ -85,6 +85,29 @@
             <controls:CanvasSliderPanel DataContext="{Binding CanvasSliderPanelViewModel}" />
             <Border Height="10" />
             <controls:XElementInputPanel DataContext="{Binding XElementInputPanelViewModel}" />
+
+            <ListBox ItemsSource="{Binding CopyHistories}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type viewModels:ImageCanvasViewerViewModel}">
+                        <ContentControl>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDoubleClick">
+                                    <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ListBox}, Path=DataContext.RestoreHistoryCommand}" CommandParameter="{Binding}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <controls:ImageCanvasViewer
+                                Width="{Binding CanvasWidth}"
+                                Height="{Binding CanvasHeight}"
+                                Margin="0"
+                                DataContext="{Binding}">
+                                <controls:ImageCanvasViewer.LayoutTransform>
+                                    <ScaleTransform ScaleX="0.1" ScaleY="0.1" />
+                                </controls:ImageCanvasViewer.LayoutTransform>
+                            </controls:ImageCanvasViewer>
+                        </ContentControl>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </StackPanel>
     </Grid>
 </Window>
