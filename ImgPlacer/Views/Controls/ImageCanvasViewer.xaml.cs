@@ -60,8 +60,5 @@ public partial class ImageCanvasViewer
 
     private void UpdateSizeBindings()
     {
-        // Keep the control's size equal to the frame size
-        Width = FrameWidth;
-        Height = FrameHeight;
     }
 }
