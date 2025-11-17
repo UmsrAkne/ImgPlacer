@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using Prism.Mvvm;
 
@@ -14,8 +15,13 @@ namespace ImgPlacer.ViewModels
         private double imageHeight;
         private double canvasHeight;
         private double canvasWidth;
+        private ObservableCollection<ImageListViewModel> layers;
 
-        public ObservableCollection<ImageListViewModel> Layers { get; set; }
+        public ObservableCollection<ImageListViewModel> Layers
+        {
+            get => layers;
+            set => SetProperty(ref layers, value);
+        }
 
         public double OffsetX { get => offsetX; set => SetProperty(ref offsetX, value); }
 
@@ -47,6 +53,24 @@ namespace ImgPlacer.ViewModels
             Zoom = scale;
             OffsetX = centeredX + (CanvasWidth / 2.0) - (ImageWidth * scale / 2.0);
             OffsetY = centeredY + (CanvasHeight / 2.0) - (ImageHeight * scale / 2.0);
+        }
+
+        public ImageCanvasViewerViewModel GetClone()
+        {
+            var cloneList = Layers.Select(i => i.GetClone()).ToList();
+            var vm = new ImageCanvasViewerViewModel
+            {
+                OffsetX = OffsetX,
+                OffsetY = OffsetY,
+                Zoom = Zoom,
+                ImageWidth = ImageWidth,
+                ImageHeight = ImageHeight,
+                CanvasHeight = CanvasHeight,
+                CanvasWidth = CanvasWidth,
+                Layers = new ObservableCollection<ImageListViewModel>(cloneList),
+            };
+
+            return vm;
         }
     }
 }

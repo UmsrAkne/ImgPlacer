@@ -20,7 +20,7 @@ namespace ImgPlacer.ViewModels
         // Aリストの選択に連動して絞り込む2桁（null/空なら無効）
         public string FilterNumberHead2 { get; set; }
 
-        public ObservableCollection<ImageItem> Images { get; } = new();
+        public ObservableCollection<ImageItem> Images { get; set; } = new();
 
         public ImageItem SelectedImage { get => selectedImage; set => SetProperty(ref selectedImage, value); }
 
@@ -114,6 +114,17 @@ namespace ImgPlacer.ViewModels
             }
 
             SelectedImage = Images.FirstOrDefault();
+        }
+
+        public ImageListViewModel GetClone()
+        {
+            return new ImageListViewModel
+            {
+                FilterPrefix = FilterPrefix,
+                FilterNumberHead2 = FilterNumberHead2,
+                Images = new ObservableCollection<ImageItem>(Images),
+                SelectedImage = SelectedImage,
+            };
         }
     }
 }

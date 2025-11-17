@@ -44,6 +44,8 @@ public class MainWindowViewModel : BindableBase
 
     public XElementInputPanelViewModel XElementInputPanelViewModel { get; private set; }
 
+    public ObservableCollection<ImageCanvasViewerViewModel> CopyHistories { get; set; } = new ();
+
     public DelegateCommand<string> CopyTagCommand => new ((param) =>
     {
         XElement text = null;
@@ -60,6 +62,7 @@ public class MainWindowViewModel : BindableBase
         if (text != null)
         {
             Clipboard.SetText(text.ToString());
+            CopyHistories.Add(ImageCanvasViewerViewModel.GetClone());
         }
     });
 }
