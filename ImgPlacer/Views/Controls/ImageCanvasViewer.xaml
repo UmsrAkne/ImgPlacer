@@ -11,6 +11,14 @@
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <TransformGroup x:Key="TransformGroup">
+            <ScaleTransform ScaleX="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:ImageCanvasViewer}, Path=DataContext.Zoom}" ScaleY="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:ImageCanvasViewer}, Path=DataContext.Zoom, FallbackValue=1.0}" />
+            <TranslateTransform X="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:ImageCanvasViewer}, Path=DataContext.OffsetX}" Y="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:ImageCanvasViewer}, Path=DataContext.OffsetY}" />
+        </TransformGroup>
+    </UserControl.Resources>
+
     <Border Background="DarkGray" ClipToBounds="True">
         <ItemsControl ItemsSource="{Binding Layers}">
             <ItemsControl.ItemsPanel>
@@ -26,16 +34,10 @@
                     <Image
                         Canvas.Left="0"
                         Canvas.Top="0"
+                        RenderTransform="{StaticResource TransformGroup}"
                         RenderTransformOrigin="0,0"
                         Source="{Binding SelectedImage.Thumbnail}"
-                        Stretch="None">
-                        <Image.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform ScaleX="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:ImageCanvasViewer}, Path=DataContext.Zoom}" ScaleY="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:ImageCanvasViewer}, Path=DataContext.Zoom}" />
-                                <TranslateTransform X="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:ImageCanvasViewer}, Path=DataContext.OffsetX}" Y="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:ImageCanvasViewer}, Path=DataContext.OffsetY}" />
-                            </TransformGroup>
-                        </Image.RenderTransform>
-                    </Image>
+                        Stretch="None" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
