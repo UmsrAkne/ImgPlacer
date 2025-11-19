@@ -28,6 +28,7 @@ public class MainWindowViewModel : BindableBase
         ImageLayerManagerViewModel.Layers = layers;
         ImageCanvasViewerViewModel.Layers = layers;
         XElementInputPanelViewModel = new XElementInputPanelViewModel(ImageCanvasViewerViewModel);
+        CopyHistoryListViewModel = new CopyHistoryListViewModel(XElementInputPanelViewModel);
     }
 
     public string Title
@@ -44,7 +45,7 @@ public class MainWindowViewModel : BindableBase
 
     public XElementInputPanelViewModel XElementInputPanelViewModel { get; private set; }
 
-    public ObservableCollection<ImageCanvasViewerViewModel> CopyHistories { get; set; } = new ();
+    public CopyHistoryListViewModel CopyHistoryListViewModel { get; private set; }
 
     public DelegateCommand<string> CopyTagCommand => new ((param) =>
     {
@@ -62,21 +63,7 @@ public class MainWindowViewModel : BindableBase
         if (text != null)
         {
             Clipboard.SetText(text.ToString());
-            CopyHistories.Add(ImageCanvasViewerViewModel.GetClone());
+            CopyHistoryListViewModel.CopyHistories.Add(ImageCanvasViewerViewModel.GetClone());
         }
-    });
-
-    public DelegateCommand<ImageCanvasViewerViewModel> RestoreHistoryCommand => new DelegateCommand<ImageCanvasViewerViewModel>((param) =>
-    {
-        if (param == null)
-        {
-            return;
-        }
-
-        var x = TagGenerator.GenerateAnimeTag(param);
-        var temp = XElementInputPanelViewModel.InputText;
-        XElementInputPanelViewModel.InputText = x.ToString();
-        XElementInputPanelViewModel.ApplyImageInfoCommand.Execute();
-        XElementInputPanelViewModel.InputText = temp;
     });
 }
