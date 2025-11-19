@@ -9,7 +9,7 @@ using Prism.Mvvm;
 namespace ImgPlacer.ViewModels
 {
     // ReSharper disable once ClassNeverInstantiated.Global
-    public class XElementInputPanelViewModel : BindableBase
+    public class XElementInputPanelViewModel : BindableBase, IToolPanelViewModel
     {
         private string inputText;
         private readonly ImageCanvasViewerViewModel imageCanvasViewerViewModel;

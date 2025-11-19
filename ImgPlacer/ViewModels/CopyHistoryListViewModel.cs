@@ -5,7 +5,7 @@ using Prism.Mvvm;
 
 namespace ImgPlacer.ViewModels;
 
-public class CopyHistoryListViewModel : BindableBase
+public class CopyHistoryListViewModel : BindableBase, IToolPanelViewModel
 {
     public CopyHistoryListViewModel(XElementInputPanelViewModel xElementInputPanelViewModel)
     {

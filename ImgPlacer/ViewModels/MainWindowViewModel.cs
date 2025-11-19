@@ -31,6 +31,10 @@ public class MainWindowViewModel : BindableBase
         XElementInputPanelViewModel = new XElementInputPanelViewModel(ImageCanvasViewerViewModel);
         CopyHistoryListViewModel = new CopyHistoryListViewModel(XElementInputPanelViewModel);
 
+        SideBarItems.Add(CanvasSliderPanelViewModel);
+        SideBarItems.Add(XElementInputPanelViewModel);
+        SideBarItems.Add(CopyHistoryListViewModel);
+
         SetDebugData();
     }
 
@@ -49,6 +53,8 @@ public class MainWindowViewModel : BindableBase
     public XElementInputPanelViewModel XElementInputPanelViewModel { get; private set; }
 
     public CopyHistoryListViewModel CopyHistoryListViewModel { get; private set; }
+
+    public ObservableCollection<IToolPanelViewModel> SideBarItems { get; set; } = new ();
 
     public DelegateCommand<string> CopyTagCommand => new ((param) =>
     {
