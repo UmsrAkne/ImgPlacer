@@ -1,4 +1,5 @@
 ﻿using System;
+using ImgPlacer.Enums;
 using Prism.Commands;
 using Prism.Mvvm;
 
@@ -101,5 +102,7 @@ namespace ImgPlacer.ViewModels
             ImageCanvasViewerViewModel.OffsetY = originalOffsetY;
             isHolding = false;
         });
+
+        public SideBarPanelKind PanelKind => SideBarPanelKind.CanvasSlider;
     }
 }

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
+using ImgPlacer.Enums;
 using Prism.Commands;
 using Prism.Mvvm;
 
@@ -20,6 +21,8 @@ namespace ImgPlacer.ViewModels
         }
 
         public string InputText { get => inputText; set => SetProperty(ref inputText, value); }
+
+        public SideBarPanelKind PanelKind => SideBarPanelKind.XElementInput;
 
         public DelegateCommand ApplyImageInfoCommand => new DelegateCommand(() =>
         {

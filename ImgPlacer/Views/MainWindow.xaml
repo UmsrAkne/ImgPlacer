@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:behaviors="clr-namespace:ImgPlacer.Utils.Behaviors"
     xmlns:controls="clr-namespace:ImgPlacer.Views.Controls"
+    xmlns:converters="clr-namespace:ImgPlacer.Utils.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -16,6 +17,10 @@
     d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
+    <Window.Resources>
+        <converters:PanelKindToPackIconConverter x:Key="PanelKindToIcon" />
+    </Window.Resources>
+
     <i:Interaction.Behaviors>
         <behaviors:FolderDropBehavior FolderDroppedCommand="{Binding ImageLayerManagerViewModel.LoadImagesCommand}" />
     </i:Interaction.Behaviors>
@@ -51,11 +56,16 @@
             Background="CornflowerBlue">
             <ItemsControl ItemsSource="{Binding SideBarItems}">
                 <ItemsControl.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate DataType="{x:Type viewModels:IToolPanelViewModel}">
                         <Button
                             Height="50"
                             Margin="0"
-                            Padding="0" />
+                            Padding="0">
+                            <materialDesign:PackIcon
+                                Width="50"
+                                Height="25"
+                                Kind="{Binding PanelKind, Converter={StaticResource PanelKindToIcon}}" />
+                        </Button>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

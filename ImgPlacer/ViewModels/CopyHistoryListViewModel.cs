@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using ImgPlacer.Enums;
 using ImgPlacer.Utils;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -13,6 +14,8 @@ public class CopyHistoryListViewModel : BindableBase, IToolPanelViewModel
     }
 
     public ObservableCollection<ImageCanvasViewerViewModel> CopyHistories { get; } = new ();
+
+    public SideBarPanelKind PanelKind => SideBarPanelKind.CopyHistory;
 
     public DelegateCommand<ImageCanvasViewerViewModel> RestoreHistoryCommand => new DelegateCommand<ImageCanvasViewerViewModel>((param) =>
     {
