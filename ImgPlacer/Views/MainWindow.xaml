@@ -6,6 +6,7 @@
     xmlns:controls="clr-namespace:ImgPlacer.Views.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:viewModels="clr-namespace:ImgPlacer.ViewModels"
@@ -38,13 +39,54 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="55" />
             <ColumnDefinition Width="460" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
+        <Border
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Grid.Column="0"
+            Background="CornflowerBlue">
+            <ItemsControl>
+                <Button
+                    Height="50"
+                    Margin="0"
+                    Padding="0">
+                    <materialDesign:PackIcon
+                        Width="50"
+                        Height="25"
+                        Kind="ZoomIn" />
+                </Button>
+
+                <Button
+                    Height="50"
+                    Margin="0"
+                    Padding="0">
+                    <materialDesign:PackIcon
+                        Width="50"
+                        Height="25"
+                        Kind="CodeBlockXml" />
+                </Button>
+
+                <Button
+                    Height="50"
+                    Margin="0"
+                    Padding="0">
+                    <materialDesign:PackIcon
+                        Width="50"
+                        Height="25"
+                        Kind="History" />
+                </Button>
+            </ItemsControl>
+        </Border>
+
         <ContentControl
             Grid.Row="0"
-            Grid.Column="0"
+            Grid.Column="1"
+            d:DesignHeight="180"
+            d:DesignWidth="420"
             DataContext="{Binding Path=ImageCanvasViewerViewModel}">
             <controls:ImageCanvasViewer
                 Width="{Binding CanvasWidth}"
@@ -68,7 +110,7 @@
         <ItemsControl
             Grid.Row="0"
             Grid.RowSpan="2"
-            Grid.Column="1"
+            Grid.Column="2"
             ItemsSource="{Binding ImageLayerManagerViewModel.Layers}">
 
             <ItemsControl.ItemsPanel>
@@ -86,7 +128,7 @@
 
         <ScrollViewer
             Grid.Row="1"
-            Grid.Column="0"
+            Grid.Column="1"
             VerticalScrollBarVisibility="Auto">
             <StackPanel>
                 <controls:CanvasSliderPanel DataContext="{Binding CanvasSliderPanelViewModel}" />
