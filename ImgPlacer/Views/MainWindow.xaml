@@ -84,13 +84,18 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <StackPanel Grid.Row="1" Grid.Column="0">
-            <controls:CanvasSliderPanel DataContext="{Binding CanvasSliderPanelViewModel}" />
-            <Border Height="10" />
-            <controls:XElementInputPanel DataContext="{Binding XElementInputPanelViewModel}" />
+        <ScrollViewer
+            Grid.Row="1"
+            Grid.Column="0"
+            VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <controls:CanvasSliderPanel DataContext="{Binding CanvasSliderPanelViewModel}" />
+                <Border Height="10" />
+                <controls:XElementInputPanel DataContext="{Binding XElementInputPanelViewModel}" />
 
-            <Border Height="10" />
-            <controls:CopyHistoryList DataContext="{Binding CopyHistoryListViewModel}" />
-        </StackPanel>
+                <Border Height="10" />
+                <controls:CopyHistoryList DataContext="{Binding CopyHistoryListViewModel}" />
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Window>

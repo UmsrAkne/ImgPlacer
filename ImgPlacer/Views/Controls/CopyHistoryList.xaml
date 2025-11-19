@@ -10,7 +10,7 @@
     d:DataContext="{d:DesignInstance viewModels:CopyHistoryListViewModel}"
     mc:Ignorable="d">
 
-    <ListBox ItemsSource="{Binding CopyHistories}">
+    <ListBox Height="400" ItemsSource="{Binding CopyHistories}">
         <ListBox.ItemTemplate>
             <DataTemplate DataType="{x:Type viewModels:ImageCanvasViewerViewModel}">
                 <ContentControl>
