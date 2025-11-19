@@ -74,6 +74,11 @@ namespace ImgPlacer.ViewModels
             }
         });
 
+        public DelegateCommand ToggleExpandedCommand => new (() =>
+        {
+            IsExpanded = !IsExpanded;
+        });
+
         private T GetValueFromXElement<T>(XElement xElement, string attributeName, T defaultValue, Func<string, T> parser)
         {
             if (!xElement.HasAttributes)

@@ -1,4 +1,5 @@
 ﻿using ImgPlacer.Enums;
+using Prism.Commands;
 
 namespace ImgPlacer.ViewModels
 {
@@ -7,5 +8,7 @@ namespace ImgPlacer.ViewModels
         SideBarPanelKind PanelKind { get; }
 
         bool IsExpanded { get; set; }
+
+        DelegateCommand ToggleExpandedCommand { get; }
     }
 }

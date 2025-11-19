@@ -107,5 +107,10 @@ namespace ImgPlacer.ViewModels
         public SideBarPanelKind PanelKind => SideBarPanelKind.CanvasSlider;
 
         public bool IsExpanded { get => isExpanded; set => SetProperty(ref isExpanded, value); }
+
+        public DelegateCommand ToggleExpandedCommand => new (() =>
+        {
+            IsExpanded = !IsExpanded;
+        });
     }
 }

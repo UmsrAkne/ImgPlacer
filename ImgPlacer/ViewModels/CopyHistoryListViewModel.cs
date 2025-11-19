@@ -35,5 +35,10 @@ public class CopyHistoryListViewModel : BindableBase, IToolPanelViewModel
         XElementInputPanelViewModel.InputText = temp;
     });
 
+    public DelegateCommand ToggleExpandedCommand => new (() =>
+    {
+        IsExpanded = !IsExpanded;
+    });
+
     private XElementInputPanelViewModel XElementInputPanelViewModel { get; }
 }

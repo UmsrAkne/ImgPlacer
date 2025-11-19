@@ -57,14 +57,41 @@
             <ItemsControl ItemsSource="{Binding ToolPanelViewModelCollection}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="{x:Type viewModels:IToolPanelViewModel}">
+                        <!-- ToolPanel を開閉するボタン -->
                         <Button
                             Height="50"
-                            Margin="0"
-                            Padding="0">
+                            Margin="2"
+                            Padding="0"
+                            Command="{Binding ToggleExpandedCommand}">
                             <materialDesign:PackIcon
                                 Width="50"
                                 Height="25"
                                 Kind="{Binding PanelKind, Converter={StaticResource PanelKindToIcon}}" />
+                            <Button.Style>
+                                <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+                                    <!-- デフォルト（OFF状態） -->
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="BorderBrush" Value="Transparent" />
+                                    <Setter Property="Foreground" Value="White" />
+
+                                    <Style.Triggers>
+
+                                        <!-- IsExpanded == true → ON状態の見た目 -->
+                                        <DataTrigger Binding="{Binding IsExpanded}" Value="True">
+                                            <Setter Property="Background" Value="RoyalBlue" />
+                                            <Setter Property="BorderBrush" Value="#99BBFF" />
+                                            <Setter Property="Foreground" Value="#BBD7FF" />
+                                        </DataTrigger>
+
+                                        <!-- hover 時（Expandingとは別） -->
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="DodgerBlue" />
+                                        </Trigger>
+
+                                    </Style.Triggers>
+                                </Style>
+
+                            </Button.Style>
                         </Button>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
@@ -123,8 +150,11 @@
             <ScrollViewer.Resources>
                 <!-- CanvasSliderPanel -->
                 <DataTemplate DataType="{x:Type viewModels:CanvasSliderPanelViewModel}">
-                    <Expander Header="Canvas slider" IsExpanded="{Binding IsExpanded}">
-                        <StackPanel>
+                    <Expander
+                        Background="LightBlue"
+                        Header="Canvas slider"
+                        IsExpanded="{Binding IsExpanded}">
+                        <StackPanel Background="White">
                             <controls:CanvasSliderPanel />
                             <Border Height="10" />
                         </StackPanel>
@@ -133,8 +163,11 @@
 
                 <!-- XElementInputPanel -->
                 <DataTemplate DataType="{x:Type viewModels:XElementInputPanelViewModel}">
-                    <Expander Header="Xml element reader" IsExpanded="{Binding IsExpanded}">
-                        <StackPanel>
+                    <Expander
+                        Background="LightBlue"
+                        Header="Xml element reader"
+                        IsExpanded="{Binding IsExpanded}">
+                        <StackPanel Background="White">
                             <controls:XElementInputPanel />
                             <Border Height="10" />
                         </StackPanel>
@@ -143,8 +176,11 @@
 
                 <!-- CopyHistoryList -->
                 <DataTemplate DataType="{x:Type viewModels:CopyHistoryListViewModel}">
-                    <Expander Header="Copy history" IsExpanded="{Binding IsExpanded}">
-                        <StackPanel>
+                    <Expander
+                        Background="LightBlue"
+                        Header="Copy history"
+                        IsExpanded="{Binding IsExpanded}">
+                        <StackPanel Background="White">
                             <controls:CopyHistoryList />
                             <Border Height="10" />
                         </StackPanel>
