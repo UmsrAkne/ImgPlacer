@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Xml.Linq;
 using ImgPlacer.Utils;
@@ -29,6 +30,8 @@ public class MainWindowViewModel : BindableBase
         ImageCanvasViewerViewModel.Layers = layers;
         XElementInputPanelViewModel = new XElementInputPanelViewModel(ImageCanvasViewerViewModel);
         CopyHistoryListViewModel = new CopyHistoryListViewModel(XElementInputPanelViewModel);
+
+        SetDebugData();
     }
 
     public string Title
@@ -66,4 +69,9 @@ public class MainWindowViewModel : BindableBase
             CopyHistoryListViewModel.CopyHistories.Add(ImageCanvasViewerViewModel.GetClone());
         }
     });
+
+    [Conditional("DEBUG")]
+    private void SetDebugData()
+    {
+    }
 }
