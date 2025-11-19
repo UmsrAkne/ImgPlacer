@@ -54,7 +54,7 @@
             Grid.RowSpan="2"
             Grid.Column="0"
             Background="CornflowerBlue">
-            <ItemsControl ItemsSource="{Binding SideBarItems}">
+            <ItemsControl ItemsSource="{Binding ToolPanelViewModelCollection}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="{x:Type viewModels:IToolPanelViewModel}">
                         <Button
@@ -119,14 +119,47 @@
             Grid.Row="1"
             Grid.Column="1"
             VerticalScrollBarVisibility="Auto">
-            <StackPanel>
-                <controls:CanvasSliderPanel DataContext="{Binding CanvasSliderPanelViewModel}" />
-                <Border Height="10" />
-                <controls:XElementInputPanel DataContext="{Binding XElementInputPanelViewModel}" />
 
-                <Border Height="10" />
-                <controls:CopyHistoryList DataContext="{Binding CopyHistoryListViewModel}" />
-            </StackPanel>
+            <ScrollViewer.Resources>
+                <!-- CanvasSliderPanel -->
+                <DataTemplate DataType="{x:Type viewModels:CanvasSliderPanelViewModel}">
+                    <Expander Header="Canvas slider">
+                        <StackPanel>
+                            <controls:CanvasSliderPanel />
+                            <Border Height="10" />
+                        </StackPanel>
+                    </Expander>
+                </DataTemplate>
+
+                <!-- XElementInputPanel -->
+                <DataTemplate DataType="{x:Type viewModels:XElementInputPanelViewModel}">
+                    <Expander Header="Xml element reader">
+                        <StackPanel>
+                            <controls:XElementInputPanel />
+                            <Border Height="10" />
+                        </StackPanel>
+                    </Expander>
+                </DataTemplate>
+
+                <!-- CopyHistoryList -->
+                <DataTemplate DataType="{x:Type viewModels:CopyHistoryListViewModel}">
+                    <Expander Header="Copy history">
+                        <StackPanel>
+                            <controls:CopyHistoryList />
+                            <Border Height="10" />
+                        </StackPanel>
+                    </Expander>
+                </DataTemplate>
+            </ScrollViewer.Resources>
+
+            <ItemsControl ItemsSource="{Binding ToolPanelViewModelCollection}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+
         </ScrollViewer>
     </Grid>
 </Window>
