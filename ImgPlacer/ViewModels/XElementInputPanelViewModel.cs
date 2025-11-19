@@ -14,6 +14,7 @@ namespace ImgPlacer.ViewModels
     {
         private string inputText;
         private readonly ImageCanvasViewerViewModel imageCanvasViewerViewModel;
+        private bool isExpanded;
 
         public XElementInputPanelViewModel(ImageCanvasViewerViewModel canvasVm)
         {
@@ -23,6 +24,8 @@ namespace ImgPlacer.ViewModels
         public string InputText { get => inputText; set => SetProperty(ref inputText, value); }
 
         public SideBarPanelKind PanelKind => SideBarPanelKind.XElementInput;
+
+        public bool IsExpanded { get => isExpanded; set => SetProperty(ref isExpanded, value); }
 
         public DelegateCommand ApplyImageInfoCommand => new DelegateCommand(() =>
         {

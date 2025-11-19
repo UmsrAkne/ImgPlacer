@@ -18,6 +18,7 @@ namespace ImgPlacer.ViewModels
         private bool isHolding;
         private double originalOffsetX;
         private double originalOffsetY;
+        private bool isExpanded;
 
         public CanvasSliderPanelViewModel(ImageCanvasViewerViewModel imageCanvasViewerViewModel)
         {
@@ -104,5 +105,7 @@ namespace ImgPlacer.ViewModels
         });
 
         public SideBarPanelKind PanelKind => SideBarPanelKind.CanvasSlider;
+
+        public bool IsExpanded { get => isExpanded; set => SetProperty(ref isExpanded, value); }
     }
 }
