@@ -45,7 +45,8 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="55" />
-            <ColumnDefinition Width="460" />
+            <ColumnDefinition Width="440" MinWidth="440" />
+            <ColumnDefinition Width="5" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
@@ -123,10 +124,19 @@
 
         </ContentControl>
 
-        <ItemsControl
+        <GridSplitter
             Grid.Row="0"
             Grid.RowSpan="2"
             Grid.Column="2"
+            Width="5"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Background="Black" />
+
+        <ItemsControl
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Grid.Column="3"
             ItemsSource="{Binding ImageLayerManagerViewModel.Layers}">
 
             <ItemsControl.ItemsPanel>
