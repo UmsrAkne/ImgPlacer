@@ -61,6 +61,13 @@
 
         <!-- XML が読み込まれている場合はツリー表示 -->
         <TreeView Margin="10" ItemsSource="{Binding Scenarios}">
+            <TreeView.InputBindings>
+                <KeyBinding
+                    Key="V"
+                    Command="{Binding PasteCommand}"
+                    Modifiers="Control" />
+            </TreeView.InputBindings>
+
             <i:Interaction.Behaviors>
                 <behaviors:TreeViewSelectedItemBehavior SelectedItem="{Binding SelectedItem, Mode=TwoWay}" />
             </i:Interaction.Behaviors>

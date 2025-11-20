@@ -7,7 +7,7 @@ namespace ImgPlacer.ViewModels.Xml
     /// <summary>
     /// scenario 要素を表す ViewModel（XMLエディタのメイン単位）
     /// </summary>
-    public class ScenarioNodeViewModel : BindableBase
+    public class ScenarioNodeViewModel : BindableBase, IXmlNode
     {
         public ScenarioNodeViewModel(XElement scenarioElement)
         {
@@ -26,6 +26,8 @@ namespace ImgPlacer.ViewModels.Xml
         /// 表示用の名前（例：scenario の text があればその文字列）
         /// </summary>
         public string DisplayName => Source.Element("text")?.Attribute("string")?.Value ?? "scenario";
+
+        public string Name => Source.Name.ToString();
 
         /// <summary>
         /// scenario 直下の子ノード（text,  animation,  animationChain）

@@ -3,7 +3,7 @@ using System.Xml.Linq;
 
 namespace ImgPlacer.ViewModels.Xml
 {
-    public class XmlChildNodeViewModel
+    public class XmlChildNodeViewModel : IXmlNode
     {
         public XmlChildNodeViewModel(XElement element)
         {
