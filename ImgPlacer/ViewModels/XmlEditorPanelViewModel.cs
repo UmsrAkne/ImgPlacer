@@ -21,10 +21,13 @@ namespace ImgPlacer.ViewModels
             {
                 SetProperty(ref loadedDocument, value);
                 Scenarios.Clear();
-                var scenarioList = value.Root?.Elements("scenario").Select(el => new ScenarioNodeViewModel(el)).ToList();
+                var scenarioList = value?.Root?.Elements("scenario").Select(el => new ScenarioNodeViewModel(el)).ToList();
                 if (scenarioList != null)
                 {
-                    Scenarios = new ObservableCollection<ScenarioNodeViewModel>(scenarioList);
+                    foreach (var scenario in scenarioList)
+                    {
+                        Scenarios.Add(scenario);
+                    }
                 }
             }
         }

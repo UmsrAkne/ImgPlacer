@@ -42,6 +42,12 @@ namespace ImgPlacer.ViewModels.Xml
 
             foreach (var child in Source.Elements())
             {
+                // text は scenario のヘッダーに値が表示されているため不要
+                if (child.Name.LocalName == "text")
+                {
+                    continue;
+                }
+
                 Children.Add(new XmlChildNodeViewModel(child));
             }
 
