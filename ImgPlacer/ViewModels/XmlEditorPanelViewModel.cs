@@ -1,5 +1,9 @@
-﻿using System.Xml.Linq;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Xml.Linq;
 using ImgPlacer.Enums;
+using ImgPlacer.ViewModels.Xml;
 using Prism.Commands;
 using Prism.Mvvm;
 
@@ -13,8 +17,19 @@ namespace ImgPlacer.ViewModels
         public XDocument LoadedDocument
         {
             get => loadedDocument;
-            set => SetProperty(ref loadedDocument, value);
+            set
+            {
+                SetProperty(ref loadedDocument, value);
+                Scenarios.Clear();
+                var scenarioList = value.Root?.Elements("scenario").Select(el => new ScenarioNodeViewModel(el)).ToList();
+                if (scenarioList != null)
+                {
+                    Scenarios = new ObservableCollection<ScenarioNodeViewModel>(scenarioList);
+                }
+            }
         }
+
+        public ObservableCollection<ScenarioNodeViewModel> Scenarios { get; private set; } = new ();
 
         public SideBarPanelKind PanelKind => SideBarPanelKind.XmlEditor;
 
