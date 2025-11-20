@@ -2,22 +2,223 @@
     x:Class="ImgPlacer.Views.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behaviors="clr-namespace:ImgPlacer.Utils.Behaviors"
+    xmlns:controls="clr-namespace:ImgPlacer.Views.Controls"
+    xmlns:converters="clr-namespace:ImgPlacer.Utils.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:viewModels="clr-namespace:ImgPlacer.ViewModels"
     Title="{Binding Title}"
-    Width="525"
-    Height="350"
+    Width="1280"
+    Height="720"
     d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
-    <Grid>
-        <Button
-            Width="100"
-            Height="50"
-            Content="Light" />
+    <Window.Resources>
+        <converters:PanelKindToPackIconConverter x:Key="PanelKindToIcon" />
+    </Window.Resources>
 
-        <ContentControl prism:RegionManager.RegionName="ContentRegion" />
+    <i:Interaction.Behaviors>
+        <behaviors:FolderDropBehavior FolderDroppedCommand="{Binding ImageLayerManagerViewModel.LoadImagesCommand}" />
+    </i:Interaction.Behaviors>
+    <Window.InputBindings>
+        <KeyBinding
+            Key="I"
+            Command="{Binding CopyTagCommand}"
+            CommandParameter="animation-image"
+            Modifiers="Control+Shift" />
+
+        <KeyBinding
+            Key="D"
+            Command="{Binding CopyTagCommand}"
+            CommandParameter="animation-draw"
+            Modifiers="Control+Shift" />
+    </Window.InputBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="55" />
+            <ColumnDefinition Width="440" MinWidth="440" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Border
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Grid.Column="0"
+            Background="CornflowerBlue">
+            <ItemsControl ItemsSource="{Binding ToolPanelViewModelCollection}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type viewModels:IToolPanelViewModel}">
+                        <!-- ToolPanel を開閉するボタン -->
+                        <Button
+                            Height="50"
+                            Margin="2"
+                            Padding="0"
+                            Command="{Binding ToggleExpandedCommand}">
+                            <materialDesign:PackIcon
+                                Width="50"
+                                Height="25"
+                                Kind="{Binding PanelKind, Converter={StaticResource PanelKindToIcon}}" />
+                            <Button.Style>
+                                <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+                                    <!-- デフォルト（OFF状態） -->
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="BorderBrush" Value="Transparent" />
+                                    <Setter Property="Foreground" Value="White" />
+
+                                    <Style.Triggers>
+
+                                        <!-- IsExpanded == true → ON状態の見た目 -->
+                                        <DataTrigger Binding="{Binding IsExpanded}" Value="True">
+                                            <Setter Property="Background" Value="RoyalBlue" />
+                                            <Setter Property="BorderBrush" Value="#99BBFF" />
+                                            <Setter Property="Foreground" Value="#BBD7FF" />
+                                        </DataTrigger>
+
+                                        <!-- hover 時（Expandingとは別） -->
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="DodgerBlue" />
+                                        </Trigger>
+
+                                    </Style.Triggers>
+                                </Style>
+
+                            </Button.Style>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+
+        <ContentControl
+            Grid.Row="0"
+            Grid.Column="1"
+            d:DesignHeight="180"
+            d:DesignWidth="420"
+            DataContext="{Binding Path=ImageCanvasViewerViewModel}">
+            <controls:ImageCanvasViewer
+                Width="{Binding CanvasWidth}"
+                Height="{Binding CanvasHeight}"
+                Margin="20"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top">
+                <controls:ImageCanvasViewer.LayoutTransform>
+                    <ScaleTransform ScaleX="0.25" ScaleY="0.25" />
+                </controls:ImageCanvasViewer.LayoutTransform>
+
+                <i:Interaction.Behaviors>
+                    <behaviors:CanvasDragBehavior />
+                    <behaviors:CanvasZoomBehavior />
+                </i:Interaction.Behaviors>
+
+            </controls:ImageCanvasViewer>
+
+        </ContentControl>
+
+        <GridSplitter
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Grid.Column="2"
+            Width="5"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Background="Black" />
+
+        <ItemsControl
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Grid.Column="3"
+            ItemsSource="{Binding ImageLayerManagerViewModel.Layers}">
+
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="1" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <controls:ImageListView />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <ScrollViewer
+            Grid.Row="1"
+            Grid.Column="1"
+            VerticalScrollBarVisibility="Auto">
+
+            <ScrollViewer.Resources>
+                <!-- CanvasSliderPanel -->
+                <DataTemplate DataType="{x:Type viewModels:CanvasSliderPanelViewModel}">
+                    <Expander
+                        Background="LightBlue"
+                        Header="Canvas slider"
+                        IsExpanded="{Binding IsExpanded}">
+                        <StackPanel Background="White">
+                            <controls:CanvasSliderPanel />
+                            <Border Height="10" />
+                        </StackPanel>
+                    </Expander>
+                </DataTemplate>
+
+                <!-- XElementInputPanel -->
+                <DataTemplate DataType="{x:Type viewModels:XElementInputPanelViewModel}">
+                    <Expander
+                        Background="LightBlue"
+                        Header="Xml element reader"
+                        IsExpanded="{Binding IsExpanded}">
+                        <StackPanel Background="White">
+                            <controls:XElementInputPanel />
+                            <Border Height="10" />
+                        </StackPanel>
+                    </Expander>
+                </DataTemplate>
+
+                <!-- CopyHistoryList -->
+                <DataTemplate DataType="{x:Type viewModels:CopyHistoryListViewModel}">
+                    <Expander
+                        Background="LightBlue"
+                        Header="Copy history"
+                        IsExpanded="{Binding IsExpanded}">
+                        <StackPanel Background="White">
+                            <controls:CopyHistoryList />
+                            <Border Height="10" />
+                        </StackPanel>
+                    </Expander>
+                </DataTemplate>
+
+                <!-- XmlEditorPanel -->
+                <DataTemplate DataType="{x:Type viewModels:XmlEditorPanelViewModel}">
+                    <Expander
+                        Background="LightBlue"
+                        Header="XML editor"
+                        IsExpanded="{Binding IsExpanded}">
+                        <StackPanel Background="White">
+                            <controls:XmlEditorPanel />
+                            <Border Height="10" />
+                        </StackPanel>
+                    </Expander>
+                </DataTemplate>
+            </ScrollViewer.Resources>
+
+            <ItemsControl ItemsSource="{Binding ToolPanelViewModelCollection}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+
+        </ScrollViewer>
     </Grid>
 </Window>

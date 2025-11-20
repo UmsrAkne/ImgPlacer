@@ -1,0 +1,71 @@
+﻿using System.Windows;
+using System.Windows.Input;
+using ImgPlacer.ViewModels;
+using ImgPlacer.Views.Controls;
+using Microsoft.Xaml.Behaviors;
+
+namespace ImgPlacer.Utils.Behaviors
+{
+    public class CanvasDragBehavior : Behavior<ImageCanvasViewer>
+    {
+        private Point? dragStartPoint;
+        private double startOffsetX;
+        private double startOffsetY;
+        private ImageCanvasViewerViewModel vm;
+
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            AssociatedObject.MouseLeftButtonDown += OnMouseLeftButtonDown;
+            AssociatedObject.MouseMove += OnMouseMove;
+            AssociatedObject.MouseLeftButtonUp += OnMouseLeftButtonUp;
+            vm = AssociatedObject.DataContext as ImageCanvasViewerViewModel;
+        }
+
+        protected override void OnDetaching()
+        {
+            AssociatedObject.MouseLeftButtonDown -= OnMouseLeftButtonDown;
+            AssociatedObject.MouseMove -= OnMouseMove;
+            AssociatedObject.MouseLeftButtonUp -= OnMouseLeftButtonUp;
+            base.OnDetaching();
+        }
+
+        private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            dragStartPoint = e.GetPosition(AssociatedObject);
+            if (vm != null)
+            {
+                startOffsetX = vm.OffsetX;
+                startOffsetY = vm.OffsetY;
+            }
+
+            AssociatedObject.CaptureMouse();
+            Mouse.OverrideCursor = Cursors.Hand;
+            e.Handled = true;
+        }
+
+        private void OnMouseMove(object sender, MouseEventArgs e)
+        {
+            if (dragStartPoint.HasValue && e.LeftButton == MouseButtonState.Pressed)
+            {
+                var current = e.GetPosition(AssociatedObject);
+                var delta = current - dragStartPoint.Value;
+                if (vm != null)
+                {
+                    vm.OffsetX = startOffsetX + delta.X;
+                    vm.OffsetY = startOffsetY + delta.Y;
+                }
+
+                e.Handled = true;
+            }
+        }
+
+        private void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            dragStartPoint = null;
+            AssociatedObject.ReleaseMouseCapture();
+            Mouse.OverrideCursor = null;
+            e.Handled = true;
+        }
+    }
+}

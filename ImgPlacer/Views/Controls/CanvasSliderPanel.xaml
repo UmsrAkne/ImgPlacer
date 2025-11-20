@@ -1,0 +1,92 @@
+﻿<UserControl
+    x:Class="ImgPlacer.Views.Controls.CanvasSliderPanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:ImgPlacer.ViewModels"
+    d:DataContext="{d:DesignInstance viewModels:CanvasSliderPanelViewModel}"
+    mc:Ignorable="d">
+
+    <StackPanel Margin="10">
+        <StackPanel Orientation="Horizontal">
+            <StackPanel Width="130" Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Text="Distance:" />
+                <TextBox
+                    Width="50"
+                    Margin="5,0"
+                    Text="{Binding Distance, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+
+            <StackPanel Width="130" Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Text="Degree:" />
+                <TextBox
+                    Width="50"
+                    Margin="5,0"
+                    Text="{Binding Degree, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal">
+            <StackPanel Width="130" Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Text="Delay:" />
+                <TextBox
+                    Width="40"
+                    Margin="10,0"
+                    Text="{Binding Delay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+
+
+            <StackPanel Width="130" Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Text="Interval:" />
+
+                <TextBox
+                    Width="40"
+                    Margin="10,0"
+                    Text="{Binding Interval, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+
+            <StackPanel Width="130" Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Text="Repeat:" />
+                <TextBox
+                    Width="40"
+                    Margin="10,0"
+                    Text="{Binding RepeatCount, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+
+        </StackPanel>
+
+        <Border Height="10" />
+
+        <StackPanel Orientation="Horizontal">
+            <Button
+                Height="25"
+                HorizontalAlignment="Left"
+                Command="{Binding SlideCommand}"
+                Content="Slide" />
+
+            <Button
+                Height="25"
+                Margin="10,0"
+                HorizontalAlignment="Left"
+                Content="Slide (Hold)">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                        <i:InvokeCommandAction Command="{Binding SlideHoldPressCommand}" />
+                    </i:EventTrigger>
+
+                    <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                        <i:InvokeCommandAction Command="{Binding SlideHoldReleaseCommand}" />
+                    </i:EventTrigger>
+
+                    <i:EventTrigger EventName="MouseLeave">
+                        <i:InvokeCommandAction Command="{Binding SlideHoldReleaseCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+
+        </StackPanel>
+    </StackPanel>
+</UserControl>
