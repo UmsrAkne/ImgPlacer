@@ -21,6 +21,7 @@ namespace ImgPlacer.Utils.Converters
                 SideBarPanelKind.CanvasSlider => PackIconKind.ZoomIn,
                 SideBarPanelKind.XElementInput => PackIconKind.CodeBlockXml,
                 SideBarPanelKind.CopyHistory => PackIconKind.History,
+                SideBarPanelKind.XmlEditor => PackIconKind.FileDocumentEdit,
 
                 _ => PackIconKind.Help,
             };

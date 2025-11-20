@@ -196,6 +196,19 @@
                         </StackPanel>
                     </Expander>
                 </DataTemplate>
+
+                <!-- XmlEditorPanel -->
+                <DataTemplate DataType="{x:Type viewModels:XmlEditorPanelViewModel}">
+                    <Expander
+                        Background="LightBlue"
+                        Header="XML editor"
+                        IsExpanded="{Binding IsExpanded}">
+                        <StackPanel Background="White">
+                            <controls:XmlEditorPanel />
+                            <Border Height="10" />
+                        </StackPanel>
+                    </Expander>
+                </DataTemplate>
             </ScrollViewer.Resources>
 
             <ItemsControl ItemsSource="{Binding ToolPanelViewModelCollection}">

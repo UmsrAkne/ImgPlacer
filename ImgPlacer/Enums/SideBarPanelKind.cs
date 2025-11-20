@@ -6,6 +6,7 @@
         CanvasSlider,
         XElementInput,
         CopyHistory,
+        XmlEditor,
         #pragma warning restore SA1602
     }
 }
