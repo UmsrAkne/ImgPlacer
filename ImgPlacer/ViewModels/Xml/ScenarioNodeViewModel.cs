@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Xml.Linq;
+using ImgPlacer.Utils;
 using Prism.Mvvm;
 
 namespace ImgPlacer.ViewModels.Xml
@@ -42,15 +43,9 @@ namespace ImgPlacer.ViewModels.Xml
         {
             Children.Clear();
 
-            foreach (var child in Source.Elements())
+            foreach (var childVm in XmlNodeBuilder.BuildScenarioChildren(Source))
             {
-                // text は scenario のヘッダーに値が表示されているため不要
-                if (child.Name.LocalName == "text")
-                {
-                    continue;
-                }
-
-                Children.Add(new XmlChildNodeViewModel(child));
+                Children.Add(childVm);
             }
 
             RaisePropertyChanged(nameof(DisplayName));

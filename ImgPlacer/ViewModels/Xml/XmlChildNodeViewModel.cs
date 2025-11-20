@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Xml.Linq;
+using ImgPlacer.Utils;
 
 namespace ImgPlacer.ViewModels.Xml
 {
@@ -29,5 +30,15 @@ namespace ImgPlacer.ViewModels.Xml
                 : Name;
 
         public ObservableCollection<XmlChildNodeViewModel> Children { get; } = new ();
+
+        public void LoadChildren()
+        {
+            Children.Clear();
+
+            foreach (var childVm in XmlNodeBuilder.BuildChildren(Source))
+            {
+                Children.Add(childVm);
+            }
+        }
     }
 }

@@ -9,5 +9,7 @@ namespace ImgPlacer.ViewModels.Xml
         string DisplayName { get; }
 
         XElement Source { get; }
+
+        void LoadChildren();
     }
 }

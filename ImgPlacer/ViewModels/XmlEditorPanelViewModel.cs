@@ -108,6 +108,8 @@ namespace ImgPlacer.ViewModels
                 {
                     Console.WriteLine("このノードには挿入できません。");
                 }
+
+                SelectedItem.LoadChildren();
             }
         });
 
