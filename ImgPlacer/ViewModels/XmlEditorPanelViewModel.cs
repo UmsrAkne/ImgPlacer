@@ -13,6 +13,7 @@ namespace ImgPlacer.ViewModels
     {
         private bool isExpanded;
         private XDocument loadedDocument;
+        private XmlChildNodeViewModel selectedItem;
 
         public XDocument LoadedDocument
         {
@@ -33,6 +34,15 @@ namespace ImgPlacer.ViewModels
         }
 
         public ObservableCollection<ScenarioNodeViewModel> Scenarios { get; private set; } = new ();
+
+        /// <summary>
+        /// TreeView の選択アイテムを保持（ScenarioNodeViewModel または XmlChildNodeViewModel）
+        /// </summary>
+        public XmlChildNodeViewModel SelectedItem
+        {
+            get => selectedItem;
+            set => SetProperty(ref selectedItem, value);
+        }
 
         public SideBarPanelKind PanelKind => SideBarPanelKind.XmlEditor;
 
