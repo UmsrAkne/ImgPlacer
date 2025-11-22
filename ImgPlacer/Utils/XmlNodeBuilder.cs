@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Xml.Linq;
+using ImgPlacer.Enums;
 using ImgPlacer.ViewModels.Xml;
 
 namespace ImgPlacer.Utils
@@ -24,7 +25,7 @@ namespace ImgPlacer.Utils
 
             foreach (var child in scenario.Elements())
             {
-                if (child.Name.LocalName == "text")
+                if (child.Name.LocalName == nameof(XmlTagName.Text).ToLower())
                 {
                     continue;
                 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Xml.Linq;
+using ImgPlacer.Enums;
 using ImgPlacer.Utils;
 
 namespace ImgPlacer.ViewModels.Xml
@@ -11,7 +12,7 @@ namespace ImgPlacer.ViewModels.Xml
             Source = element;
 
             // animationChain のみ内部に animation を持つので展開
-            if (Name == "animationChain")
+            if (Name == nameof(AnimationName.AnimationChain).ToLower())
             {
                 foreach (var child in element.Elements())
                 {
@@ -25,7 +26,7 @@ namespace ImgPlacer.ViewModels.Xml
         public string Name => Source.Name.LocalName;
 
         public string DisplayName
-            => Name == "text"
+            => Name == nameof(XmlTagName.Text).ToLower()
                 ? $"text: {Source.Attribute("string")?.Value}"
                 : Name;
 

@@ -23,7 +23,7 @@ namespace ImgPlacer.ViewModels
             {
                 SetProperty(ref loadedDocument, value);
                 Scenarios.Clear();
-                var scenarioList = value?.Root?.Elements("scenario").Select(el => new ScenarioNodeViewModel(el)).ToList();
+                var scenarioList = value?.Root?.Elements(nameof(XmlTagName.Scenario).ToLower()).Select(el => new ScenarioNodeViewModel(el)).ToList();
                 if (scenarioList != null)
                 {
                     foreach (var scenario in scenarioList)
@@ -85,7 +85,9 @@ namespace ImgPlacer.ViewModels
             {
                 var name = node.Name;
 
-                return name is "scenario" or "animationChain";
+                var scenario = nameof(XmlTagName.Scenario).ToLower();
+                var animationChain = nameof(AnimationName.AnimationChain).ToLower();
+                return name == scenario || name == animationChain;
             }
 
             void ExecutePaste()
@@ -94,12 +96,12 @@ namespace ImgPlacer.ViewModels
                 var targetElementName = insertTarget.Name.LocalName;
                 var newElement = TryGetClipboardXElement();
 
-                if (targetElementName == "scenario")
+                if (targetElementName == nameof(XmlTagName.Scenario).ToLower())
                 {
                     // <scenario>の子として追加（末尾）
                     insertTarget.Add(newElement);
                 }
-                else if (targetElementName == "animationChain")
+                else if (targetElementName == nameof(AnimationName.AnimationChain).ToLower())
                 {
                     // animationChain の最後に追加
                     insertTarget.Add(newElement);

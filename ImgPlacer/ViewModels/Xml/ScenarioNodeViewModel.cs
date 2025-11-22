@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Xml.Linq;
+using ImgPlacer.Enums;
 using ImgPlacer.Utils;
 using Prism.Mvvm;
 
@@ -26,7 +27,7 @@ namespace ImgPlacer.ViewModels.Xml
         /// <summary>
         /// 表示用の名前（例：scenario の text があればその文字列）
         /// </summary>
-        public string DisplayName => Source.Element("text")?.Attribute("string")?.Value ?? "scenario";
+        public string DisplayName => Source.Element(nameof(XmlTagName.Text).ToLower())?.Attribute("string")?.Value ?? nameof(XmlTagName.Scenario).ToLower();
 
         public string Name => Source.Name.ToString();
 
