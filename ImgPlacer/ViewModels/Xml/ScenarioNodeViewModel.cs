@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Xml.Linq;
 using ImgPlacer.Enums;
 using ImgPlacer.Utils;
@@ -19,6 +20,8 @@ namespace ImgPlacer.ViewModels.Xml
             LoadChildren();
         }
 
+        public IXmlNode Parent { get; }
+
         /// <summary>
         /// 対応する XElement（scenario）
         /// </summary>
@@ -34,7 +37,7 @@ namespace ImgPlacer.ViewModels.Xml
         /// <summary>
         /// scenario 直下の子ノード（text,  animation,  animationChain）
         /// </summary>
-        public ObservableCollection<XmlChildNodeViewModel> Children { get; } = new ();
+        public ObservableCollection<IXmlNode> Children { get; } = new ();
 
         /// <summary>
         /// XML の子要素 → ViewModel の Children に再投影
@@ -44,12 +47,41 @@ namespace ImgPlacer.ViewModels.Xml
         {
             Children.Clear();
 
-            foreach (var childVm in XmlNodeBuilder.BuildScenarioChildren(Source))
+            foreach (var childVm in XmlNodeBuilder.BuildScenarioChildren(Source, this))
             {
                 Children.Add(childVm);
             }
 
             RaisePropertyChanged(nameof(DisplayName));
+        }
+
+        public void MoveChild(int oldIndex, int moveCount)
+        {
+            if (oldIndex == moveCount || oldIndex < 0 || oldIndex >= Children.Count || moveCount < 0 || moveCount >= Children.Count)
+            {
+                return;
+            }
+
+            // 1. UI の Children を並び替え
+            Children.Move(oldIndex, moveCount);
+
+            // 2. XML（Source）の子要素も並び替え
+            var elements = Source.Elements().ToList();
+            var moving = elements[oldIndex];
+
+            // 一度 XML ツリーから外す
+            moving.Remove();
+
+            if (moveCount >= elements.Count)
+            {
+                // Index がサイズを超える場合は最後に追加
+                Source.Add(moving);
+            }
+            else
+            {
+                var target = elements[moveCount];
+                target.AddBeforeSelf(moving);
+            }
         }
     }
 }
