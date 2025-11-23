@@ -3,6 +3,7 @@ using System.Linq;
 using System.Xml.Linq;
 using ImgPlacer.Enums;
 using ImgPlacer.Utils;
+using Prism.Commands;
 using Prism.Mvvm;
 
 namespace ImgPlacer.ViewModels.Xml
@@ -38,6 +39,8 @@ namespace ImgPlacer.ViewModels.Xml
         /// scenario 直下の子ノード（text,  animation,  animationChain）
         /// </summary>
         public ObservableCollection<IXmlNode> Children { get; } = new ();
+
+        public DelegateCommand<int?> MoveElementCommand => new ((moveDirection) => { });
 
         /// <summary>
         /// XML の子要素 → ViewModel の Children に再投影

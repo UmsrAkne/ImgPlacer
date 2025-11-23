@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml.Linq;
+using Prism.Commands;
 
 namespace ImgPlacer.ViewModels.Xml
 {
@@ -26,6 +27,15 @@ namespace ImgPlacer.ViewModels.Xml
         public string DisplayName => "animationChain";
 
         public ObservableCollection<IXmlNode> Children { get; } = new ();
+
+        public DelegateCommand<int?> MoveElementCommand => new ((moveDirection) =>
+        {
+            if (moveDirection.HasValue)
+            {
+                var i = Parent.Children.IndexOf(this);
+                Parent.MoveChild(i, i + moveDirection.Value);
+            }
+        });
 
         public void LoadChildren()
         {

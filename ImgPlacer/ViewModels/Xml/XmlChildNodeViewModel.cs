@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Xml.Linq;
 using ImgPlacer.Enums;
 using ImgPlacer.Utils;
+using Prism.Commands;
 
 namespace ImgPlacer.ViewModels.Xml
 {
@@ -35,6 +36,14 @@ namespace ImgPlacer.ViewModels.Xml
                 : Name;
 
         public ObservableCollection<IXmlNode> Children { get; } = new ();
+
+        public DelegateCommand<int?> MoveElementCommand => new ((moveDirection) =>
+        {
+            if (moveDirection.HasValue)
+            {
+                MoveChild(0, moveDirection.Value);
+            }
+        });
 
         public void LoadChildren()
         {

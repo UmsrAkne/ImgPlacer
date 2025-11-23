@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Xml.Linq;
+using Prism.Commands;
 
 namespace ImgPlacer.ViewModels.Xml
 {
@@ -14,6 +15,8 @@ namespace ImgPlacer.ViewModels.Xml
         XElement Source { get; }
 
         ObservableCollection<IXmlNode> Children { get; }
+
+        DelegateCommand<int?> MoveElementCommand { get; }
 
         void LoadChildren();
 
