@@ -14,7 +14,7 @@ namespace ImgPlacer.ViewModels.Xml
             Parent = parent;
 
             // animationChain のみ内部に animation を持つので展開
-            if (Name == nameof(AnimationName.AnimationChain).ToLower())
+            if (Name == nameof(AnimationName.AnimationChain).ToTopLower())
             {
                 foreach (var child in element.Elements())
                 {

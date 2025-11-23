@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Xml.Linq;
 using ImgPlacer.Enums;
+using ImgPlacer.Utils;
 using ImgPlacer.ViewModels.Xml;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -86,7 +87,7 @@ namespace ImgPlacer.ViewModels
                 var name = node.Name;
 
                 var scenario = nameof(XmlTagName.Scenario).ToLower();
-                var animationChain = nameof(AnimationName.AnimationChain).ToLower();
+                var animationChain = nameof(AnimationName.AnimationChain).ToTopLower();
                 return name == scenario || name == animationChain;
             }
 
@@ -95,13 +96,14 @@ namespace ImgPlacer.ViewModels
                 var insertTarget = SelectedItem.Source;
                 var targetElementName = insertTarget.Name.LocalName;
                 var newElement = TryGetClipboardXElement();
+                var animationChain = nameof(AnimationName.AnimationChain).ToTopLower();
 
                 if (targetElementName == nameof(XmlTagName.Scenario).ToLower())
                 {
                     // <scenario>の子として追加（末尾）
                     insertTarget.Add(newElement);
                 }
-                else if (targetElementName == nameof(AnimationName.AnimationChain).ToLower())
+                else if (targetElementName == animationChain)
                 {
                     // animationChain の最後に追加
                     insertTarget.Add(newElement);

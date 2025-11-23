@@ -31,7 +31,7 @@ namespace ImgPlacer.Utils
                     continue;
                 }
 
-                if (string.Compare(child.Name.LocalName, nameof(AnimationName.AnimationChain), StringComparison.OrdinalIgnoreCase) == 0)
+                if (child.Name.LocalName == nameof(AnimationName.AnimationChain).ToTopLower())
                 {
                     list.Add(new AnimationChainNodeViewModel(child, parent));
                     continue;
