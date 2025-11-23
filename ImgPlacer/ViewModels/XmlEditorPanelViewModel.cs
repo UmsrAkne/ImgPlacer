@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Xml.Linq;
 using ImgPlacer.Enums;
+using ImgPlacer.Utils;
 using ImgPlacer.ViewModels.Xml;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -23,7 +24,7 @@ namespace ImgPlacer.ViewModels
             {
                 SetProperty(ref loadedDocument, value);
                 Scenarios.Clear();
-                var scenarioList = value?.Root?.Elements("scenario").Select(el => new ScenarioNodeViewModel(el)).ToList();
+                var scenarioList = value?.Root?.Elements(nameof(XmlTagName.Scenario).ToLower()).Select(el => new ScenarioNodeViewModel(el)).ToList();
                 if (scenarioList != null)
                 {
                     foreach (var scenario in scenarioList)
@@ -85,7 +86,9 @@ namespace ImgPlacer.ViewModels
             {
                 var name = node.Name;
 
-                return name is "scenario" or "animationChain";
+                var scenario = nameof(XmlTagName.Scenario).ToLower();
+                var animationChain = nameof(AnimationName.AnimationChain).ToTopLower();
+                return name == scenario || name == animationChain;
             }
 
             void ExecutePaste()
@@ -93,13 +96,14 @@ namespace ImgPlacer.ViewModels
                 var insertTarget = SelectedItem.Source;
                 var targetElementName = insertTarget.Name.LocalName;
                 var newElement = TryGetClipboardXElement();
+                var animationChain = nameof(AnimationName.AnimationChain).ToTopLower();
 
-                if (targetElementName == "scenario")
+                if (targetElementName == nameof(XmlTagName.Scenario).ToLower())
                 {
                     // <scenario>の子として追加（末尾）
                     insertTarget.Add(newElement);
                 }
-                else if (targetElementName == "animationChain")
+                else if (targetElementName == animationChain)
                 {
                     // animationChain の最後に追加
                     insertTarget.Add(newElement);

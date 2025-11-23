@@ -1,44 +1,64 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Xml.Linq;
+using ImgPlacer.Enums;
 using ImgPlacer.Utils;
+using Prism.Commands;
 
 namespace ImgPlacer.ViewModels.Xml
 {
     public class XmlChildNodeViewModel : IXmlNode
     {
-        public XmlChildNodeViewModel(XElement element)
+        public XmlChildNodeViewModel(XElement element, IXmlNode parent)
         {
             Source = element;
+            Parent = parent;
 
             // animationChain のみ内部に animation を持つので展開
-            if (Name == "animationChain")
+            if (Name == nameof(AnimationName.AnimationChain).ToTopLower())
             {
                 foreach (var child in element.Elements())
                 {
-                    Children.Add(new XmlChildNodeViewModel(child));
+                    Children.Add(new XmlChildNodeViewModel(child, Parent));
                 }
             }
         }
+
+        public IXmlNode Parent { get; }
 
         public XElement Source { get; }
 
         public string Name => Source.Name.LocalName;
 
         public string DisplayName
-            => Name == "text"
+            => Name == nameof(XmlTagName.Text).ToLower()
                 ? $"text: {Source.Attribute("string")?.Value}"
                 : Name;
 
-        public ObservableCollection<XmlChildNodeViewModel> Children { get; } = new ();
+        public ObservableCollection<IXmlNode> Children { get; } = new ();
+
+        public DelegateCommand<int?> MoveElementCommand => new ((moveDirection) =>
+        {
+            if (moveDirection.HasValue)
+            {
+                MoveChild(0, moveDirection.Value);
+            }
+        });
 
         public void LoadChildren()
         {
             Children.Clear();
 
-            foreach (var childVm in XmlNodeBuilder.BuildChildren(Source))
+            foreach (var childVm in XmlNodeBuilder.BuildChildren(Source, Parent))
             {
                 Children.Add(childVm);
             }
+        }
+
+        public void MoveChild(int oldIndex, int moveCount)
+        {
+            var i = Parent.Children.IndexOf(this);
+            Parent.MoveChild(i, i + moveCount);
         }
     }
 }

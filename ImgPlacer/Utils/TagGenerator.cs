@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
+using ImgPlacer.Enums;
 using ImgPlacer.ViewModels;
 
 namespace ImgPlacer.Utils
@@ -62,8 +63,8 @@ namespace ImgPlacer.Utils
             var scaleStr = vm.Zoom.ToString("0.0########", CultureInfo.InvariantCulture);
 
             var element = new XElement(
-                "anime",
-                new XAttribute("name", "image"),
+                nameof(XmlTagName.Anime).ToLower(),
+                new XAttribute("name", nameof(AnimationName.Image).ToLower()),
                 new XAttribute("a", names.ElementAtOrDefault(0) ?? string.Empty),
                 new XAttribute("b", names.ElementAtOrDefault(1) ?? string.Empty),
                 new XAttribute("c", names.ElementAtOrDefault(2) ?? string.Empty),
@@ -94,11 +95,11 @@ namespace ImgPlacer.Utils
             var nameAttr = el.Attribute("name");
             if (nameAttr != null)
             {
-                nameAttr.Value = "draw";
+                nameAttr.Value = nameof(AnimationName.Draw).ToLower();
             }
             else
             {
-                el.Add(new XAttribute("name", "draw"));
+                el.Add(new XAttribute("name", nameof(AnimationName.Draw).ToLower()));
             }
 
             // 残すのは b, c, d のみ。その他を削除
