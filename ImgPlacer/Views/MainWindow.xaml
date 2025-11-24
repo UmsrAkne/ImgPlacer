@@ -109,7 +109,7 @@
                 Width="{Binding CanvasWidth}"
                 Height="{Binding CanvasHeight}"
                 Margin="20"
-                HorizontalAlignment="Left"
+                HorizontalAlignment="Center"
                 VerticalAlignment="Top">
                 <controls:ImageCanvasViewer.LayoutTransform>
                     <ScaleTransform ScaleX="0.25" ScaleY="0.25" />
