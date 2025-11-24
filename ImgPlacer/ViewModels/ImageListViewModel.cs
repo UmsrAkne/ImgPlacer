@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -33,6 +34,7 @@ namespace ImgPlacer.ViewModels
         {
             // 既存をクリア
             Images.Clear();
+            var tempList = new List<ImageItem>();
 
             if (string.IsNullOrWhiteSpace(dirPath) || !Directory.Exists(dirPath))
             {
@@ -66,23 +68,23 @@ namespace ImgPlacer.ViewModels
                     if (isValid)
                     {
                         head2 = fileNameOnly.Substring(1, 2); // A0101.png の "01"
-                    }
 
-                    // フィルタ: FilterPrefix が設定されている場合は一致する先頭文字のみ表示
-                    if (!string.IsNullOrEmpty(FilterPrefix))
-                    {
-                        if (!string.Equals(leading, FilterPrefix, StringComparison.OrdinalIgnoreCase))
+                        // フィルタ: FilterPrefix が設定されている場合は一致する先頭文字のみ表示
+                        if (!string.IsNullOrEmpty(FilterPrefix))
                         {
-                            continue;
+                            if (!string.Equals(leading, FilterPrefix, StringComparison.OrdinalIgnoreCase))
+                            {
+                                continue;
+                            }
                         }
-                    }
 
-                    // フィルタ: FilterNumberHead2 が設定されている場合は一致する2桁のみ
-                    if (!string.IsNullOrEmpty(FilterNumberHead2))
-                    {
-                        if (!string.Equals(head2, FilterNumberHead2, StringComparison.Ordinal))
+                        // フィルタ: FilterNumberHead2 が設定されている場合は一致する2桁のみ
+                        if (!string.IsNullOrEmpty(FilterNumberHead2))
                         {
-                            continue;
+                            if (!string.Equals(head2, FilterNumberHead2, StringComparison.Ordinal))
+                            {
+                                continue;
+                            }
                         }
                     }
 
@@ -104,13 +106,22 @@ namespace ImgPlacer.ViewModels
                         FirstTwoDigits = head2,
                     };
 
-                    Images.Add(item);
+                    tempList.Add(item);
                 }
                 catch
                 {
                     // 個別ファイルの読み込み失敗はメッセージを出すのみに留める。
                     Console.WriteLine($"{file} の読み込みに失敗しました。");
                 }
+            }
+
+            tempList = tempList
+                .OrderByDescending(i => i.IsNamingValid)
+                .ThenBy(i => i.FileName).ToList();
+
+            foreach (var imageItem in tempList)
+            {
+                Images.Add(imageItem);
             }
 
             SelectedImage = Images.FirstOrDefault();

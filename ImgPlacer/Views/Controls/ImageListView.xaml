@@ -48,7 +48,17 @@
                                 MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ListBox}}"
                                 HorizontalAlignment="Center"
                                 Source="{Binding Thumbnail}"
-                                Stretch="Uniform" />
+                                Stretch="Uniform">
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsNamingValid}" Value="False">
+                                                <Setter Property="Opacity" Value="0.5" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
 
                             <!-- ファイル名 -->
                             <TextBlock
