@@ -84,6 +84,7 @@
 
             <i:Interaction.Behaviors>
                 <behaviors:TreeViewSelectedItemBehavior SelectedItem="{Binding SelectedItem, Mode=TwoWay}" />
+                <behaviors:BubbleMouseWheelBehavior />
             </i:Interaction.Behaviors>
             <TreeView.Style>
                 <Style TargetType="TreeView">
