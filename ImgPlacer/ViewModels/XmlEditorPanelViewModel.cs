@@ -49,8 +49,9 @@ namespace ImgPlacer.ViewModels
             {
                 SetProperty(ref selectedItem, value);
                 XmlAttributeViewModels.Clear();
-                var list = selectedItem.Source.Attributes()
-                    .Select(a => new XmlAttributeViewModel(a.Name.ToString(), a.Value));
+                var item = SelectedItem.Source;
+                var list = item.Attributes()
+                    .Select(a => new XmlAttributeViewModel(item, a));
 
                 foreach (var xmlAttributeViewModel in list)
                 {

@@ -1,23 +1,28 @@
 ﻿using System;
+using System.Xml.Linq;
 using Prism.Mvvm;
 
 namespace ImgPlacer.ViewModels.Xml
 {
     public class XmlAttributeViewModel : BindableBase
     {
+        private readonly XElement sourceXElement;
+        private readonly XAttribute sourceXAttribute;
         private object val;
 
-        public XmlAttributeViewModel(string name, string rawValue)
+        public XmlAttributeViewModel(XElement xElem, XAttribute xAttr)
         {
-            Name = name;
+            sourceXElement = xElem;
+            sourceXAttribute = xAttr;
+            Name = xAttr.Name.LocalName;
 
             // ここで型推論
-            if (bool.TryParse(rawValue, out var b))
+            if (bool.TryParse(xAttr.Value, out var b))
             {
                 ValueType = typeof(bool);
                 Value = b;
             }
-            else if (int.TryParse(rawValue, out var i))
+            else if (int.TryParse(xAttr.Value, out var i))
             {
                 ValueType = typeof(int);
                 Value = i;
@@ -25,7 +30,7 @@ namespace ImgPlacer.ViewModels.Xml
             else
             {
                 ValueType = typeof(string);
-                Value = rawValue;
+                Value = xAttr.Value;
             }
         }
 
@@ -33,6 +38,17 @@ namespace ImgPlacer.ViewModels.Xml
 
         public Type ValueType { get; }
 
-        public object Value { get => val; set => SetProperty(ref val, value); }
+        public object Value
+        {
+            get => val;
+            set
+            {
+                if (SetProperty(ref val, value))
+                {
+                    // 属性値の書き戻し
+                    sourceXElement.SetAttributeValue(sourceXAttribute.Name, value?.ToString());
+                }
+            }
+        }
     }
 }
