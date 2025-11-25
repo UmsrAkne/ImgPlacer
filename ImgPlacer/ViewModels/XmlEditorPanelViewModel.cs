@@ -37,13 +37,27 @@ namespace ImgPlacer.ViewModels
 
         public ObservableCollection<ScenarioNodeViewModel> Scenarios { get; private set; } = new ();
 
+        public ObservableCollection<XmlAttributeViewModel> XmlAttributeViewModels { get; private set; } = new ();
+
         /// <summary>
         /// TreeView の選択アイテムを保持（ScenarioNodeViewModel または XmlChildNodeViewModel）
         /// </summary>
         public IXmlNode SelectedItem
         {
             get => selectedItem;
-            set => SetProperty(ref selectedItem, value);
+            set
+            {
+                SetProperty(ref selectedItem, value);
+                XmlAttributeViewModels.Clear();
+                var item = SelectedItem.Source;
+                var list = item.Attributes()
+                    .Select(a => new XmlAttributeViewModel(item, a));
+
+                foreach (var xmlAttributeViewModel in list)
+                {
+                    XmlAttributeViewModels.Add(xmlAttributeViewModel);
+                }
+            }
         }
 
         public SideBarPanelKind PanelKind => SideBarPanelKind.XmlEditor;
