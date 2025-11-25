@@ -21,5 +21,7 @@ namespace ImgPlacer.ViewModels.Xml
         void LoadChildren();
 
         void MoveChild(int oldIndex, int moveCount);
+
+        void PerformAction(ToolPanelContext context);
     }
 }

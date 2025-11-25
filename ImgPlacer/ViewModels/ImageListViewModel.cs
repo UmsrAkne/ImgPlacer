@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Windows.Media.Imaging;
+using ImgPlacer.Utils;
 using Prism.Mvvm;
 
 namespace ImgPlacer.ViewModels
@@ -88,13 +88,7 @@ namespace ImgPlacer.ViewModels
                         }
                     }
 
-                    var bitmap = new BitmapImage();
-                    bitmap.BeginInit();
-                    bitmap.CacheOption = BitmapCacheOption.OnLoad; // ファイルロック回避
-                    bitmap.UriSource = new Uri(file);
-                    bitmap.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
-                    bitmap.EndInit();
-                    bitmap.Freeze();
+                    var bitmap = ImageCache.Get(file);
 
                     var item = new ImageItem
                     {

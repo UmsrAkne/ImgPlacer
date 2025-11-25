@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml.Linq;
 using ImgPlacer.Enums;
@@ -85,6 +86,11 @@ namespace ImgPlacer.ViewModels.Xml
                 var target = elements[moveCount];
                 target.AddBeforeSelf(moving);
             }
+        }
+
+        public void PerformAction(ToolPanelContext context)
+        {
+            Console.WriteLine("ScenarioNodeViewModel.PerformAction() execute");
         }
     }
 }

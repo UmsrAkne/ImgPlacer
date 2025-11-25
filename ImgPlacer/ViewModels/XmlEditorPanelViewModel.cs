@@ -13,9 +13,20 @@ namespace ImgPlacer.ViewModels
 {
     public class XmlEditorPanelViewModel : BindableBase, IToolPanelViewModel
     {
+        private readonly ToolPanelContext toolPanelContext;
+
         private bool isExpanded;
         private XDocument loadedDocument;
         private IXmlNode selectedItem;
+
+        public XmlEditorPanelViewModel(ToolPanelContext toolPanelContext)
+        {
+            this.toolPanelContext = toolPanelContext;
+        }
+
+        public XmlEditorPanelViewModel()
+        {
+        }
 
         public XDocument LoadedDocument
         {
@@ -37,13 +48,27 @@ namespace ImgPlacer.ViewModels
 
         public ObservableCollection<ScenarioNodeViewModel> Scenarios { get; private set; } = new ();
 
+        public ObservableCollection<XmlAttributeViewModel> XmlAttributeViewModels { get; private set; } = new ();
+
         /// <summary>
         /// TreeView の選択アイテムを保持（ScenarioNodeViewModel または XmlChildNodeViewModel）
         /// </summary>
         public IXmlNode SelectedItem
         {
             get => selectedItem;
-            set => SetProperty(ref selectedItem, value);
+            set
+            {
+                SetProperty(ref selectedItem, value);
+                XmlAttributeViewModels.Clear();
+                var item = SelectedItem.Source;
+                var list = item.Attributes()
+                    .Select(a => new XmlAttributeViewModel(item, a));
+
+                foreach (var xmlAttributeViewModel in list)
+                {
+                    XmlAttributeViewModels.Add(xmlAttributeViewModel);
+                }
+            }
         }
 
         public SideBarPanelKind PanelKind => SideBarPanelKind.XmlEditor;
@@ -115,6 +140,17 @@ namespace ImgPlacer.ViewModels
 
                 SelectedItem.LoadChildren();
             }
+        });
+
+        public DelegateCommand NodeDoubleClickCommand => new DelegateCommand(() =>
+        {
+            // ノードによって別の動作をさせる
+            if (SelectedItem == null)
+            {
+                return;
+            }
+
+            SelectedItem.PerformAction(toolPanelContext);
         });
 
         public DelegateCommand ToggleExpandedCommand => new(() =>

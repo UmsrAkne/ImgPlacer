@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:selectors="clr-namespace:ImgPlacer.Views.Selectors"
     xmlns:system="clr-namespace:System;assembly=System.Runtime"
     xmlns:viewModels="clr-namespace:ImgPlacer.ViewModels"
     xmlns:xmlVms="clr-namespace:ImgPlacer.ViewModels.Xml"
@@ -34,10 +35,17 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
         <!-- 空のパネル。ドラッグ＆ドロップで XML ファイルを受け付ける -->
         <Border
             x:Name="DropArea"
             Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
             Margin="10"
             Padding="20"
             AllowDrop="True"
@@ -73,7 +81,8 @@
         <!-- XML が読み込まれている場合はツリー表示 -->
         <TreeView
             Grid.Row="0"
-            Margin="10"
+            Grid.Column="0"
+            Margin="5"
             ItemsSource="{Binding Scenarios}">
             <TreeView.InputBindings>
                 <KeyBinding
@@ -84,7 +93,13 @@
 
             <i:Interaction.Behaviors>
                 <behaviors:TreeViewSelectedItemBehavior SelectedItem="{Binding SelectedItem, Mode=TwoWay}" />
+                <behaviors:BubbleMouseWheelBehavior />
             </i:Interaction.Behaviors>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding NodeDoubleClickCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             <TreeView.Style>
                 <Style TargetType="TreeView">
                     <Setter Property="Visibility" Value="Visible" />
@@ -97,7 +112,67 @@
                 </Style>
             </TreeView.Style>
         </TreeView>
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
+
+        <Border
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="5"
+            Padding="5"
+            BorderBrush="Gray"
+            BorderThickness="1"
+            CornerRadius="3">
+
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Visible" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding LoadedDocument}" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+
+            <ItemsControl ItemsSource="{Binding XmlAttributeViewModels}">
+
+                <ItemsControl.Resources>
+                    <DataTemplate x:Key="TextTemplate" DataType="{x:Type xmlVms:XmlAttributeViewModel}">
+                        <TextBox Width="200" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" />
+                    </DataTemplate>
+
+                    <DataTemplate x:Key="IntTemplate" DataType="{x:Type xmlVms:XmlAttributeViewModel}">
+                        <TextBox Width="80" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" />
+                    </DataTemplate>
+
+                    <DataTemplate x:Key="BoolTemplate" DataType="{x:Type xmlVms:XmlAttributeViewModel}">
+                        <CheckBox IsChecked="{Binding Value}" />
+                    </DataTemplate>
+
+                    <selectors:AttributeEditorTemplateSelector
+                        x:Key="AttributeEditorSelector"
+                        BoolTemplate="{StaticResource BoolTemplate}"
+                        IntTemplate="{StaticResource IntTemplate}"
+                        TextTemplate="{StaticResource TextTemplate}" />
+                </ItemsControl.Resources>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type xmlVms:XmlAttributeViewModel}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Width="80"
+                                VerticalAlignment="Center"
+                                Text="{Binding Name}" />
+                            <ContentControl Content="{Binding}" ContentTemplateSelector="{StaticResource AttributeEditorSelector}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="0"
+            Orientation="Horizontal">
             <Button
                 Margin="10,2"
                 Command="{Binding SelectedItem.MoveElementCommand}"

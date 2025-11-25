@@ -8,10 +8,9 @@
     d:DataContext="{d:DesignInstance viewModels:ImageListViewModel}"
     d:DesignHeight="300"
     d:DesignWidth="300"
-    Background="DeepSkyBlue"
     mc:Ignorable="d">
 
-    <Border Margin="2,0" Background="LightGreen">
+    <Border Margin="2,0">
         <ListBox
             x:Name="PartListBox"
             MinWidth="100"
@@ -34,7 +33,8 @@
                         <!-- ■ 選択縦棒 -->
                         <Border
                             Grid.Column="0"
-                            Background="DodgerBlue"
+                            Background="Coral"
+                            CornerRadius="5"
                             Visibility="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected, Converter={StaticResource BoolToVisibilityConverter}}" />
 
                         <!-- ■ メイン内容 -->
