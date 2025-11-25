@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml.Linq;
 using Prism.Commands;
@@ -64,6 +65,11 @@ namespace ImgPlacer.ViewModels.Xml
             {
                 xmlList[newIndex].AddBeforeSelf(moving);
             }
+        }
+
+        public void PerformAction(ToolPanelContext context)
+        {
+            Console.WriteLine("AnimationChainNodeViewModel.PerformAction() execute");
         }
     }
 }

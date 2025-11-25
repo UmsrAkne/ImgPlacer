@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Xml.Linq;
 using ImgPlacer.Enums;
 using ImgPlacer.Utils;
@@ -59,6 +60,25 @@ namespace ImgPlacer.ViewModels.Xml
         {
             var i = Parent.Children.IndexOf(this);
             Parent.MoveChild(i, i + moveCount);
+        }
+
+        public void PerformAction(ToolPanelContext context)
+        {
+            Console.WriteLine("XmlChildNodeViewModel.PerformAction() execute");
+
+            if (Name != nameof(XmlTagName.Animation).ToLower() && Name != nameof(XmlTagName.Anime).ToLower())
+            {
+                return;
+            }
+
+            var attr = Source.Attributes().FirstOrDefault(a => a.Name.LocalName == "name");
+            if (attr?.Value == nameof(AnimationName.Image).ToLower() || attr?.Value == nameof(AnimationName.Draw).ToLower())
+            {
+                var temp = context.XElementInputPanelViewModel.InputText;
+                context.XElementInputPanelViewModel.InputText = Source.ToString();
+                context.XElementInputPanelViewModel.ApplyImageInfoCommand.Execute();
+                context.XElementInputPanelViewModel.InputText = temp;
+            }
         }
     }
 }

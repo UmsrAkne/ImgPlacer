@@ -95,6 +95,11 @@
                 <behaviors:TreeViewSelectedItemBehavior SelectedItem="{Binding SelectedItem, Mode=TwoWay}" />
                 <behaviors:BubbleMouseWheelBehavior />
             </i:Interaction.Behaviors>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding NodeDoubleClickCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             <TreeView.Style>
                 <Style TargetType="TreeView">
                     <Setter Property="Visibility" Value="Visible" />
