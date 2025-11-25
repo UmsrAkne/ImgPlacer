@@ -82,7 +82,7 @@
         <TreeView
             Grid.Row="0"
             Grid.Column="0"
-            Margin="10"
+            Margin="5"
             ItemsSource="{Binding Scenarios}">
             <TreeView.InputBindings>
                 <KeyBinding
@@ -108,53 +108,61 @@
             </TreeView.Style>
         </TreeView>
 
-        <ItemsControl
+        <Border
             Grid.Row="0"
             Grid.Column="1"
-            Margin="10"
-            ItemsSource="{Binding XmlAttributeViewModels}">
+            Margin="5"
+            Padding="5"
+            BorderBrush="Gray"
+            BorderThickness="1"
+            CornerRadius="3">
 
-            <ItemsControl.Resources>
-                <DataTemplate x:Key="TextTemplate" DataType="{x:Type xmlVms:XmlAttributeViewModel}">
-                    <TextBox Width="200" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" />
-                </DataTemplate>
-
-                <DataTemplate x:Key="IntTemplate" DataType="{x:Type xmlVms:XmlAttributeViewModel}">
-                    <TextBox Width="80" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" />
-                </DataTemplate>
-
-                <DataTemplate x:Key="BoolTemplate" DataType="{x:Type xmlVms:XmlAttributeViewModel}">
-                    <CheckBox IsChecked="{Binding Value}" />
-                </DataTemplate>
-
-                <selectors:AttributeEditorTemplateSelector
-                    x:Key="AttributeEditorSelector"
-                    BoolTemplate="{StaticResource BoolTemplate}"
-                    IntTemplate="{StaticResource IntTemplate}"
-                    TextTemplate="{StaticResource TextTemplate}" />
-            </ItemsControl.Resources>
-
-            <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type xmlVms:XmlAttributeViewModel}">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Width="120" Text="{Binding Name}" />
-                        <ContentControl Content="{Binding}" ContentTemplateSelector="{StaticResource AttributeEditorSelector}" />
-                    </StackPanel>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-
-            <ItemsControl.Style>
-                <Style TargetType="ItemsControl">
+            <Border.Style>
+                <Style TargetType="Border">
                     <Setter Property="Visibility" Value="Visible" />
                     <Style.Triggers>
-                        <!-- ドキュメントが未ロードのときは非表示 -->
                         <DataTrigger Binding="{Binding LoadedDocument}" Value="{x:Null}">
                             <Setter Property="Visibility" Value="Collapsed" />
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
-            </ItemsControl.Style>
-        </ItemsControl>
+            </Border.Style>
+
+            <ItemsControl ItemsSource="{Binding XmlAttributeViewModels}">
+
+                <ItemsControl.Resources>
+                    <DataTemplate x:Key="TextTemplate" DataType="{x:Type xmlVms:XmlAttributeViewModel}">
+                        <TextBox Width="200" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" />
+                    </DataTemplate>
+
+                    <DataTemplate x:Key="IntTemplate" DataType="{x:Type xmlVms:XmlAttributeViewModel}">
+                        <TextBox Width="80" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" />
+                    </DataTemplate>
+
+                    <DataTemplate x:Key="BoolTemplate" DataType="{x:Type xmlVms:XmlAttributeViewModel}">
+                        <CheckBox IsChecked="{Binding Value}" />
+                    </DataTemplate>
+
+                    <selectors:AttributeEditorTemplateSelector
+                        x:Key="AttributeEditorSelector"
+                        BoolTemplate="{StaticResource BoolTemplate}"
+                        IntTemplate="{StaticResource IntTemplate}"
+                        TextTemplate="{StaticResource TextTemplate}" />
+                </ItemsControl.Resources>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type xmlVms:XmlAttributeViewModel}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Width="80"
+                                VerticalAlignment="Center"
+                                Text="{Binding Name}" />
+                            <ContentControl Content="{Binding}" ContentTemplateSelector="{StaticResource AttributeEditorSelector}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
 
         <StackPanel
             Grid.Row="1"
