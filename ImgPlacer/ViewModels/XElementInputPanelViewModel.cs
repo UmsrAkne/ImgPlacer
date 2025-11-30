@@ -79,6 +79,14 @@ namespace ImgPlacer.ViewModels
             IsExpanded = !IsExpanded;
         });
 
+        public void ApplyFromString(string elm)
+        {
+            var temp = InputText;
+            InputText = elm;
+            ApplyImageInfoCommand.Execute();
+            InputText = temp;
+        }
+
         private T GetValueFromXElement<T>(XElement xElement, string attributeName, T defaultValue, Func<string, T> parser)
         {
             if (!xElement.HasAttributes)

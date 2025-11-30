@@ -74,10 +74,7 @@ namespace ImgPlacer.ViewModels.Xml
             var attr = Source.Attributes().FirstOrDefault(a => a.Name.LocalName == "name");
             if (attr?.Value == nameof(AnimationName.Image).ToLower() || attr?.Value == nameof(AnimationName.Draw).ToLower())
             {
-                var temp = context.XElementInputPanelViewModel.InputText;
-                context.XElementInputPanelViewModel.InputText = Source.ToString();
-                context.XElementInputPanelViewModel.ApplyImageInfoCommand.Execute();
-                context.XElementInputPanelViewModel.InputText = temp;
+                context.XElementInputPanelViewModel.ApplyFromString(Source.ToString());
             }
         }
     }

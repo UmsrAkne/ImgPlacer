@@ -14,6 +14,7 @@ namespace ImgPlacer.ViewModels
     {
         private readonly static Regex NamingRegex = new Regex(@"^[A-Za-z]\d{4}\.png$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private ImageItem selectedImage;
+        private bool enabled = true;
 
         // 先頭文字でフィルタ（例: "A"/"B"/"C"/"D"）。null/空なら全件
         public string FilterPrefix { get; set; }
@@ -23,7 +24,26 @@ namespace ImgPlacer.ViewModels
 
         public ObservableCollection<ImageItem> Images { get; set; } = new();
 
-        public ImageItem SelectedImage { get => selectedImage; set => SetProperty(ref selectedImage, value); }
+        public ImageItem SelectedImage
+        {
+            get => selectedImage;
+            set => SetProperty(ref selectedImage, value);
+        }
+
+        public bool Enabled
+        {
+            get => enabled;
+            set
+            {
+                if (SetProperty(ref enabled, value))
+                {
+                    if (!value)
+                    {
+                        SelectedImage = null;
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// 指定したディレクトリから png 画像を読み込み、ImageItem として Images に追加します。
@@ -118,7 +138,10 @@ namespace ImgPlacer.ViewModels
                 Images.Add(imageItem);
             }
 
-            SelectedImage = Images.FirstOrDefault();
+            if (Enabled)
+            {
+                SelectedImage = Images.FirstOrDefault();
+            }
         }
 
         public ImageListViewModel GetClone()
