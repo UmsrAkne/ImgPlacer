@@ -10,86 +10,107 @@
     d:DesignWidth="300"
     mc:Ignorable="d">
 
-    <Border Margin="2,0">
-        <ListBox
-            x:Name="PartListBox"
-            MinWidth="100"
-            BorderThickness="0"
-            ItemsSource="{Binding Images}"
-            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-            SelectedItem="{Binding SelectedImage}">
+    <StackPanel>
+        <ToggleButton
+            Margin="4"
+            HorizontalAlignment="Left"
+            IsChecked="{Binding Enabled}"
+            Style="{StaticResource MaterialDesignSwitchToggleButton}" />
 
-            <!-- ListBoxのアイテムテンプレート -->
-            <ListBox.ItemTemplate>
-                <DataTemplate DataType="{x:Type viewModels:ImageItem}">
 
-                    <Grid Margin="4">
-                        <Grid.ColumnDefinitions>
-                            <!-- 選択されたら出る縦棒 -->
-                            <ColumnDefinition Width="6" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-
-                        <!-- ■ 選択縦棒 -->
-                        <Border
-                            Grid.Column="0"
-                            Background="Coral"
-                            CornerRadius="5"
-                            Visibility="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected, Converter={StaticResource BoolToVisibilityConverter}}" />
-
-                        <!-- ■ メイン内容 -->
-                        <StackPanel
-                            Grid.Column="1"
-                            Margin="6,0,0,0"
-                            Orientation="Vertical">
-
-                            <!-- 画像（ListBox の幅に合わせて縮小） -->
-                            <Image
-                                MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                HorizontalAlignment="Center"
-                                Source="{Binding Thumbnail}"
-                                Stretch="Uniform">
-                                <Image.Style>
-                                    <Style TargetType="Image">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsNamingValid}" Value="False">
-                                                <Setter Property="Opacity" Value="0.5" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Image.Style>
-                            </Image>
-
-                            <!-- ファイル名 -->
-                            <TextBlock
-                                Margin="0,4,0,0"
-                                HorizontalAlignment="Center"
-                                Foreground="White"
-                                Text="{Binding FileName}"
-                                TextWrapping="Wrap" />
-
-                            <!-- 解像度 -->
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                FontSize="12"
-                                Foreground="Gray"
-                                Text="{Binding ResolutionText}" />
-
-                        </StackPanel>
-                    </Grid>
-
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-
-            <!-- ListBoxItem のスタイル -->
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="ListBoxItem">
-                    <Setter Property="Padding" Value="0" />
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                    <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Border Margin="2,0">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Enabled}" Value="False">
+                            <Setter Property="Opacity" Value="0.4" />
+                        </DataTrigger>
+                    </Style.Triggers>
                 </Style>
-            </ListBox.ItemContainerStyle>
+            </Border.Style>
 
-        </ListBox>
-    </Border>
+            <ListBox
+                x:Name="PartListBox"
+                MinWidth="100"
+                BorderThickness="0"
+                IsEnabled="{Binding Enabled}"
+                ItemsSource="{Binding Images}"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                SelectedItem="{Binding SelectedImage}">
+
+                <!-- ListBoxのアイテムテンプレート -->
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type viewModels:ImageItem}">
+
+                        <Grid Margin="4">
+                            <Grid.ColumnDefinitions>
+                                <!-- 選択されたら出る縦棒 -->
+                                <ColumnDefinition Width="6" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- ■ 選択縦棒 -->
+                            <Border
+                                Grid.Column="0"
+                                Background="Coral"
+                                CornerRadius="5"
+                                Visibility="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                            <!-- ■ メイン内容 -->
+                            <StackPanel
+                                Grid.Column="1"
+                                Margin="6,0,0,0"
+                                Orientation="Vertical">
+
+                                <!-- 画像（ListBox の幅に合わせて縮小） -->
+                                <Image
+                                    MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                    HorizontalAlignment="Center"
+                                    Source="{Binding Thumbnail}"
+                                    Stretch="Uniform">
+                                    <Image.Style>
+                                        <Style TargetType="Image">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsNamingValid}" Value="False">
+                                                    <Setter Property="Opacity" Value="0.5" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
+
+                                <!-- ファイル名 -->
+                                <TextBlock
+                                    Margin="0,4,0,0"
+                                    HorizontalAlignment="Center"
+                                    Foreground="White"
+                                    Text="{Binding FileName}"
+                                    TextWrapping="Wrap" />
+
+                                <!-- 解像度 -->
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontSize="12"
+                                    Foreground="Gray"
+                                    Text="{Binding ResolutionText}" />
+
+                            </StackPanel>
+                        </Grid>
+
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+
+                <!-- ListBoxItem のスタイル -->
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                    </Style>
+                </ListBox.ItemContainerStyle>
+
+            </ListBox>
+        </Border>
+
+    </StackPanel>
 </UserControl>
