@@ -39,14 +39,15 @@ public class MainWindowViewModel : BindableBase
             XElementInputPanelViewModel = XElementInputPanelViewModel,
             CopyHistoryListViewModel = CopyHistoryListViewModel,
         };
-
         XmlEditorPanelViewModel = new XmlEditorPanelViewModel(context);
+        SettingPanelViewModel = new SettingPanelViewModel(context);
         context.XmlEditorPanelViewModel = XmlEditorPanelViewModel;
 
         ToolPanelViewModelCollection.Add(CanvasSliderPanelViewModel);
         ToolPanelViewModelCollection.Add(XElementInputPanelViewModel);
         ToolPanelViewModelCollection.Add(CopyHistoryListViewModel);
         ToolPanelViewModelCollection.Add(XmlEditorPanelViewModel);
+        ToolPanelViewModelCollection.Add(SettingPanelViewModel);
 
         SetDebugData();
     }
@@ -68,6 +69,8 @@ public class MainWindowViewModel : BindableBase
     public CopyHistoryListViewModel CopyHistoryListViewModel { get; private set; }
 
     public XmlEditorPanelViewModel XmlEditorPanelViewModel { get; private set; }
+
+    public SettingPanelViewModel SettingPanelViewModel { get; private set; }
 
     public ObservableCollection<IToolPanelViewModel> ToolPanelViewModelCollection { get; set; } = new ();
 

@@ -22,6 +22,7 @@ namespace ImgPlacer.Utils.Converters
                 SideBarPanelKind.XElementInput => PackIconKind.CodeBlockXml,
                 SideBarPanelKind.CopyHistory => PackIconKind.History,
                 SideBarPanelKind.XmlEditor => PackIconKind.FileDocumentEdit,
+                SideBarPanelKind.Setting => PackIconKind.Settings,
 
                 _ => PackIconKind.Help,
             };

@@ -209,6 +209,19 @@
                         </StackPanel>
                     </Expander>
                 </DataTemplate>
+
+                <!-- SettingPanel -->
+                <DataTemplate DataType="{x:Type viewModels:SettingPanelViewModel}">
+                    <Expander
+                        Background="LightBlue"
+                        Header="Setting"
+                        IsExpanded="{Binding IsExpanded}">
+                        <StackPanel Background="White">
+                            <controls:SettingPanel />
+                            <Border Height="10" />
+                        </StackPanel>
+                    </Expander>
+                </DataTemplate>
             </ScrollViewer.Resources>
 
             <ItemsControl ItemsSource="{Binding ToolPanelViewModelCollection}">
