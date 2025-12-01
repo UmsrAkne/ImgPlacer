@@ -9,6 +9,7 @@ namespace ImgPlacer.ViewModels
     {
         private readonly ToolPanelContext toolPanelContext;
         private bool isExpanded;
+        private bool visibleFourthLayer = true;
 
         public SettingPanelViewModel(ToolPanelContext context)
         {
@@ -21,9 +22,20 @@ namespace ImgPlacer.ViewModels
 
         public bool IsExpanded { get => isExpanded; set => SetProperty(ref isExpanded, value); }
 
+        public bool VisibleFourthLayer
+        {
+            get => visibleFourthLayer;
+            set => SetProperty(ref visibleFourthLayer, value);
+        }
+
         public DelegateCommand ToggleExpandedCommand => new(() =>
         {
             IsExpanded = !IsExpanded;
+        });
+
+        public DelegateCommand ToggleFourthLayerVisibilityCommand => new (() =>
+        {
+            toolPanelContext.ImageLayerManagerViewModel.IsFourthColumnVisible = VisibleFourthLayer;
         });
     }
 }

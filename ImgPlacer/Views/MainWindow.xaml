@@ -141,7 +141,7 @@
 
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Rows="1" />
+                    <UniformGrid Columns="{Binding ImageLayerManagerViewModel.ColumnsCount}" Rows="1" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
 

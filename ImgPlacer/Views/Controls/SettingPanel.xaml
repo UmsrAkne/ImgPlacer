@@ -26,7 +26,7 @@
         </StackPanel>
 
         <StackPanel Margin="0,15" Orientation="Horizontal">
-            <ToggleButton />
+            <ToggleButton Command="{Binding ToggleFourthLayerVisibilityCommand}" IsChecked="{Binding VisibleFourthLayer}" />
             <TextBlock Margin="8,0" Text="Fold the fourth layer" />
         </StackPanel>
 
