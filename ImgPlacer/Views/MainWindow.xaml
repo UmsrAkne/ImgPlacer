@@ -105,22 +105,57 @@
             d:DesignHeight="180"
             d:DesignWidth="420"
             DataContext="{Binding Path=ImageCanvasViewerViewModel}">
-            <controls:ImageCanvasViewer
-                Width="{Binding CanvasWidth}"
-                Height="{Binding CanvasHeight}"
-                Margin="20"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Top">
-                <controls:ImageCanvasViewer.LayoutTransform>
-                    <ScaleTransform ScaleX="0.25" ScaleY="0.25" />
-                </controls:ImageCanvasViewer.LayoutTransform>
+            <Grid Margin="20">
+                <controls:ImageCanvasViewer
+                    x:Name="CanvasViewer"
+                    Width="{Binding CanvasWidth}"
+                    Height="{Binding CanvasHeight}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top">
+                    <controls:ImageCanvasViewer.LayoutTransform>
+                        <ScaleTransform ScaleX="0.25" ScaleY="0.25" />
+                    </controls:ImageCanvasViewer.LayoutTransform>
 
-                <i:Interaction.Behaviors>
-                    <behaviors:CanvasDragBehavior />
-                    <behaviors:CanvasZoomBehavior />
-                </i:Interaction.Behaviors>
+                    <i:Interaction.Behaviors>
+                        <behaviors:CanvasDragBehavior />
+                        <behaviors:CanvasZoomBehavior />
+                    </i:Interaction.Behaviors>
 
-            </controls:ImageCanvasViewer>
+                </controls:ImageCanvasViewer>
+
+                <Border
+                    Margin="10"
+                    Padding="6"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Background="#30000000"
+                    CornerRadius="4"
+                    IsHitTestVisible="False">
+                    <!-- 下の Canvas を触れるように -->
+
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Opacity" Value="0.2" />
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=CanvasViewer, Path=IsHudActive}" Value="True">
+                                    <Setter Property="Opacity" Value="1" />
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding ElementName=CanvasViewer, Path=IsHudActive}" Value="False">
+                                    <Setter Property="Opacity" Value="0.2" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+
+                    <StackPanel>
+                        <TextBlock Foreground="White" Text="{Binding Zoom, StringFormat=Zoom: {0:F2}}" />
+                        <TextBlock Foreground="White" Text="{Binding DisplayOffset.X, StringFormat=X: {0:F0}}" />
+                        <TextBlock Foreground="White" Text="{Binding DisplayOffset.Y, StringFormat=Y: {0:F0}}" />
+                    </StackPanel>
+                </Border>
+            </Grid>
 
         </ContentControl>
 
@@ -141,7 +176,7 @@
 
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Rows="1" />
+                    <UniformGrid Columns="{Binding ImageLayerManagerViewModel.ColumnsCount}" Rows="1" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
 
@@ -205,6 +240,19 @@
                         IsExpanded="{Binding IsExpanded}">
                         <StackPanel Background="White">
                             <controls:XmlEditorPanel />
+                            <Border Height="10" />
+                        </StackPanel>
+                    </Expander>
+                </DataTemplate>
+
+                <!-- SettingPanel -->
+                <DataTemplate DataType="{x:Type viewModels:SettingPanelViewModel}">
+                    <Expander
+                        Background="LightBlue"
+                        Header="Setting"
+                        IsExpanded="{Binding IsExpanded}">
+                        <StackPanel Background="White">
+                            <controls:SettingPanel />
                             <Border Height="10" />
                         </StackPanel>
                     </Expander>

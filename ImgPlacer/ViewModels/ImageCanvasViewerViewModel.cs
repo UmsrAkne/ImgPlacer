@@ -23,11 +23,41 @@ namespace ImgPlacer.ViewModels
             set => SetProperty(ref layers, value);
         }
 
-        public double OffsetX { get => offsetX; set => SetProperty(ref offsetX, value); }
+        public double OffsetX
+        {
+            get => offsetX;
+            set
+            {
+                if (SetProperty(ref offsetX, value))
+                {
+                    RaisePropertyChanged(nameof(DisplayOffset));
+                }
+            }
+        }
 
-        public double OffsetY { get => offsetY; set => SetProperty(ref offsetY, value); }
+        public double OffsetY
+        {
+            get => offsetY;
+            set
+            {
+                if (SetProperty(ref offsetY, value))
+                {
+                    RaisePropertyChanged(nameof(DisplayOffset));
+                }
+            }
+        }
 
-        public double Zoom { get => zoom; set => SetProperty(ref zoom, value); }
+        public double Zoom
+        {
+            get => zoom;
+            set
+            {
+                if (SetProperty(ref zoom, value))
+                {
+                    RaisePropertyChanged(nameof(DisplayOffset));
+                }
+            }
+        }
 
         public double ImageWidth { get => imageWidth; set => SetProperty(ref imageWidth, value); }
 
@@ -36,6 +66,8 @@ namespace ImgPlacer.ViewModels
         public double CanvasHeight { get => canvasHeight; set => SetProperty(ref canvasHeight, value); }
 
         public double CanvasWidth { get => canvasWidth; set => SetProperty(ref canvasWidth, value); }
+
+        public Point DisplayOffset => GetCenteredOffset();
 
         public Point GetCenteredOffset()
         {

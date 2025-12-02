@@ -7,6 +7,7 @@
         XElementInput,
         CopyHistory,
         XmlEditor,
+        Setting,
         #pragma warning restore SA1602
     }
 }

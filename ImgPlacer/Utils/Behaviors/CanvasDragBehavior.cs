@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using ImgPlacer.ViewModels;
 using ImgPlacer.Views.Controls;
@@ -12,6 +13,7 @@ namespace ImgPlacer.Utils.Behaviors
         private double startOffsetX;
         private double startOffsetY;
         private ImageCanvasViewerViewModel vm;
+        private DateTime lastNotify = DateTime.MinValue;
 
         protected override void OnAttached()
         {
@@ -40,6 +42,7 @@ namespace ImgPlacer.Utils.Behaviors
             }
 
             AssociatedObject.CaptureMouse();
+            TryNotifyUserAction();
             Mouse.OverrideCursor = Cursors.Hand;
             e.Handled = true;
         }
@@ -56,6 +59,7 @@ namespace ImgPlacer.Utils.Behaviors
                     vm.OffsetY = startOffsetY + delta.Y;
                 }
 
+                TryNotifyUserAction();
                 e.Handled = true;
             }
         }
@@ -66,6 +70,16 @@ namespace ImgPlacer.Utils.Behaviors
             AssociatedObject.ReleaseMouseCapture();
             Mouse.OverrideCursor = null;
             e.Handled = true;
+        }
+
+        private void TryNotifyUserAction()
+        {
+            var now = DateTime.Now;
+            if ((now - lastNotify).TotalMilliseconds > 50)
+            {
+                AssociatedObject.NotifyUserAction();
+                lastNotify = now;
+            }
         }
     }
 }
