@@ -60,6 +60,8 @@ namespace ImgPlacer.Utils.Behaviors
             vm.OffsetY = mousePos.Y - (contentY * newZoom);
 
             e.Handled = true;
+
+            AssociatedObject.NotifyUserAction();
         }
     }
 }

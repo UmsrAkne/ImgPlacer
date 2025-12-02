@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace ImgPlacer.Views.Controls;
 
@@ -23,13 +25,40 @@ public partial class ImageCanvasViewer
             FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
             OnFrameSizeChanged));
 
+    public readonly static DependencyProperty IsHudActiveProperty =
+        DependencyProperty.Register(
+            nameof(IsHudActive),
+            typeof(bool),
+            typeof(ImageCanvasViewer),
+            new PropertyMetadata(false));
+
     public readonly static DependencyProperty ImageSourceProperty = DependencyProperty.Register(
         nameof(ImageSource), typeof(ImageSource), typeof(ImageCanvasViewer), new PropertyMetadata(null));
+
+    private readonly DispatcherTimer idleTimer;
+
+    private DateTime lastActionTime;
 
     public ImageCanvasViewer()
     {
         InitializeComponent();
         UpdateSizeBindings();
+
+        idleTimer = new DispatcherTimer
+        {
+            Interval = TimeSpan.FromMilliseconds(200),
+        };
+
+        idleTimer.Tick += IdleTimer_Tick;
+        idleTimer.Start();
+
+        lastActionTime = DateTime.Now;
+    }
+
+    public bool IsHudActive
+    {
+        get => (bool)GetValue(IsHudActiveProperty);
+        set => SetValue(IsHudActiveProperty, value);
     }
 
     public double FrameWidth
@@ -50,11 +79,25 @@ public partial class ImageCanvasViewer
         set => SetValue(ImageSourceProperty, value);
     }
 
+    public void NotifyUserAction()
+    {
+        IsHudActive = true;
+        lastActionTime = DateTime.Now;
+    }
+
     private static void OnFrameSizeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is ImageCanvasViewer viewer)
         {
             viewer.UpdateSizeBindings();
+        }
+    }
+
+    private void IdleTimer_Tick(object sender, EventArgs e)
+    {
+        if ((DateTime.Now - lastActionTime).TotalSeconds > 1.2)
+        {
+            IsHudActive = false;
         }
     }
 

@@ -107,6 +107,7 @@
             DataContext="{Binding Path=ImageCanvasViewerViewModel}">
             <Grid Margin="20">
                 <controls:ImageCanvasViewer
+                    x:Name="CanvasViewer"
                     Width="{Binding CanvasWidth}"
                     Height="{Binding CanvasHeight}"
                     HorizontalAlignment="Center"
@@ -131,6 +132,22 @@
                     CornerRadius="4"
                     IsHitTestVisible="False">
                     <!-- 下の Canvas を触れるように -->
+
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Opacity" Value="0.2" />
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=CanvasViewer, Path=IsHudActive}" Value="True">
+                                    <Setter Property="Opacity" Value="1" />
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding ElementName=CanvasViewer, Path=IsHudActive}" Value="False">
+                                    <Setter Property="Opacity" Value="0.2" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
 
                     <StackPanel>
                         <TextBlock Foreground="White" Text="{Binding Zoom, StringFormat=Zoom: {0:F2}}" />
