@@ -77,7 +77,7 @@ namespace ImgPlacer.Utils.Behaviors
             var now = DateTime.Now;
             if ((now - lastNotify).TotalMilliseconds > 50)
             {
-                AssociatedObject.NotifyUserAction();
+                vm.IsInfoHighlighted = true;
                 lastNotify = now;
             }
         }
