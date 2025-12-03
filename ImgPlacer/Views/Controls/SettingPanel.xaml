@@ -14,15 +14,9 @@
             <TextBox
                 Width="50"
                 Margin="6,0"
-                Text="{Binding AppSettings.CanvasWidth}" />
+                Text="{Binding CanvasWidth}" />
 
             <Border Width="30" />
-
-            <TextBlock VerticalAlignment="Center" Text="Canvas Height:" />
-            <TextBox
-                Width="50"
-                Margin="6,0"
-                Text="{Binding AppSettings.CanvasHeight}" />
         </StackPanel>
 
         <StackPanel Margin="0,15" Orientation="Horizontal">
