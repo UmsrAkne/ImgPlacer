@@ -16,7 +16,12 @@ namespace ImgPlacer.Models
 
         public int Y { get; set; }
 
-        public double Scale { get; set; }
+        /// <summary>
+        /// 表示仕様に従ってフォーマット済みのスケール値。
+        /// 0.01 単位まで扱い、小数点以下 2 桁で固定した文字列として出力する。
+        /// Scriban テンプレートへ直接渡すため double 型では保持しない。
+        /// </summary>
+        public string Scale { get; set; }
 
         public static TemplateModel ToTemplateModel(ToolPanelContext panelContext)
         {
@@ -28,7 +33,7 @@ namespace ImgPlacer.Models
             model.D = layers[3].SelectedImage?.FileName;
             model.X = (int)panelContext.ImageCanvasViewerViewModel.GetCenteredOffset().X;
             model.Y = (int)panelContext.ImageCanvasViewerViewModel.GetCenteredOffset().Y;
-            model.Scale = panelContext.ImageCanvasViewerViewModel.Zoom;
+            model.Scale = panelContext.ImageCanvasViewerViewModel.Zoom.ToString("0.00");
 
             return model;
         }

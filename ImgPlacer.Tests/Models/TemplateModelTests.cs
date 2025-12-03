@@ -51,7 +51,7 @@ namespace ImgPlacer.Tests.Models
                 Assert.That(model.D, Is.EqualTo("D.png"));
                 Assert.That(model.X, Is.EqualTo(expectedX));
                 Assert.That(model.Y, Is.EqualTo(expectedY));
-                Assert.That(model.Scale, Is.EqualTo(viewer.Zoom));
+                Assert.That(model.Scale, Is.EqualTo(viewer.Zoom.ToString("0.00")));
             });
         }
     }
