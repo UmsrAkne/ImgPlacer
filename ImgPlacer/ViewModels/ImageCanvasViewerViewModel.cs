@@ -16,6 +16,7 @@ namespace ImgPlacer.ViewModels
         private double canvasHeight;
         private double canvasWidth;
         private ObservableCollection<ImageListViewModel> layers;
+        private bool isInfoHighlighted;
 
         public ObservableCollection<ImageListViewModel> Layers
         {
@@ -66,6 +67,12 @@ namespace ImgPlacer.ViewModels
         public double CanvasHeight { get => canvasHeight; set => SetProperty(ref canvasHeight, value); }
 
         public double CanvasWidth { get => canvasWidth; set => SetProperty(ref canvasWidth, value); }
+
+        public bool IsInfoHighlighted
+        {
+            get => isInfoHighlighted;
+            set => SetProperty(ref isInfoHighlighted, value);
+        }
 
         public Point DisplayOffset => GetCenteredOffset();
 

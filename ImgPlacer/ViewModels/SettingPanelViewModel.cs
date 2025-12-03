@@ -10,13 +10,25 @@ namespace ImgPlacer.ViewModels
         private readonly ToolPanelContext toolPanelContext;
         private bool isExpanded;
         private bool visibleFourthLayer = true;
+        private double canvasWidth;
 
         public SettingPanelViewModel(ToolPanelContext context)
         {
             toolPanelContext = context;
         }
 
-        public AppSettings AppSettings { get; } = new AppSettings();
+        public double CanvasWidth
+        {
+            get => toolPanelContext.ImageCanvasViewerViewModel.CanvasWidth;
+            set
+            {
+                if (SetProperty(ref canvasWidth, value))
+                {
+                    AppSettings.CanvasWidth = value;
+                    toolPanelContext.ImageCanvasViewerViewModel.CanvasWidth = value;
+                }
+            }
+        }
 
         public SideBarPanelKind PanelKind { get; } = SideBarPanelKind.Setting;
 
@@ -37,5 +49,7 @@ namespace ImgPlacer.ViewModels
         {
             toolPanelContext.ImageLayerManagerViewModel.IsFourthColumnVisible = VisibleFourthLayer;
         });
+
+        private AppSettings AppSettings { get; } = new AppSettings();
     }
 }

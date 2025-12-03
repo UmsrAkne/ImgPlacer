@@ -11,6 +11,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:viewModels="clr-namespace:ImgPlacer.ViewModels"
+    xmlns:views="clr-namespace:ImgPlacer.Views"
     Title="{Binding Title}"
     Width="1280"
     Height="720"
@@ -123,38 +124,24 @@
 
                 </controls:ImageCanvasViewer>
 
-                <Border
-                    Margin="10"
-                    Padding="6"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Bottom"
-                    Background="#30000000"
-                    CornerRadius="4"
-                    IsHitTestVisible="False">
-                    <!-- 下の Canvas を触れるように -->
+                <views:AutoFadeControl IsHighlighted="{Binding IsInfoHighlighted, Mode=TwoWay}">
+                    <Border
+                        Margin="10"
+                        Padding="6"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Background="#30000000"
+                        CornerRadius="4"
+                        IsHitTestVisible="False">
+                        <!-- 下の Canvas を触れるように -->
 
-                    <Border.Style>
-                        <Style TargetType="Border">
-                            <Setter Property="Opacity" Value="0.2" />
-
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=CanvasViewer, Path=IsHudActive}" Value="True">
-                                    <Setter Property="Opacity" Value="1" />
-                                </DataTrigger>
-
-                                <DataTrigger Binding="{Binding ElementName=CanvasViewer, Path=IsHudActive}" Value="False">
-                                    <Setter Property="Opacity" Value="0.2" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Border.Style>
-
-                    <StackPanel>
-                        <TextBlock Foreground="White" Text="{Binding Zoom, StringFormat=Zoom: {0:F2}}" />
-                        <TextBlock Foreground="White" Text="{Binding DisplayOffset.X, StringFormat=X: {0:F0}}" />
-                        <TextBlock Foreground="White" Text="{Binding DisplayOffset.Y, StringFormat=Y: {0:F0}}" />
-                    </StackPanel>
-                </Border>
+                        <StackPanel>
+                            <TextBlock Foreground="White" Text="{Binding Zoom, StringFormat=Zoom: {0:F2}}" />
+                            <TextBlock Foreground="White" Text="{Binding DisplayOffset.X, StringFormat=X: {0:F0}}" />
+                            <TextBlock Foreground="White" Text="{Binding DisplayOffset.Y, StringFormat=Y: {0:F0}}" />
+                        </StackPanel>
+                    </Border>
+                </views:AutoFadeControl>
             </Grid>
 
         </ContentControl>

@@ -18,8 +18,6 @@ namespace ImgPlacer.Utils
 
         public double CanvasWidth { get; set; }
 
-        public double CanvasHeight { get; set; }
-
         private static JsonSerializerOptions JsonOptions => new ()
         {
             WriteIndented = true,
