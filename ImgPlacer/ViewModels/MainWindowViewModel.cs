@@ -84,11 +84,11 @@ public class MainWindowViewModel : BindableBase
 
     public DelegateCommand<string> CopyTagCommand => new ((param) =>
     {
-        var toType =
-            param switch
+        var toType = param switch
             {
                 "animation-image" => TemplateType.Image,
                 "animation-draw" => TemplateType.Draw,
+                "animation-slide" => TemplateType.Slide,
                 _ => TemplateType.Image,
             };
 

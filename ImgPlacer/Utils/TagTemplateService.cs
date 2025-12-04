@@ -12,7 +12,7 @@ namespace ImgPlacer.Utils
         public static string Render(string template, ITemplateModel model)
         {
             var tpl = Template.Parse(template);
-            return tpl.Render(model);
+            return tpl.Render(model, m => string.Concat(m.Name[..1].ToLower(), m.Name.AsSpan(1)));
         }
 
         public static ITemplateModel CreateModel(TemplateType type, ToolPanelContext context)

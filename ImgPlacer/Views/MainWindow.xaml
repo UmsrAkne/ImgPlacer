@@ -37,6 +37,12 @@
             Command="{Binding CopyTagCommand}"
             CommandParameter="animation-draw"
             Modifiers="Control+Shift" />
+
+        <KeyBinding
+            Key="S"
+            Command="{Binding CopyTagCommand}"
+            CommandParameter="animation-slide"
+            Modifiers="Control" />
     </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>

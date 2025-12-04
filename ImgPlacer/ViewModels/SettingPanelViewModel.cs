@@ -77,6 +77,12 @@ namespace ImgPlacer.ViewModels
                 Text = @"<draw a=""{{ a }}"" b=""{{ b }}""  c=""{{ c }}"" d=""{{ d }}"" />",
                 TemplateType = TemplateType.Draw,
             });
+            TemplateTexts.Add(new TemplateText
+            {
+                ShortcutLabel = "Ctrl + S",
+                Text = @"<slide duration=""{{ duration }}"" distance=""{{ distance }}""  degree=""{{ degree }}"" repeatCount=""{{ repeatCount }}"" />",
+                TemplateType = TemplateType.Slide,
+            });
         }
     }
 }
