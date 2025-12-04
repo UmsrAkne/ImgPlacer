@@ -39,15 +39,20 @@ public class MainWindowViewModel : BindableBase
             XElementInputPanelViewModel = XElementInputPanelViewModel,
             CopyHistoryListViewModel = CopyHistoryListViewModel,
         };
+
         XmlEditorPanelViewModel = new XmlEditorPanelViewModel(context);
         SettingPanelViewModel = new SettingPanelViewModel(context);
+
         context.XmlEditorPanelViewModel = XmlEditorPanelViewModel;
+        context.SettingPanelViewModel = SettingPanelViewModel;
 
         ToolPanelViewModelCollection.Add(CanvasSliderPanelViewModel);
         ToolPanelViewModelCollection.Add(XElementInputPanelViewModel);
         ToolPanelViewModelCollection.Add(CopyHistoryListViewModel);
         ToolPanelViewModelCollection.Add(XmlEditorPanelViewModel);
         ToolPanelViewModelCollection.Add(SettingPanelViewModel);
+
+        App.Settings.ToolPanelContext = context;
 
         SetDebugData();
     }

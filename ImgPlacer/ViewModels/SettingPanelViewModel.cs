@@ -17,6 +17,7 @@ namespace ImgPlacer.ViewModels
         public SettingPanelViewModel(ToolPanelContext context)
         {
             toolPanelContext = context;
+            AddDefaultTemplatesIfEmpty();
         }
 
         public double CanvasWidth
@@ -32,7 +33,7 @@ namespace ImgPlacer.ViewModels
             }
         }
 
-        public ObservableCollection<TemplateText> TemplateTexts { get; set; }
+        public ObservableCollection<TemplateText> TemplateTexts { get; set; } = new ();
 
         public SideBarPanelKind PanelKind { get; } = SideBarPanelKind.Setting;
 
@@ -55,5 +56,24 @@ namespace ImgPlacer.ViewModels
         });
 
         private AppSettings AppSettings { get; } = new AppSettings();
+
+        private void AddDefaultTemplatesIfEmpty()
+        {
+            if (TemplateTexts.Count != 0)
+            {
+                return;
+            }
+
+            TemplateTexts.Add(new TemplateText
+            {
+                ShortcutLabel = "Ctrl + I",
+                Text = @"<image a=""{{ a }}"" b=""{{ b }}""  c=""{{ c }}"" d=""{{ d }}"" x=""{{ x }}"" y=""{{ y }}""  scale=""{{ scale }}"" />",
+            });
+            TemplateTexts.Add(new TemplateText
+            {
+                ShortcutLabel = "Ctrl + D",
+                Text = @"<draw a=""{{ a }}"" b=""{{ b }}""  c=""{{ c }}"" d=""{{ d }}"" />",
+            });
+        }
     }
 }

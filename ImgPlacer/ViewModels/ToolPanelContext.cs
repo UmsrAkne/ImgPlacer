@@ -13,5 +13,7 @@
         public CopyHistoryListViewModel CopyHistoryListViewModel { get; set; }
 
         public XmlEditorPanelViewModel XmlEditorPanelViewModel { get; set; }
+
+        public SettingPanelViewModel SettingPanelViewModel { get; set; }
     }
 }

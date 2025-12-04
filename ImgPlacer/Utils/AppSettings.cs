@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using ImgPlacer.Models;
+using ImgPlacer.ViewModels;
 
 namespace ImgPlacer.Utils
 {
@@ -21,6 +24,9 @@ namespace ImgPlacer.Utils
         public double CanvasWidth { get; set; }
 
         public List<TemplateText> Templates { get; set; }
+
+        [JsonIgnore]
+        public ToolPanelContext ToolPanelContext { private get; set; }
 
         private static JsonSerializerOptions JsonOptions => new ()
         {
@@ -90,9 +96,20 @@ namespace ImgPlacer.Utils
             }
         }
 
+        /// <summary>
+        /// このオブジェクトをシリアライズします。
+        /// ToolPanelContext プロパティに値がセットされている場合、そこから値を読み取って更新してからシリアライズします。
+        /// </summary>
         public void Save()
         {
             var path = GetConfigPath();
+
+            if (ToolPanelContext != null)
+            {
+                Templates = ToolPanelContext.SettingPanelViewModel.TemplateTexts.ToList();
+                CanvasWidth = ToolPanelContext.ImageCanvasViewerViewModel.CanvasWidth;
+            }
+
             var json = JsonSerializer.Serialize(this, JsonOptions);
 
             // できるだけ安全に書き込み（テンポラリ→置き換え）
