@@ -1,4 +1,6 @@
-﻿using ImgPlacer.Enums;
+﻿using System.Collections.ObjectModel;
+using ImgPlacer.Enums;
+using ImgPlacer.Models;
 using ImgPlacer.Utils;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -14,7 +16,9 @@ namespace ImgPlacer.ViewModels
 
         public SettingPanelViewModel(ToolPanelContext context)
         {
+            TemplateTexts = new ObservableCollection<TemplateText>(AppSettings.LoadOrDefault().Templates);
             toolPanelContext = context;
+            AddDefaultTemplatesIfEmpty();
         }
 
         public double CanvasWidth
@@ -29,6 +33,8 @@ namespace ImgPlacer.ViewModels
                 }
             }
         }
+
+        public ObservableCollection<TemplateText> TemplateTexts { get; set; }
 
         public SideBarPanelKind PanelKind { get; } = SideBarPanelKind.Setting;
 
@@ -51,5 +57,32 @@ namespace ImgPlacer.ViewModels
         });
 
         private AppSettings AppSettings { get; } = new AppSettings();
+
+        private void AddDefaultTemplatesIfEmpty()
+        {
+            if (TemplateTexts.Count != 0)
+            {
+                return;
+            }
+
+            TemplateTexts.Add(new TemplateText
+            {
+                ShortcutLabel = "Ctrl + I",
+                Text = @"<image a=""{{ a }}"" b=""{{ b }}""  c=""{{ c }}"" d=""{{ d }}"" x=""{{ x }}"" y=""{{ y }}""  scale=""{{ scale }}"" />",
+                TemplateType = TemplateType.Image,
+            });
+            TemplateTexts.Add(new TemplateText
+            {
+                ShortcutLabel = "Ctrl + D",
+                Text = @"<draw a=""{{ a }}"" b=""{{ b }}""  c=""{{ c }}"" d=""{{ d }}"" />",
+                TemplateType = TemplateType.Draw,
+            });
+            TemplateTexts.Add(new TemplateText
+            {
+                ShortcutLabel = "Ctrl + S",
+                Text = @"<slide duration=""{{ duration }}"" distance=""{{ distance }}""  degree=""{{ degree }}"" repeatCount=""{{ repeatCount }}"" />",
+                TemplateType = TemplateType.Slide,
+            });
+        }
     }
 }
