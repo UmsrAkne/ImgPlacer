@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.Json;
+using ImgPlacer.Models;
 
 namespace ImgPlacer.Utils
 {
@@ -17,6 +19,8 @@ namespace ImgPlacer.Utils
         public string LastOpenedFolder { get; set; }
 
         public double CanvasWidth { get; set; }
+
+        public List<TemplateText> Templates { get; set; }
 
         private static JsonSerializerOptions JsonOptions => new ()
         {

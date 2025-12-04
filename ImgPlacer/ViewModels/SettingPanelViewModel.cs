@@ -1,4 +1,6 @@
-﻿using ImgPlacer.Enums;
+﻿using System.Collections.ObjectModel;
+using ImgPlacer.Enums;
+using ImgPlacer.Models;
 using ImgPlacer.Utils;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -29,6 +31,8 @@ namespace ImgPlacer.ViewModels
                 }
             }
         }
+
+        public ObservableCollection<TemplateText> TemplateTexts { get; set; }
 
         public SideBarPanelKind PanelKind { get; } = SideBarPanelKind.Setting;
 
