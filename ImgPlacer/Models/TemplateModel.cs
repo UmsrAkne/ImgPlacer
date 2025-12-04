@@ -1,8 +1,9 @@
-﻿using ImgPlacer.ViewModels;
+﻿using ImgPlacer.Models.Templates;
+using ImgPlacer.ViewModels;
 
 namespace ImgPlacer.Models
 {
-    public class TemplateModel
+    public class TemplateModel : ITemplateModel
     {
         public string A { get; set; }
 
