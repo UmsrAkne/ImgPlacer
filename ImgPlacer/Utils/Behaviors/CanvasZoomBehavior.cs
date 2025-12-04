@@ -42,8 +42,7 @@ namespace ImgPlacer.Utils.Behaviors
             var oldZoom = vm.Zoom;
 
             var ticks = e.Delta / 120;
-            var factor = Math.Pow(1.05, ticks);
-            var newZoom = Math.Clamp(oldZoom * factor, MinZoom, MaxZoom);
+            var newZoom = Math.Clamp(oldZoom + (MinZoom * ticks), MinZoom, MaxZoom);
 
             if (Math.Abs(newZoom - oldZoom) < 0.0001)
             {
