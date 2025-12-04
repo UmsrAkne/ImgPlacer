@@ -16,6 +16,7 @@ namespace ImgPlacer.ViewModels
 
         public SettingPanelViewModel(ToolPanelContext context)
         {
+            TemplateTexts = new ObservableCollection<TemplateText>(AppSettings.LoadOrDefault().Templates);
             toolPanelContext = context;
             AddDefaultTemplatesIfEmpty();
         }
@@ -33,7 +34,7 @@ namespace ImgPlacer.ViewModels
             }
         }
 
-        public ObservableCollection<TemplateText> TemplateTexts { get; set; } = new ();
+        public ObservableCollection<TemplateText> TemplateTexts { get; set; }
 
         public SideBarPanelKind PanelKind { get; } = SideBarPanelKind.Setting;
 
