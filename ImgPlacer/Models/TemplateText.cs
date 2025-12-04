@@ -5,10 +5,14 @@ namespace ImgPlacer.Models
 {
     public class TemplateText : BindableBase
     {
-        public string Text { get; set; } = string.Empty;
+        private string text = string.Empty;
+        private string shortcutLabel = string.Empty;
+        private TemplateType templateType;
 
-        public string ShortcutLabel { get; set; } = string.Empty;
+        public string Text { get => text; set => SetProperty(ref text, value); }
 
-        public TemplateType TemplateType { get; set; }
+        public string ShortcutLabel { get => shortcutLabel; set => SetProperty(ref shortcutLabel, value); }
+
+        public TemplateType TemplateType { get => templateType; set => SetProperty(ref templateType, value); }
     }
 }
