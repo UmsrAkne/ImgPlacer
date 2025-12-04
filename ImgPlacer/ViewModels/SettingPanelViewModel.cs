@@ -69,11 +69,13 @@ namespace ImgPlacer.ViewModels
             {
                 ShortcutLabel = "Ctrl + I",
                 Text = @"<image a=""{{ a }}"" b=""{{ b }}""  c=""{{ c }}"" d=""{{ d }}"" x=""{{ x }}"" y=""{{ y }}""  scale=""{{ scale }}"" />",
+                TemplateType = TemplateType.Image,
             });
             TemplateTexts.Add(new TemplateText
             {
                 ShortcutLabel = "Ctrl + D",
                 Text = @"<draw a=""{{ a }}"" b=""{{ b }}""  c=""{{ c }}"" d=""{{ d }}"" />",
+                TemplateType = TemplateType.Draw,
             });
         }
     }

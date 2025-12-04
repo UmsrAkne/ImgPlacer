@@ -23,7 +23,7 @@ namespace ImgPlacer.Utils
 
         public double CanvasWidth { get; set; }
 
-        public List<TemplateText> Templates { get; set; }
+        public List<TemplateText> Templates { get; set; } = new ();
 
         [JsonIgnore]
         public ToolPanelContext ToolPanelContext { private get; set; }

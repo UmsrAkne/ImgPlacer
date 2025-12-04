@@ -1,7 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Xml.Linq;
+using ImgPlacer.Enums;
 using ImgPlacer.Utils;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -10,6 +12,7 @@ namespace ImgPlacer.ViewModels;
 
 public class MainWindowViewModel : BindableBase
 {
+    private readonly ToolPanelContext context;
     private string title = "ImgPlacer";
 
     public MainWindowViewModel()
@@ -31,7 +34,7 @@ public class MainWindowViewModel : BindableBase
         XElementInputPanelViewModel = new XElementInputPanelViewModel(ImageCanvasViewerViewModel);
         CopyHistoryListViewModel = new CopyHistoryListViewModel(XElementInputPanelViewModel);
 
-        var context = new ToolPanelContext
+        context = new ToolPanelContext
         {
             ImageLayerManagerViewModel = ImageLayerManagerViewModel,
             ImageCanvasViewerViewModel = ImageCanvasViewerViewModel,
@@ -81,20 +84,21 @@ public class MainWindowViewModel : BindableBase
 
     public DelegateCommand<string> CopyTagCommand => new ((param) =>
     {
-        XElement text = null;
-        switch (param)
-        {
-            case "animation-image":
-                text = TagGenerator.GenerateAnimeTag(ImageCanvasViewerViewModel);
-                break;
-            case "animation-draw":
-                text = TagGenerator.GenerateDrawTag(ImageCanvasViewerViewModel);
-                break;
-        }
+        var toType =
+            param switch
+            {
+                "animation-image" => TemplateType.Image,
+                "animation-draw" => TemplateType.Draw,
+                _ => TemplateType.Image,
+            };
+
+        var model = TagTemplateService.CreateModel(toType, context);
+        var template = SettingPanelViewModel.TemplateTexts.FirstOrDefault(tpl => tpl.TemplateType == toType);
+        var text = TagTemplateService.Render(template?.Text, model);
 
         if (text != null)
         {
-            Clipboard.SetText(text.ToString());
+            Clipboard.SetText(text);
             CopyHistoryListViewModel.CopyHistories.Add(ImageCanvasViewerViewModel.GetClone());
         }
     });
