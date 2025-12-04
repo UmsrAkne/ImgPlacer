@@ -42,7 +42,15 @@ namespace ImgPlacer.Utils.Behaviors
             var oldZoom = vm.Zoom;
 
             var ticks = e.Delta / 120;
-            var newZoom = Math.Clamp(oldZoom + (MinZoom * ticks), MinZoom, MaxZoom);
+
+            const ModifierKeys ctl = ModifierKeys.Control;
+            const ModifierKeys shift = ModifierKeys.Shift;
+
+            var zoomStep = (Keyboard.Modifiers & (ctl | shift)) == (ctl | shift)
+                ? 0.25
+                : MinZoom;
+
+            var newZoom = Math.Clamp(oldZoom + (zoomStep * ticks), MinZoom, MaxZoom);
 
             if (Math.Abs(newZoom - oldZoom) < 0.0001)
             {
