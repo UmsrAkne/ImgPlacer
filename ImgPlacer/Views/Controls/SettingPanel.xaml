@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:ImgPlacer.Models"
     xmlns:viewModels1="clr-namespace:ImgPlacer.ViewModels"
     d:DataContext="{d:DesignInstance viewModels1:SettingPanelViewModel}"
     d:DesignHeight="300"
@@ -23,6 +24,17 @@
             <ToggleButton Command="{Binding ToggleFourthLayerVisibilityCommand}" IsChecked="{Binding VisibleFourthLayer}" />
             <TextBlock Margin="8,0" Text="Fold the fourth layer" />
         </StackPanel>
+
+        <ItemsControl ItemsSource="{Binding TemplateTexts}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type models:TemplateText}">
+                    <StackPanel Margin="0,4,0,6">
+                        <TextBlock Text="{Binding ShortcutLabel}" />
+                        <TextBox Margin="15,0,0,0" Text="{Binding Text}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
 
     </StackPanel>
 </UserControl>
