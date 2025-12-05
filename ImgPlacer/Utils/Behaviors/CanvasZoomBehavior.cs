@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using ImgPlacer.ViewModels;
 using ImgPlacer.Views.Controls;
@@ -15,6 +16,8 @@ namespace ImgPlacer.Utils.Behaviors
         protected override void OnAttached()
         {
             base.OnAttached();
+
+            AssociatedObject.DataContextChanged += OnDataContextChanged;
             AssociatedObject.PreviewMouseWheel += OnPreviewMouseWheel;
             vm = AssociatedObject.DataContext as ImageCanvasViewerViewModel;
         }
@@ -23,6 +26,11 @@ namespace ImgPlacer.Utils.Behaviors
         {
             AssociatedObject.PreviewMouseWheel -= OnPreviewMouseWheel;
             base.OnDetaching();
+        }
+
+        private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            vm = AssociatedObject.DataContext as ImageCanvasViewerViewModel;
         }
 
         private void OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)

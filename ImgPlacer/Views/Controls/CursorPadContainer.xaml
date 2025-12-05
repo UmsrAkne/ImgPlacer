@@ -1,0 +1,114 @@
+﻿<UserControl
+    x:Class="ImgPlacer.Views.Controls.CursorPadContainer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
+    d:DesignHeight="300"
+    d:DesignWidth="300"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <system:Double x:Key="SideButtonHeight">150.0</system:Double>
+    </UserControl.Resources>
+
+    <!-- ▼ ボタンを Canvas の周囲に配置（3×3 Grid） -->
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="35" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="35" />
+        </Grid.ColumnDefinitions>
+
+        <!-- ▼ 中央に任意の Content を表示 -->
+        <ContentPresenter
+            Grid.Row="1"
+            Grid.Column="1"
+            Content="{Binding Content, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            IsHitTestVisible="True" />
+
+        <!-- 上 -->
+        <Button
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="4,0"
+            Command="{Binding MoveUpCommand}"
+            Content="270"
+            IsHitTestVisible="True" />
+
+        <!-- 右上 -->
+        <Button
+            Grid.Row="0"
+            Grid.Column="2"
+            Command="{Binding MoveUpRightCommand}"
+            IsHitTestVisible="True" />
+
+        <!-- 右 -->
+        <Button
+            Grid.Row="1"
+            Grid.Column="2"
+            Height="{StaticResource SideButtonHeight}"
+            Padding="0"
+            VerticalAlignment="Stretch"
+            Command="{Binding MoveRightCommand}"
+            Content="0"
+            IsHitTestVisible="True" />
+
+        <!-- 右下 -->
+        <Button
+            Grid.Row="2"
+            Grid.Column="2"
+            Command="{Binding MoveDownRightCommand}"
+            IsHitTestVisible="True" />
+
+        <!-- 下 -->
+        <Button
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="4,0"
+            Command="{Binding MoveDownCommand}"
+            Content="90"
+            IsHitTestVisible="True" />
+
+        <!-- 左下 -->
+        <Button
+            Grid.Row="2"
+            Grid.Column="0"
+            Command="{Binding MoveDownLeftCommand}"
+            IsHitTestVisible="True" />
+
+        <!-- 左 -->
+        <Button
+            Grid.Row="1"
+            Grid.Column="0"
+            Height="{StaticResource SideButtonHeight}"
+            Padding="0"
+            Command="{Binding MoveLeftCommand}"
+            IsHitTestVisible="True">
+            <Button.Content>
+                <StackPanel Margin="0" Orientation="Vertical">
+                    <TextBlock HorizontalAlignment="Center" Text="1" />
+                    <TextBlock HorizontalAlignment="Center" Text="8" />
+                    <TextBlock HorizontalAlignment="Center" Text="0" />
+                </StackPanel>
+
+            </Button.Content>
+        </Button>
+
+        <!-- 左上 -->
+        <Button
+            Grid.Row="0"
+            Grid.Column="0"
+            Command="{Binding MoveUpLeftCommand}"
+            IsHitTestVisible="True" />
+
+    </Grid>
+</UserControl>

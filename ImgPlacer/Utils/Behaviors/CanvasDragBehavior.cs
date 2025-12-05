@@ -18,6 +18,8 @@ namespace ImgPlacer.Utils.Behaviors
         protected override void OnAttached()
         {
             base.OnAttached();
+
+            AssociatedObject.DataContextChanged += OnDataContextChanged;
             AssociatedObject.MouseLeftButtonDown += OnMouseLeftButtonDown;
             AssociatedObject.MouseMove += OnMouseMove;
             AssociatedObject.MouseLeftButtonUp += OnMouseLeftButtonUp;
@@ -70,6 +72,11 @@ namespace ImgPlacer.Utils.Behaviors
             AssociatedObject.ReleaseMouseCapture();
             Mouse.OverrideCursor = null;
             e.Handled = true;
+        }
+
+        private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            vm = AssociatedObject.DataContext as ImageCanvasViewerViewModel;
         }
 
         private void TryNotifyUserAction()
