@@ -3,8 +3,11 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:enums="clr-namespace:ImgPlacer.Enums"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:system="clr-namespace:System;assembly=System.Runtime"
+    xmlns:viewModels="clr-namespace:ImgPlacer.ViewModels"
+    d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
     d:DesignHeight="300"
     d:DesignWidth="300"
     mc:Ignorable="d">
@@ -40,16 +43,24 @@
             Grid.Row="0"
             Grid.Column="1"
             Margin="4,0"
-            Command="{Binding MoveUpCommand}"
+            Command="{Binding CursorPadContainerViewModel.SetPositionCommand}"
             Content="270"
-            IsHitTestVisible="True" />
+            IsHitTestVisible="True">
+            <Button.CommandParameter>
+                <enums:ImageAnchor>Top</enums:ImageAnchor>
+            </Button.CommandParameter>
+        </Button>
 
         <!-- 右上 -->
         <Button
             Grid.Row="0"
             Grid.Column="2"
-            Command="{Binding MoveUpRightCommand}"
-            IsHitTestVisible="True" />
+            Command="{Binding CursorPadContainerViewModel.SetPositionCommand}"
+            IsHitTestVisible="True">
+            <Button.CommandParameter>
+                <enums:ImageAnchor>TopRight</enums:ImageAnchor>
+            </Button.CommandParameter>
+        </Button>
 
         <!-- 右 -->
         <Button
@@ -58,32 +69,48 @@
             Height="{StaticResource SideButtonHeight}"
             Padding="0"
             VerticalAlignment="Stretch"
-            Command="{Binding MoveRightCommand}"
+            Command="{Binding CursorPadContainerViewModel.SetPositionCommand}"
             Content="0"
-            IsHitTestVisible="True" />
+            IsHitTestVisible="True">
+            <Button.CommandParameter>
+                <enums:ImageAnchor>Right</enums:ImageAnchor>
+            </Button.CommandParameter>
+        </Button>
 
         <!-- 右下 -->
         <Button
             Grid.Row="2"
             Grid.Column="2"
-            Command="{Binding MoveDownRightCommand}"
-            IsHitTestVisible="True" />
+            Command="{Binding CursorPadContainerViewModel.SetPositionCommand}"
+            IsHitTestVisible="True">
+            <Button.CommandParameter>
+                <enums:ImageAnchor>BottomRight</enums:ImageAnchor>
+            </Button.CommandParameter>
+        </Button>
 
         <!-- 下 -->
         <Button
             Grid.Row="2"
             Grid.Column="1"
             Margin="4,0"
-            Command="{Binding MoveDownCommand}"
+            Command="{Binding CursorPadContainerViewModel.SetPositionCommand}"
             Content="90"
-            IsHitTestVisible="True" />
+            IsHitTestVisible="True">
+            <Button.CommandParameter>
+                <enums:ImageAnchor>Bottom</enums:ImageAnchor>
+            </Button.CommandParameter>
+        </Button>
 
         <!-- 左下 -->
         <Button
             Grid.Row="2"
             Grid.Column="0"
-            Command="{Binding MoveDownLeftCommand}"
-            IsHitTestVisible="True" />
+            Command="{Binding CursorPadContainerViewModel.SetPositionCommand}"
+            IsHitTestVisible="True">
+            <Button.CommandParameter>
+                <enums:ImageAnchor>BottomLeft</enums:ImageAnchor>
+            </Button.CommandParameter>
+        </Button>
 
         <!-- 左 -->
         <Button
@@ -91,7 +118,7 @@
             Grid.Column="0"
             Height="{StaticResource SideButtonHeight}"
             Padding="0"
-            Command="{Binding MoveLeftCommand}"
+            Command="{Binding CursorPadContainerViewModel.SetPositionCommand}"
             IsHitTestVisible="True">
             <Button.Content>
                 <StackPanel Margin="0" Orientation="Vertical">
@@ -101,14 +128,21 @@
                 </StackPanel>
 
             </Button.Content>
+            <Button.CommandParameter>
+                <enums:ImageAnchor>Left</enums:ImageAnchor>
+            </Button.CommandParameter>
         </Button>
 
         <!-- 左上 -->
         <Button
             Grid.Row="0"
             Grid.Column="0"
-            Command="{Binding MoveUpLeftCommand}"
-            IsHitTestVisible="True" />
+            Command="{Binding CursorPadContainerViewModel.SetPositionCommand}"
+            IsHitTestVisible="True">
+            <Button.CommandParameter>
+                <enums:ImageAnchor>TopLeft</enums:ImageAnchor>
+            </Button.CommandParameter>
+        </Button>
 
     </Grid>
 </UserControl>

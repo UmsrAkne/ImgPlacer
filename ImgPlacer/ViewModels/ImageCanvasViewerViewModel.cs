@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using ImgPlacer.Enums;
+using Prism.Commands;
 using Prism.Mvvm;
 
 namespace ImgPlacer.ViewModels
@@ -75,6 +77,57 @@ namespace ImgPlacer.ViewModels
         }
 
         public Point DisplayOffset => GetCenteredOffset();
+
+        public void SetImagePosition(ImageAnchor anchor)
+        {
+            // 画像サイズ（ズーム後）
+            var w = ImageWidth * Zoom;
+            var h = ImageHeight * Zoom;
+
+            // Anchor に対応する「画像中心位置」を決める
+            var targetCenterX = anchor switch
+            {
+                ImageAnchor.Left or ImageAnchor.TopLeft or ImageAnchor.BottomLeft
+                    => w * 0.5,                         // 左側
+                ImageAnchor.Center
+                    => CanvasWidth / 2.0,               // 中央
+                ImageAnchor.Right or ImageAnchor.TopRight or ImageAnchor.BottomRight
+                    => CanvasWidth - (w * 0.5),         // 右側
+                _ => CanvasWidth / 2.0,
+            };
+
+            var targetCenterY = anchor switch
+            {
+                ImageAnchor.Top or ImageAnchor.TopLeft or ImageAnchor.TopRight
+                    => h * 0.5,                         // 上側
+                ImageAnchor.Center or ImageAnchor.Left or ImageAnchor.Right
+                    => CanvasHeight / 2.0,              // 中央
+                ImageAnchor.Bottom or ImageAnchor.BottomLeft or ImageAnchor.BottomRight
+                    => CanvasHeight - (h * 0.5),        // 下側
+                _ => CanvasHeight / 2.0,
+            };
+
+            // 変更する前に現在の位置を取得
+            var oldX = OffsetX;
+            var oldY = OffsetY;
+
+            // 既存メソッドで位置確定
+            SetCenteredOffset(
+                targetCenterX - (CanvasWidth / 2.0),
+                targetCenterY - (CanvasHeight / 2.0),
+                Zoom);
+
+            // 上下左右が指定された場合、他軸は動かしたくないので復元する。
+            if (anchor is ImageAnchor.Top or ImageAnchor.Bottom)
+            {
+                OffsetX = oldX;
+            }
+
+            if (anchor is ImageAnchor.Left or ImageAnchor.Right)
+            {
+                OffsetY = oldY;
+            }
+        }
 
         public Point GetCenteredOffset()
         {
