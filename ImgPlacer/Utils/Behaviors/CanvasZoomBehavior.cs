@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using ImgPlacer.ViewModels;
 using ImgPlacer.Views.Controls;
@@ -15,6 +16,8 @@ namespace ImgPlacer.Utils.Behaviors
         protected override void OnAttached()
         {
             base.OnAttached();
+
+            AssociatedObject.DataContextChanged += OnDataContextChanged;
             AssociatedObject.PreviewMouseWheel += OnPreviewMouseWheel;
             vm = AssociatedObject.DataContext as ImageCanvasViewerViewModel;
         }
@@ -23,6 +26,11 @@ namespace ImgPlacer.Utils.Behaviors
         {
             AssociatedObject.PreviewMouseWheel -= OnPreviewMouseWheel;
             base.OnDetaching();
+        }
+
+        private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            vm = AssociatedObject.DataContext as ImageCanvasViewerViewModel;
         }
 
         private void OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -42,8 +50,15 @@ namespace ImgPlacer.Utils.Behaviors
             var oldZoom = vm.Zoom;
 
             var ticks = e.Delta / 120;
-            var factor = Math.Pow(1.05, ticks);
-            var newZoom = Math.Clamp(oldZoom * factor, MinZoom, MaxZoom);
+
+            const ModifierKeys ctl = ModifierKeys.Control;
+            const ModifierKeys shift = ModifierKeys.Shift;
+
+            var zoomStep = (Keyboard.Modifiers & (ctl | shift)) == (ctl | shift)
+                ? 0.25
+                : MinZoom;
+
+            var newZoom = Math.Clamp(oldZoom + (zoomStep * ticks), MinZoom, MaxZoom);
 
             if (Math.Abs(newZoom - oldZoom) < 0.0001)
             {

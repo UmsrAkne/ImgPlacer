@@ -1,0 +1,149 @@
+﻿<UserControl
+    x:Class="ImgPlacer.Views.Controls.CursorPadContainer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:enums="clr-namespace:ImgPlacer.Enums"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
+    xmlns:viewModels="clr-namespace:ImgPlacer.ViewModels"
+    d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
+    d:DesignHeight="300"
+    d:DesignWidth="300"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <system:Double x:Key="SideButtonHeight">150.0</system:Double>
+    </UserControl.Resources>
+
+    <!-- ▼ ボタンを Canvas の周囲に配置（3×3 Grid） -->
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="35" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="35" />
+        </Grid.ColumnDefinitions>
+
+        <!-- ▼ 中央に任意の Content を表示 -->
+        <ContentPresenter
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="1"
+            Content="{Binding Content, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            IsHitTestVisible="True" />
+
+        <!-- 上 -->
+        <Button
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="4,0"
+            Command="{Binding ImageCanvasViewerViewModel.SetPositionCommand}"
+            Content="270"
+            IsHitTestVisible="True">
+            <Button.CommandParameter>
+                <enums:ImageAnchor>Top</enums:ImageAnchor>
+            </Button.CommandParameter>
+        </Button>
+
+        <!-- 右上 -->
+        <Button
+            Grid.Row="0"
+            Grid.Column="2"
+            Command="{Binding ImageCanvasViewerViewModel.SetPositionCommand}"
+            IsHitTestVisible="True">
+            <Button.CommandParameter>
+                <enums:ImageAnchor>TopRight</enums:ImageAnchor>
+            </Button.CommandParameter>
+        </Button>
+
+        <!-- 右 -->
+        <Button
+            Grid.Row="1"
+            Grid.Column="2"
+            Height="{StaticResource SideButtonHeight}"
+            Padding="0"
+            VerticalAlignment="Stretch"
+            Command="{Binding ImageCanvasViewerViewModel.SetPositionCommand}"
+            Content="0"
+            IsHitTestVisible="True">
+            <Button.CommandParameter>
+                <enums:ImageAnchor>Right</enums:ImageAnchor>
+            </Button.CommandParameter>
+        </Button>
+
+        <!-- 右下 -->
+        <Button
+            Grid.Row="2"
+            Grid.Column="2"
+            Command="{Binding ImageCanvasViewerViewModel.SetPositionCommand}"
+            IsHitTestVisible="True">
+            <Button.CommandParameter>
+                <enums:ImageAnchor>BottomRight</enums:ImageAnchor>
+            </Button.CommandParameter>
+        </Button>
+
+        <!-- 下 -->
+        <Button
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="4,0"
+            Command="{Binding ImageCanvasViewerViewModel.SetPositionCommand}"
+            Content="90"
+            IsHitTestVisible="True">
+            <Button.CommandParameter>
+                <enums:ImageAnchor>Bottom</enums:ImageAnchor>
+            </Button.CommandParameter>
+        </Button>
+
+        <!-- 左下 -->
+        <Button
+            Grid.Row="2"
+            Grid.Column="0"
+            Command="{Binding ImageCanvasViewerViewModel.SetPositionCommand}"
+            IsHitTestVisible="True">
+            <Button.CommandParameter>
+                <enums:ImageAnchor>BottomLeft</enums:ImageAnchor>
+            </Button.CommandParameter>
+        </Button>
+
+        <!-- 左 -->
+        <Button
+            Grid.Row="1"
+            Grid.Column="0"
+            Height="{StaticResource SideButtonHeight}"
+            Padding="0"
+            Command="{Binding ImageCanvasViewerViewModel.SetPositionCommand}"
+            IsHitTestVisible="True">
+            <Button.Content>
+                <StackPanel Margin="0" Orientation="Vertical">
+                    <TextBlock HorizontalAlignment="Center" Text="1" />
+                    <TextBlock HorizontalAlignment="Center" Text="8" />
+                    <TextBlock HorizontalAlignment="Center" Text="0" />
+                </StackPanel>
+
+            </Button.Content>
+            <Button.CommandParameter>
+                <enums:ImageAnchor>Left</enums:ImageAnchor>
+            </Button.CommandParameter>
+        </Button>
+
+        <!-- 左上 -->
+        <Button
+            Grid.Row="0"
+            Grid.Column="0"
+            Command="{Binding ImageCanvasViewerViewModel.SetPositionCommand}"
+            IsHitTestVisible="True">
+            <Button.CommandParameter>
+                <enums:ImageAnchor>TopLeft</enums:ImageAnchor>
+            </Button.CommandParameter>
+        </Button>
+
+    </Grid>
+</UserControl>
