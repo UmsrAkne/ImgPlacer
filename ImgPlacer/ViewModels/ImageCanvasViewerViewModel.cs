@@ -15,7 +15,7 @@ namespace ImgPlacer.ViewModels
         private double zoom = 1.0;
         private double imageWidth;
         private double imageHeight;
-        private double canvasHeight;
+        private double canvasHeight = 720;
         private double canvasWidth;
         private ObservableCollection<ImageListViewModel> layers;
         private bool isInfoHighlighted;

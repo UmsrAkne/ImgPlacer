@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using Prism.Commands;
 using Prism.Mvvm;
 
@@ -47,6 +48,8 @@ namespace ImgPlacer.ViewModels
         /// </summary>
         public int ColumnsCount { get => columnsCount; private set => SetProperty(ref columnsCount, value); }
 
+        public ToolPanelContext ToolPanelContext { private get; set; }
+
         public bool IsFourthColumnVisible
         {
             get => isFourthColumnVisible;
@@ -67,6 +70,19 @@ namespace ImgPlacer.ViewModels
 
             // 初期読み込み後にAの選択に応じてB~Dを再絞り込み
             ApplyPrimarySelectionFilterToOtherLayers();
+
+            // 想定しているアプリの横幅が [1280 - 1680] であるため、その範囲のサイズの画像を検索してそれを採用する。
+            var leadingImage =
+                Layers
+                    .FirstOrDefault()?
+                    .Images
+                    .Where(img => img.LeadingLetter == "A")
+                    .FirstOrDefault(img => img.Thumbnail.Width is >= 1280 and <= 1680);
+
+            if (leadingImage != null)
+            {
+                ToolPanelContext.ImageCanvasViewerViewModel.CanvasWidth = leadingImage.Thumbnail.Width;
+            }
         });
 
         private void HookPrimarySelectionChanged()
