@@ -20,9 +20,9 @@
     <Grid>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="30" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="30" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -35,6 +35,7 @@
         <ContentPresenter
             Grid.Row="1"
             Grid.Column="1"
+            Margin="1"
             Content="{Binding Content, RelativeSource={RelativeSource AncestorType=UserControl}}"
             IsHitTestVisible="True" />
 
