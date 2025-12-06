@@ -20,6 +20,16 @@ namespace ImgPlacer.ViewModels
         private ObservableCollection<ImageListViewModel> layers;
         private bool isInfoHighlighted;
 
+        public DelegateCommand<ImageAnchor?> SetPositionCommand => new((param) =>
+        {
+            if (!param.HasValue)
+            {
+                throw new System.InvalidOperationException("param is null");
+            }
+
+            SetImagePosition(param.Value);
+        });
+
         public ObservableCollection<ImageListViewModel> Layers
         {
             get => layers;

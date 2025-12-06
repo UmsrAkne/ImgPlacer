@@ -57,11 +57,6 @@ public class MainWindowViewModel : BindableBase
 
         App.Settings.ToolPanelContext = context;
 
-        CursorPadContainerViewModel = new CursorPadContainerViewModel()
-        {
-            ToolPanelContext = context,
-        };
-
         SetDebugData();
     }
 
@@ -84,8 +79,6 @@ public class MainWindowViewModel : BindableBase
     public XmlEditorPanelViewModel XmlEditorPanelViewModel { get; private set; }
 
     public SettingPanelViewModel SettingPanelViewModel { get; private set; }
-
-    public CursorPadContainerViewModel CursorPadContainerViewModel { get; set; }
 
     public ObservableCollection<IToolPanelViewModel> ToolPanelViewModelCollection { get; set; } = new ();
 
