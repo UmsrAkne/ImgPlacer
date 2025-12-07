@@ -6,6 +6,7 @@
     xmlns:controls="clr-namespace:ImgPlacer.Views.Controls"
     xmlns:converters="clr-namespace:ImgPlacer.Utils.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:enums="clr-namespace:ImgPlacer.Enums"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -43,6 +44,15 @@
             Command="{Binding CopyTagCommand}"
             CommandParameter="animation-slide"
             Modifiers="Control" />
+
+        <KeyBinding
+            Key="D0"
+            Command="{Binding ImageCanvasViewerViewModel.SetPositionCommand}"
+            Modifiers="Control">
+            <KeyBinding.CommandParameter>
+                <enums:ImageAnchor>Center</enums:ImageAnchor>
+            </KeyBinding.CommandParameter>
+        </KeyBinding>
     </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
@@ -109,7 +119,8 @@
         <controls:CursorPadContainer
             Grid.Row="0"
             Grid.Column="1"
-            Margin="4">
+            Margin="4"
+            HorizontalAlignment="Center">
             <ContentControl
                 d:DesignHeight="180"
                 d:DesignWidth="420"

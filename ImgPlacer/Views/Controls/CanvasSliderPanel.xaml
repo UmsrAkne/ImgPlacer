@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:ImgPlacer.ViewModels"
     d:DataContext="{d:DesignInstance viewModels:CanvasSliderPanelViewModel}"
@@ -11,26 +12,54 @@
 
     <StackPanel Margin="10">
         <StackPanel Orientation="Horizontal">
-            <StackPanel Width="130" Orientation="Horizontal">
-                <TextBlock VerticalAlignment="Center" Text="Distance:" />
-                <TextBox
-                    Width="50"
-                    Margin="5,0"
-                    Text="{Binding Distance, UpdateSourceTrigger=PropertyChanged}" />
+            <StackPanel>
+                <TextBlock Margin="0,5" Text="Distance" />
+                <StackPanel Orientation="Horizontal">
+                    <Slider
+                        Width="150"
+                        Maximum="1000"
+                        Minimum="0"
+                        TickFrequency="20"
+                        Value="{Binding Distance, Mode=TwoWay}" />
+                    <materialDesign:NumericUpDown
+                        Width="40"
+                        Margin="10,0"
+                        HorizontalContentAlignment="Center"
+                        Maximum="1000"
+                        Minimum="0"
+                        ValueStep="20"
+                        Value="{Binding Distance, Mode=TwoWay}" />
+                </StackPanel>
             </StackPanel>
 
-            <StackPanel Width="130" Orientation="Horizontal">
-                <TextBlock VerticalAlignment="Center" Text="Degree:" />
-                <TextBox
-                    Width="50"
-                    Margin="5,0"
-                    Text="{Binding Degree, UpdateSourceTrigger=PropertyChanged}" />
+            <Border Width="20" />
+
+            <StackPanel>
+                <TextBlock Margin="0,5" Text="Degree" />
+                <StackPanel Orientation="Horizontal">
+                    <Slider
+                        Width="120"
+                        Maximum="360"
+                        Minimum="0"
+                        TickFrequency="45"
+                        Value="{Binding Degree, Mode=TwoWay}" />
+                    <materialDesign:NumericUpDown
+                        Width="40"
+                        Margin="10,0"
+                        HorizontalContentAlignment="Center"
+                        Maximum="360"
+                        Minimum="0"
+                        ValueStep="5"
+                        Value="{Binding Degree, Mode=TwoWay}" />
+                </StackPanel>
             </StackPanel>
+
 
         </StackPanel>
 
-        <StackPanel Orientation="Horizontal">
-            <StackPanel Width="130" Orientation="Horizontal">
+        <StackPanel Margin="0,10" Orientation="Horizontal">
+
+            <StackPanel Orientation="Horizontal">
                 <TextBlock VerticalAlignment="Center" Text="Delay:" />
                 <TextBox
                     Width="40"
@@ -38,8 +67,9 @@
                     Text="{Binding Delay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
 
+            <Border Width="25" />
 
-            <StackPanel Width="130" Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal">
                 <TextBlock VerticalAlignment="Center" Text="Interval:" />
 
                 <TextBox
@@ -48,12 +78,25 @@
                     Text="{Binding Interval, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
 
-            <StackPanel Width="130" Orientation="Horizontal">
+            <Border Width="25" />
+
+            <StackPanel Width="180" Orientation="Horizontal">
                 <TextBlock VerticalAlignment="Center" Text="Repeat:" />
-                <TextBox
-                    Width="40"
+                <ComboBox
+                    Width="80"
                     Margin="10,0"
-                    Text="{Binding RepeatCount, UpdateSourceTrigger=PropertyChanged}" />
+                    SelectedItem="{Binding RepeatPreset, Mode=TwoWay}">
+                    <ComboBoxItem Content="0" />
+                    <ComboBoxItem Content="1" />
+                    <ComboBoxItem Content="∞" />
+                    <ComboBoxItem Content="Custom" />
+                </ComboBox>
+
+                <TextBox
+                    Width="60"
+                    Margin="4,0"
+                    IsEnabled="{Binding IsRepeatCustom}"
+                    Text="{Binding RepeatCount}" />
             </StackPanel>
 
         </StackPanel>

@@ -19,6 +19,8 @@ namespace ImgPlacer.ViewModels
         private double originalOffsetX;
         private double originalOffsetY;
         private bool isExpanded;
+        private string preset;
+        private bool isRepeatCustom;
 
         public CanvasSliderPanelViewModel(ImageCanvasViewerViewModel imageCanvasViewerViewModel)
         {
@@ -107,6 +109,29 @@ namespace ImgPlacer.ViewModels
         public SideBarPanelKind PanelKind => SideBarPanelKind.CanvasSlider;
 
         public bool IsExpanded { get => isExpanded; set => SetProperty(ref isExpanded, value); }
+
+        public bool IsRepeatCustom { get => isRepeatCustom; set => SetProperty(ref isRepeatCustom, value); }
+
+        public string RepeatPreset
+        {
+            get => preset;
+            set
+            {
+                preset = value;
+                RaisePropertyChanged();
+
+                IsRepeatCustom = value.EndsWith("Custom");
+                var cnt = value.Substring(value.Length - 1, 1);
+
+                RepeatCount = cnt switch
+                {
+                    "0" => 0,
+                    "1" => 1,
+                    "∞" => 999,   // or int.MaxValue
+                    _ => RepeatCount,
+                };
+            }
+        }
 
         public DelegateCommand ToggleExpandedCommand => new (() =>
         {

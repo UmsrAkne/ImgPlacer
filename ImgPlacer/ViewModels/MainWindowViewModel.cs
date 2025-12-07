@@ -45,6 +45,7 @@ public class MainWindowViewModel : BindableBase
 
         XmlEditorPanelViewModel = new XmlEditorPanelViewModel(context);
         SettingPanelViewModel = new SettingPanelViewModel(context);
+        ImageLayerManagerViewModel.ToolPanelContext = context;
 
         context.XmlEditorPanelViewModel = XmlEditorPanelViewModel;
         context.SettingPanelViewModel = SettingPanelViewModel;
