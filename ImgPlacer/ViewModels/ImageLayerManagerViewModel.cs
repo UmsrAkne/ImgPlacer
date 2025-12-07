@@ -108,6 +108,9 @@ namespace ImgPlacer.ViewModels
                 ApplyPrimarySelectionFilterToOtherLayers();
                 ToolPanelContext.ImageCanvasViewerViewModel.ImageWidth
                     = PrimaryLayer.SelectedImage?.Thumbnail.Width ?? 0;
+
+                ToolPanelContext.ImageCanvasViewerViewModel.ImageHeight
+                    = PrimaryLayer.SelectedImage?.Thumbnail.Height ?? 0;
             }
         }
 

@@ -94,6 +94,12 @@ namespace ImgPlacer.ViewModels
 
         public void SetImagePosition(ImageAnchor anchor)
         {
+            if (anchor == ImageAnchor.Center)
+            {
+                SetCenteredOffset(0, 0, Zoom);
+                return;
+            }
+
             // 画像サイズ（ズーム後）
             var w = ImageWidth * Zoom;
             var h = ImageHeight * Zoom;
@@ -103,8 +109,6 @@ namespace ImgPlacer.ViewModels
             {
                 ImageAnchor.Left or ImageAnchor.TopLeft or ImageAnchor.BottomLeft
                     => w * 0.5,                         // 左側
-                ImageAnchor.Center
-                    => CanvasWidth / 2.0,               // 中央
                 ImageAnchor.Right or ImageAnchor.TopRight or ImageAnchor.BottomRight
                     => CanvasWidth - (w * 0.5),         // 右側
                 _ => CanvasWidth / 2.0,
@@ -114,7 +118,7 @@ namespace ImgPlacer.ViewModels
             {
                 ImageAnchor.Top or ImageAnchor.TopLeft or ImageAnchor.TopRight
                     => h * 0.5,                         // 上側
-                ImageAnchor.Center or ImageAnchor.Left or ImageAnchor.Right
+                ImageAnchor.Left or ImageAnchor.Right
                     => CanvasHeight / 2.0,              // 中央
                 ImageAnchor.Bottom or ImageAnchor.BottomLeft or ImageAnchor.BottomRight
                     => CanvasHeight - (h * 0.5),        // 下側
