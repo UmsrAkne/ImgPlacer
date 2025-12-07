@@ -83,7 +83,7 @@
                                 <TextBlock
                                     Margin="0,4,0,0"
                                     HorizontalAlignment="Center"
-                                    Foreground="White"
+                                    Foreground="Black"
                                     Text="{Binding FileName}"
                                     TextWrapping="Wrap" />
 
