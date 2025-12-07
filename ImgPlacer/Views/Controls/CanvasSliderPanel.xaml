@@ -12,53 +12,76 @@
 
     <StackPanel Margin="10">
         <StackPanel Orientation="Horizontal">
-            <StackPanel Orientation="Horizontal">
-                <StackPanel Width="180">
-                    <TextBlock Text="Distance" />
-                    <StackPanel Orientation="Horizontal">
-                        <Slider
-                            Width="120"
-                            Maximum="500"
-                            Minimum="0"
-                            Value="{Binding Distance, Mode=TwoWay}" />
-                        <materialDesign:NumericUpDown
-                            Width="40"
-                            Margin="10,0"
-                            Maximum="500"
-                            Minimum="0"
-                            ValueStep="20"
-                            Value="{Binding Distance, Mode=TwoWay}" />
-                    </StackPanel>
+            <StackPanel>
+                <TextBlock Margin="0,5" Text="Distance" />
+                <StackPanel Orientation="Horizontal">
+                    <Slider
+                        Width="150"
+                        Maximum="1000"
+                        Minimum="0"
+                        TickFrequency="20"
+                        Value="{Binding Distance, Mode=TwoWay}" />
+                    <materialDesign:NumericUpDown
+                        Width="40"
+                        Margin="10,0"
+                        HorizontalContentAlignment="Center"
+                        Maximum="1000"
+                        Minimum="0"
+                        ValueStep="20"
+                        Value="{Binding Distance, Mode=TwoWay}" />
                 </StackPanel>
-
-                <Border Width="20" />
-
-                <StackPanel Width="180">
-                    <TextBlock Text="Degree" />
-                    <StackPanel Orientation="Horizontal">
-                        <Slider
-                            Width="120"
-                            Maximum="360"
-                            Minimum="0"
-                            TickFrequency="45"
-                            Value="{Binding Degree, Mode=TwoWay}" />
-                        <materialDesign:NumericUpDown
-                            Width="40"
-                            Margin="10,0"
-                            Maximum="360"
-                            Minimum="0"
-                            ValueStep="5"
-                            Value="{Binding Degree, Mode=TwoWay}" />
-                    </StackPanel>
-                </StackPanel>
-
             </StackPanel>
+
+            <Border Width="20" />
+
+            <StackPanel>
+                <TextBlock Margin="0,5" Text="Degree" />
+                <StackPanel Orientation="Horizontal">
+                    <Slider
+                        Width="120"
+                        Maximum="360"
+                        Minimum="0"
+                        TickFrequency="45"
+                        Value="{Binding Degree, Mode=TwoWay}" />
+                    <materialDesign:NumericUpDown
+                        Width="40"
+                        Margin="10,0"
+                        HorizontalContentAlignment="Center"
+                        Maximum="360"
+                        Minimum="0"
+                        ValueStep="5"
+                        Value="{Binding Degree, Mode=TwoWay}" />
+                </StackPanel>
+            </StackPanel>
+
 
         </StackPanel>
 
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Margin="0,10" Orientation="Horizontal">
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Text="Delay:" />
+                <TextBox
+                    Width="40"
+                    Margin="10,0"
+                    Text="{Binding Delay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+
+            <Border Width="25" />
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Text="Interval:" />
+
+                <TextBox
+                    Width="40"
+                    Margin="10,0"
+                    Text="{Binding Interval, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+
+            <Border Width="25" />
+
             <StackPanel Width="180" Orientation="Horizontal">
-                <TextBlock Text="Repeat" />
+                <TextBlock VerticalAlignment="Center" Text="Repeat:" />
                 <ComboBox
                     Width="80"
                     Margin="10,0"
@@ -75,28 +98,6 @@
                     IsEnabled="{Binding IsRepeatCustom}"
                     Text="{Binding RepeatCount}" />
             </StackPanel>
-
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal">
-            <StackPanel Width="130" Orientation="Horizontal">
-                <TextBlock VerticalAlignment="Center" Text="Delay:" />
-                <TextBox
-                    Width="40"
-                    Margin="10,0"
-                    Text="{Binding Delay, UpdateSourceTrigger=PropertyChanged}" />
-            </StackPanel>
-
-
-            <StackPanel Width="130" Orientation="Horizontal">
-                <TextBlock VerticalAlignment="Center" Text="Interval:" />
-
-                <TextBox
-                    Width="40"
-                    Margin="10,0"
-                    Text="{Binding Interval, UpdateSourceTrigger=PropertyChanged}" />
-            </StackPanel>
-
 
         </StackPanel>
 
