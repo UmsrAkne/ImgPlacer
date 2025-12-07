@@ -119,7 +119,8 @@
         <controls:CursorPadContainer
             Grid.Row="0"
             Grid.Column="1"
-            Margin="4">
+            Margin="4"
+            HorizontalAlignment="Center">
             <ContentControl
                 d:DesignHeight="180"
                 d:DesignWidth="420"
