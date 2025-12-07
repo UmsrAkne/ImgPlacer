@@ -10,6 +10,15 @@
     d:DesignWidth="300"
     mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <Border
+            x:Key="Mask"
+            Width="100"
+            Height="100"
+            Background="White"
+            CornerRadius="8" />
+    </UserControl.Resources>
+
     <StackPanel>
         <ToggleButton
             Margin="4"
@@ -68,21 +77,26 @@
                                     Orientation="Vertical">
 
                                     <!-- 画像（ListBox の幅に合わせて縮小） -->
-                                    <Image
-                                        MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                        HorizontalAlignment="Center"
-                                        Source="{Binding Thumbnail}"
-                                        Stretch="Uniform">
-                                        <Image.Style>
-                                            <Style TargetType="Image">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding IsNamingValid}" Value="False">
-                                                        <Setter Property="Opacity" Value="0.5" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Image.Style>
-                                    </Image>
+                                    <Border>
+                                        <Border.OpacityMask>
+                                            <VisualBrush Visual="{StaticResource Mask}" />
+                                        </Border.OpacityMask>
+                                        <Image
+                                            MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                            HorizontalAlignment="Center"
+                                            Source="{Binding Thumbnail}"
+                                            Stretch="Uniform">
+                                            <Image.Style>
+                                                <Style TargetType="Image">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsNamingValid}" Value="False">
+                                                            <Setter Property="Opacity" Value="0.5" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Image.Style>
+                                        </Image>
+                                    </Border>
 
                                     <!-- ファイル名 -->
                                     <TextBlock
@@ -113,6 +127,35 @@
                         <Setter Property="Margin" Value="1,2" />
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                         <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <Border
+                                        x:Name="Bd"
+                                        Background="Transparent"
+                                        CornerRadius="8">
+                                        <ContentPresenter />
+                                    </Border>
+
+                                    <ControlTemplate.Triggers>
+                                        <!-- 選択状態 -->
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="Bd" Property="Background" Value="#3378C0FF" />
+                                        </Trigger>
+
+                                        <!-- マウスオーバー -->
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="Bd" Property="Background" Value="#20FFFFFF" />
+                                        </Trigger>
+
+                                        <!-- 非活性 -->
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter TargetName="Bd" Property="Opacity" Value="0.4" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
                     </Style>
                 </ListBox.ItemContainerStyle>
 
