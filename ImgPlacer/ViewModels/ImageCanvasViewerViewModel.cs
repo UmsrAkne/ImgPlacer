@@ -72,7 +72,11 @@ namespace ImgPlacer.ViewModels
             }
         }
 
-        public double ImageWidth { get => imageWidth; set => SetProperty(ref imageWidth, value); }
+        public double ImageWidth
+        {
+            get => imageWidth;
+            set => SetProperty(ref imageWidth, value);
+        }
 
         public double ImageHeight { get => imageHeight; set => SetProperty(ref imageHeight, value); }
 

@@ -106,6 +106,8 @@ namespace ImgPlacer.ViewModels
             if (e.PropertyName == nameof(ImageListViewModel.SelectedImage))
             {
                 ApplyPrimarySelectionFilterToOtherLayers();
+                ToolPanelContext.ImageCanvasViewerViewModel.ImageWidth
+                    = PrimaryLayer.SelectedImage?.Thumbnail.Width ?? 0;
             }
         }
 
