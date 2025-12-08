@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -7,10 +6,9 @@ namespace ImgPlacer.Utils
 {
     public static class ImageBoundsCalculator
     {
-        public static async Task<Int32Rect> GetOpaquePixelBoundsAsync(string imagePath)
+        public static async Task<Int32Rect> GetOpaquePixelBoundsAsync(BitmapImage bitmap)
         {
             // 画像を読み込む
-            var bitmap = new BitmapImage(new Uri(imagePath));
             var convertedBitmap = new FormatConvertedBitmap(bitmap, System.Windows.Media.PixelFormats.Bgra32, null, 0);
 
             // ピクセルデータを取得

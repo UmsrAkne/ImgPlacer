@@ -120,9 +120,8 @@ namespace ImgPlacer.ViewModels
                         LeadingLetter = leading,
                         IsNamingValid = isValid,
                         FirstTwoDigits = head2,
+                        OpaqueRange = await ImageBoundsCalculator.GetOpaquePixelBoundsAsync(bitmap),
                     };
-
-                    item.OpaqueRange = await ImageBoundsCalculator.GetOpaquePixelBoundsAsync(file);
 
                     tempList.Add(item);
                 }
