@@ -1,7 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using Prism.Commands;
+using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.Input;
 using Prism.Mvvm;
 
 namespace ImgPlacer.ViewModels
@@ -60,16 +61,16 @@ namespace ImgPlacer.ViewModels
             }
         }
 
-        public DelegateCommand<string> LoadImagesCommand => new DelegateCommand<string>((param) =>
+        public AsyncRelayCommand<string> LoadImagesCommand => new (async (param) =>
         {
             lastLoadedDirectory = param;
             foreach (var layer in Layers)
             {
-                layer.LoadFromDirectory(param);
+                await layer.LoadFromDirectory(param);
             }
 
             // 初期読み込み後にAの選択に応じてB~Dを再絞り込み
-            ApplyPrimarySelectionFilterToOtherLayers();
+            await ApplyPrimarySelectionFilterToOtherLayers();
 
             // 想定しているアプリの横幅が [1280 - 1680] であるため、その範囲のサイズの画像を検索してそれを採用する。
             var leadingImage =
@@ -101,11 +102,11 @@ namespace ImgPlacer.ViewModels
             PrimaryLayer.PropertyChanged += OnLayerPropertyChanged;
         }
 
-        private void OnLayerPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private async void OnLayerPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(ImageListViewModel.SelectedImage))
             {
-                ApplyPrimarySelectionFilterToOtherLayers();
+                await ApplyPrimarySelectionFilterToOtherLayers();
                 ToolPanelContext.ImageCanvasViewerViewModel.ImageWidth
                     = PrimaryLayer.SelectedImage?.Thumbnail.Width ?? 0;
 
@@ -114,7 +115,7 @@ namespace ImgPlacer.ViewModels
             }
         }
 
-        private void ApplyPrimarySelectionFilterToOtherLayers()
+        private async Task ApplyPrimarySelectionFilterToOtherLayers()
         {
             if (Layers == null || Layers.Count < 4)
             {
@@ -130,7 +131,7 @@ namespace ImgPlacer.ViewModels
                 Layers[i].FilterNumberHead2 = head2; // null の場合は解除
                 if (!string.IsNullOrEmpty(lastLoadedDirectory))
                 {
-                    Layers[i].LoadFromDirectory(lastLoadedDirectory);
+                    await Layers[i].LoadFromDirectory(lastLoadedDirectory);
                 }
             }
         }
