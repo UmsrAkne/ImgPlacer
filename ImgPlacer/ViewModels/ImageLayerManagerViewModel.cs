@@ -128,6 +128,12 @@ namespace ImgPlacer.ViewModels
 
             for (var i = 1; i < Layers.Count; i++)
             {
+                var l = Layers[i];
+                l.SelectedImage = null;
+            }
+
+            for (var i = 1; i < Layers.Count; i++)
+            {
                 Layers[i].FilterNumberHead2 = head2; // null の場合は解除
                 if (!string.IsNullOrEmpty(lastLoadedDirectory))
                 {
