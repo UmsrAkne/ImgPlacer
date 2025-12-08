@@ -120,6 +120,8 @@ namespace ImgPlacer.ViewModels
                         FirstTwoDigits = head2,
                     };
 
+                    item.OpaqueRange = ImageBoundsCalculator.GetOpaquePixelBoundsAsync(file);
+
                     tempList.Add(item);
                 }
                 catch
