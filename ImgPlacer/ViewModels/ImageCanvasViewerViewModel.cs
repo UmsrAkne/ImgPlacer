@@ -90,6 +90,11 @@ namespace ImgPlacer.ViewModels
             set => SetProperty(ref isInfoHighlighted, value);
         }
 
+        public DelegateCommand ResetZoomCommand => new (() =>
+        {
+            Zoom = 1.0;
+        });
+
         public Point DisplayOffset => GetCenteredOffset();
 
         public void SetImagePosition(ImageAnchor anchor)
