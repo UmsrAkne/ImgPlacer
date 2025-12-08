@@ -106,6 +106,16 @@ namespace ImgPlacer.ViewModels
             isHolding = false;
         });
 
+        public DelegateCommand<int?> AddDegreeCommand => new ((param) =>
+        {
+            if (!param.HasValue)
+            {
+                throw new InvalidOperationException("param is null");
+            }
+
+            Degree = (Degree + param.Value) % 360;
+        });
+
         public SideBarPanelKind PanelKind => SideBarPanelKind.CanvasSlider;
 
         public bool IsExpanded { get => isExpanded; set => SetProperty(ref isExpanded, value); }
