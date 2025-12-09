@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -6,8 +7,16 @@ namespace ImgPlacer.Utils
 {
     public static class ImageBoundsCalculator
     {
-        public static async Task<Int32Rect> GetOpaquePixelBoundsAsync(BitmapImage bitmap)
+        private readonly static Dictionary<string, Int32Rect> CropCache = new ();
+
+        public static async Task<Int32Rect> GetOpaquePixelBoundsAsync(BitmapImage bitmap, string keyPath)
         {
+            var rect = GetOpaquePixelBounds(keyPath);
+            if (rect != Int32Rect.Empty)
+            {
+                return rect;
+            }
+
             // 画像を読み込む
             var convertedBitmap = new FormatConvertedBitmap(bitmap, System.Windows.Media.PixelFormats.Bgra32, null, 0);
 
@@ -64,10 +73,28 @@ namespace ImgPlacer.Utils
                     }
                 }
 
-                return !foundOpaquePixel
-                    ? Int32Rect.Empty
-                    : new Int32Rect(minX, minY, maxX - minX + 1, maxY - minY + 1);
+                if (!foundOpaquePixel)
+                {
+                    AddOpaquePixelBounds(keyPath, Int32Rect.Empty);
+                    return Int32Rect.Empty;
+                }
+
+                var result = new Int32Rect(minX, minY, maxX - minX + 1, maxY - minY + 1);
+                AddOpaquePixelBounds(keyPath, result);
+                return result;
             });
+        }
+
+        private static Int32Rect GetOpaquePixelBounds(string keyPath)
+        {
+            var lower = keyPath.ToLower();
+            return CropCache.TryGetValue(lower, out var rect) ? rect : Int32Rect.Empty;
+        }
+
+        private static void AddOpaquePixelBounds(string keyPath, Int32Rect rect)
+        {
+            var lower = keyPath.ToLower();
+            CropCache.TryAdd(lower, rect);
         }
     }
 }
