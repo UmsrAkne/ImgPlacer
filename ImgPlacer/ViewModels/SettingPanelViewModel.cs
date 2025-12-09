@@ -56,6 +56,12 @@ namespace ImgPlacer.ViewModels
             toolPanelContext.ImageLayerManagerViewModel.IsFourthColumnVisible = VisibleFourthLayer;
         });
 
+        public DelegateCommand SetDefaultTemplatesCommand => new DelegateCommand(() =>
+        {
+            TemplateTexts.Clear();
+            AddDefaultTemplatesIfEmpty();
+        });
+
         private AppSettings AppSettings { get; } = new AppSettings();
 
         private void AddDefaultTemplatesIfEmpty()

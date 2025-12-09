@@ -36,5 +36,11 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
+        <Button
+            Margin="0,10"
+            HorizontalAlignment="Left"
+            Command="{Binding SetDefaultTemplatesCommand}"
+            Content="Set Default Templates" />
+
     </StackPanel>
 </UserControl>
