@@ -53,6 +53,11 @@
                 <enums:ImageAnchor>Center</enums:ImageAnchor>
             </KeyBinding.CommandParameter>
         </KeyBinding>
+
+        <KeyBinding
+            Key="D1"
+            Command="{Binding ImageCanvasViewerViewModel.ResetZoomCommand}"
+            Modifiers="Control" />
     </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>

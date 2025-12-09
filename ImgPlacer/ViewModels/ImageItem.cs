@@ -1,4 +1,5 @@
-﻿using System.Windows.Media;
+﻿using System.Windows;
+using System.Windows.Media;
 using Prism.Mvvm;
 
 namespace ImgPlacer.ViewModels
@@ -11,6 +12,7 @@ namespace ImgPlacer.ViewModels
         private string fileName;
         private string resolutionText;
         private string leadingLetter;
+        private Int32Rect opaqueRange;
 
         public ImageSource Thumbnail { get => thumbnail; set => SetProperty(ref thumbnail, value); }
 
@@ -30,5 +32,7 @@ namespace ImgPlacer.ViewModels
 
         // 先頭文字の直後の2桁（例: A0101 -> "01"）。Aリスト選択に連動した絞り込み用
         public string FirstTwoDigits { get => firstTwoDigits; init => SetProperty(ref firstTwoDigits, value); }
+
+        public Int32Rect OpaqueRange { get => opaqueRange; set => SetProperty(ref opaqueRange, value); }
     }
 }

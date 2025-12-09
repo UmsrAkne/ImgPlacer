@@ -2,10 +2,12 @@
     x:Class="ImgPlacer.Views.Controls.CanvasSliderPanel"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behaviors="clr-namespace:ImgPlacer.Utils.Behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
     xmlns:viewModels="clr-namespace:ImgPlacer.ViewModels"
     d:DataContext="{d:DesignInstance viewModels:CanvasSliderPanelViewModel}"
     mc:Ignorable="d">
@@ -16,16 +18,21 @@
                 <TextBlock Margin="0,5" Text="Distance" />
                 <StackPanel Orientation="Horizontal">
                     <Slider
-                        Width="150"
-                        Maximum="1000"
+                        x:Name="DistanceSlider"
+                        Width="300"
+                        Maximum="2000"
                         Minimum="0"
                         TickFrequency="20"
-                        Value="{Binding Distance, Mode=TwoWay}" />
+                        Value="{Binding Distance, Mode=TwoWay}">
+                        <i:Interaction.Behaviors>
+                            <behaviors:DistanceSliderDragPreviewBehavior />
+                        </i:Interaction.Behaviors>
+                    </Slider>
                     <materialDesign:NumericUpDown
                         Width="40"
                         Margin="10,0"
                         HorizontalContentAlignment="Center"
-                        Maximum="1000"
+                        Maximum="2000"
                         Minimum="0"
                         ValueStep="20"
                         Value="{Binding Distance, Mode=TwoWay}" />
@@ -34,28 +41,57 @@
 
             <Border Width="20" />
 
-            <StackPanel>
-                <TextBlock Margin="0,5" Text="Degree" />
-                <StackPanel Orientation="Horizontal">
-                    <Slider
-                        Width="120"
-                        Maximum="360"
-                        Minimum="0"
-                        TickFrequency="45"
-                        Value="{Binding Degree, Mode=TwoWay}" />
-                    <materialDesign:NumericUpDown
-                        Width="40"
-                        Margin="10,0"
-                        HorizontalContentAlignment="Center"
-                        Maximum="360"
-                        Minimum="0"
-                        ValueStep="5"
-                        Value="{Binding Degree, Mode=TwoWay}" />
-                </StackPanel>
-            </StackPanel>
-
-
         </StackPanel>
+
+        <StackPanel>
+            <TextBlock Margin="0,5" Text="Degree" />
+            <StackPanel Orientation="Horizontal">
+                <Slider
+                    x:Name="DegreeSlider"
+                    Width="150"
+                    Maximum="360"
+                    Minimum="0"
+                    TickFrequency="45"
+                    Value="{Binding Degree, Mode=TwoWay}" />
+                <materialDesign:NumericUpDown
+                    Width="40"
+                    Margin="10,0"
+                    HorizontalContentAlignment="Center"
+                    Maximum="360"
+                    Minimum="0"
+                    ValueStep="5"
+                    Value="{Binding Degree, Mode=TwoWay}" />
+
+                <Button
+                    Width="70"
+                    Margin="5,0"
+                    Command="{Binding AddDegreeCommand}"
+                    Content="+180">
+                    <Button.CommandParameter>
+                        <system:Int32>180</system:Int32>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button
+                    Margin="5,0"
+                    Command="{Binding AddDegreeCommand}"
+                    Content="+90">
+                    <Button.CommandParameter>
+                        <system:Int32>90</system:Int32>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button
+                    Margin="5,0"
+                    Command="{Binding AddDegreeCommand}"
+                    Content="+45">
+                    <Button.CommandParameter>
+                        <system:Int32>45</system:Int32>
+                    </Button.CommandParameter>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+
 
         <StackPanel Margin="0,10" Orientation="Horizontal">
 

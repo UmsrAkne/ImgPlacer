@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using ImgPlacer.Utils;
 using Prism.Mvvm;
 
@@ -50,7 +51,8 @@ namespace ImgPlacer.ViewModels
         /// さらに、先頭文字と命名規則の適合可否を各 ImageItem に記録し、FilterPrefix/FilterNumberHead2 に従って表示対象を制限します。
         /// </summary>
         /// <param name="dirPath">ディレクトリのフルパス</param>
-        public void LoadFromDirectory(string dirPath)
+        /// <returns>>非同期処理を表すタスク</returns>
+        public async Task LoadFromDirectory(string dirPath)
         {
             // 既存をクリア
             Images.Clear();
@@ -118,6 +120,7 @@ namespace ImgPlacer.ViewModels
                         LeadingLetter = leading,
                         IsNamingValid = isValid,
                         FirstTwoDigits = head2,
+                        OpaqueRange = await ImageBoundsCalculator.GetOpaquePixelBoundsAsync(bitmap, file),
                     };
 
                     tempList.Add(item);
