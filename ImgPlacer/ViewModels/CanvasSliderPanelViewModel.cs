@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Windows;
 using ImgPlacer.Enums;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -147,5 +151,72 @@ namespace ImgPlacer.ViewModels
         {
             IsExpanded = !IsExpanded;
         });
+
+        public static float CalcDistance(Point originPoint, int degree, Rect wallRect)
+        {
+            var distances = new float[4];
+            var walls = new List<(Point start, Point end)>
+            {
+                (new Point(wallRect.Left,  wallRect.Top),    new Point(wallRect.Right, wallRect.Top)),    // 上
+                (new Point(wallRect.Right, wallRect.Top),    new Point(wallRect.Right, wallRect.Bottom)), // 右
+                (new Point(wallRect.Right, wallRect.Bottom), new Point(wallRect.Left,  wallRect.Bottom)), // 下
+                (new Point(wallRect.Left,  wallRect.Bottom), new Point(wallRect.Left,  wallRect.Top)),     // 左
+            };
+
+            var vec = new Vector2((float)originPoint.X, (float)originPoint.Y);
+            var rad = -degree * MathF.PI / 180f;
+
+            for (var i = 0; i < walls.Count; i++)
+            {
+                var wall = walls[i];
+                distances[i] = RaycastToSegment(vec, rad, ToVec(wall.start), ToVec(wall.end));
+            }
+
+            if (distances.All(d => Math.Abs(d) <= 1e-6f))
+            {
+                return 0;
+            }
+
+            return distances.Where(d => Math.Abs(d) >= 1e-6f).Min();
+
+            Vector2 ToVec(Point p) => new((float)p.X, (float)p.Y);
+        }
+
+        public static float RaycastToSegment(Vector2 rayOrigin, float rayAngleRad, Vector2 wallA, Vector2 wallB)
+        {
+            // レイ方向（正規化）
+            var rayDir = new Vector2(MathF.Cos(rayAngleRad), MathF.Sin(rayAngleRad));
+
+            // 壁の方向
+            var wallDir = wallB - wallA;
+
+            // A - P
+            var ap = wallA - rayOrigin;
+
+            var determinant = Cross(rayDir, wallDir);
+
+            // determinant は rayDir から見た wallDir の傾きを表す。
+            // determinant == 0 の場合、 レイから見て壁が傾いていない(平行)
+            if (MathF.Abs(determinant) < 1e-6f)
+            {
+                return 0f; // 平行の場合は距離は出ないので 0
+            }
+
+            var t = Cross(ap, wallDir) / determinant;
+            var u = Cross(ap, rayDir) / determinant;
+
+            // レイ前方 & 壁の線分内
+            if (t >= 0f && u is >= 0f and <= 1f)
+            {
+                return t; // rayDir は長さ1なので t = 距離
+            }
+
+            return 0f;
+        }
+
+        private static float Cross(Vector2 a, Vector2 b)
+        {
+            return (a.X * b.Y) - (a.Y * b.X); // 2D クロス積（Z成分）
+        }
     }
 }
