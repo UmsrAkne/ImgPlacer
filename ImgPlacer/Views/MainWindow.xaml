@@ -58,6 +58,30 @@
             Key="D1"
             Command="{Binding ImageCanvasViewerViewModel.ResetZoomCommand}"
             Modifiers="Control" />
+
+        <KeyBinding Key="J" Command="{Binding ImageCanvasViewerViewModel.MoveImageCommand}">
+            <KeyBinding.CommandParameter>
+                <enums:ImageAnchor>Bottom</enums:ImageAnchor>
+            </KeyBinding.CommandParameter>
+        </KeyBinding>
+
+        <KeyBinding Key="K" Command="{Binding ImageCanvasViewerViewModel.MoveImageCommand}">
+            <KeyBinding.CommandParameter>
+                <enums:ImageAnchor>Top</enums:ImageAnchor>
+            </KeyBinding.CommandParameter>
+        </KeyBinding>
+
+        <KeyBinding Key="L" Command="{Binding ImageCanvasViewerViewModel.MoveImageCommand}">
+            <KeyBinding.CommandParameter>
+                <enums:ImageAnchor>Right</enums:ImageAnchor>
+            </KeyBinding.CommandParameter>
+        </KeyBinding>
+
+        <KeyBinding Key="H" Command="{Binding ImageCanvasViewerViewModel.MoveImageCommand}">
+            <KeyBinding.CommandParameter>
+                <enums:ImageAnchor>Left</enums:ImageAnchor>
+            </KeyBinding.CommandParameter>
+        </KeyBinding>
     </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>

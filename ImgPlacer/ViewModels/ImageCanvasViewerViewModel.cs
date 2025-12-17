@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using ImgPlacer.Enums;
@@ -95,6 +96,46 @@ namespace ImgPlacer.ViewModels
             Zoom = 1.0;
         });
 
+        public DelegateCommand<ImageAnchor?> MoveImageCommand => new ((param) =>
+        {
+            if (!param.HasValue)
+            {
+                throw new InvalidOperationException("param is null");
+            }
+
+            int dx;
+            int dy;
+            const int step = 40;
+
+            switch (param.Value)
+            {
+                case ImageAnchor.Top:
+                    dx = 0;
+                    dy = CalculateNextSlideStep(step, (int)OffsetY, (int)CanvasHeight * -1, 0);
+                    break;
+
+                case ImageAnchor.Left:
+                    dx = CalculateNextSlideStep(step, (int)OffsetX, 0, (int)CanvasWidth);
+                    dy = 0;
+                    break;
+
+                case ImageAnchor.Right:
+                    dx = CalculateNextSlideStep(step * -1, (int)(OffsetX + (ImageWidth * Zoom)), (int)CanvasWidth, 0);
+                    dy = 0;
+                    break;
+
+                case ImageAnchor.Bottom:
+                    dx = 0;
+                    dy = CalculateNextSlideStep(step * -1, (int)(OffsetY + (ImageHeight * Zoom)), 0, (int)CanvasHeight);
+                    break;
+                default:
+                    throw new InvalidOperationException();
+            }
+
+            OffsetX += dx;
+            OffsetY += dy;
+        });
+
         public Point DisplayOffset => GetCenteredOffset();
 
         public void SetImagePosition(ImageAnchor anchor)
@@ -168,6 +209,45 @@ namespace ImgPlacer.ViewModels
             Zoom = scale;
             OffsetX = centeredX + (CanvasWidth / 2.0) - (ImageWidth * scale / 2.0);
             OffsetY = centeredY + (CanvasHeight / 2.0) - (ImageHeight * scale / 2.0);
+        }
+
+        public int CalculateNextSlideStep(int proposedStep, int currentPosition, int oppositeBoundary, int limitBoundary)
+        {
+            if (limitBoundary == currentPosition)
+            {
+                return (((currentPosition / proposedStep) + 1) * proposedStep) - currentPosition;
+            }
+
+            var left = Math.Max(oppositeBoundary, limitBoundary);
+            var right = Math.Min(oppositeBoundary, limitBoundary);
+            var destPos = currentPosition + proposedStep;
+
+            if (!IsBetween(currentPosition, right, left))
+            {
+                // 区間外 → 区間内に突っ込む場合は
+                // どちらの境界に近いかで吸着先を決定
+                if (IsBetween(destPos, right, left))
+                {
+                    var distLimit = limitBoundary - currentPosition;
+                    var distOpp = oppositeBoundary - currentPosition;
+
+                    // 最近傍の境界へ吸着
+                    return Math.Abs(distLimit) <= Math.Abs(distOpp)
+                        ? distLimit
+                        : distOpp;
+                }
+
+                return proposedStep;
+            }
+
+            if (!IsBetween(currentPosition + proposedStep, right, left))
+            {
+                return limitBoundary - currentPosition;
+            }
+
+            return proposedStep;
+
+            bool IsBetween(int value, int min, int max) => value >= min && value <= max;
         }
 
         public ImageCanvasViewerViewModel GetClone()

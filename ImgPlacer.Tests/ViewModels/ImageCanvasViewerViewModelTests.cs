@@ -64,5 +64,65 @@ namespace ImgPlacer.Tests.ViewModels
                 Assert.That(roundTrip.Y, Is.EqualTo(centeredY).Within(1e-9));
             });
         }
+
+        private ImageCanvasViewerViewModel target;
+
+        [SetUp]
+        public void Setup()
+        {
+            target = new ImageCanvasViewerViewModel();
+        }
+
+        // -----------------------------
+        // edge == currentPosition の場合
+        // -----------------------------
+        [TestCase(5, 10, 3, 10, ExpectedResult = (10 / 5 + 1) * 5 - 10)]
+        [TestCase(4, 8, 99, 8, ExpectedResult = (8 / 4 + 1) * 4 - 8)]
+        public int When_CurrentPositionEqualsEdge(int addition, int cp, int p1, int edge)
+        {
+            return target.CalculateNextSlideStep(addition, cp, p1, edge);
+        }
+
+        // -----------------------------
+        // currentPosition が区間外 → addition を返す
+        // -----------------------------
+        [TestCase(5, 0, 10, 20, ExpectedResult = 5)]
+        [TestCase(3, 50, 20, 10, ExpectedResult = 3)]
+        public int When_CurrentPositionIsOutsideRange(int addition, int cp, int p1, int edge)
+        {
+            return target.CalculateNextSlideStep(addition, cp, p1, edge);
+        }
+
+        // -----------------------------
+        // currentPosition が区間外だが、
+        // addition を足すと区間内に入るケース
+        // -----------------------------
+        [TestCase(15, 0, 10, 20, ExpectedResult = 10 - 0)]
+        [TestCase( -5, 25, 20, 10, ExpectedResult = -5)]
+        public int When_OutsideRangeButNextStepEntersRange(int addition, int cp, int p1, int edge)
+        {
+            return target.CalculateNextSlideStep(addition, cp, p1, edge);
+        }
+
+        // -----------------------------
+        // currentPosition は区間内だが、
+        // currentPosition + addition が区間外
+        // → currentPosition - edge を返す
+        // -----------------------------
+        [TestCase(2, 9, 5, 10, ExpectedResult = 10 - 9)]
+        public int When_AdditionBreaksOutsideRange(int addition, int cp, int p1, int edge)
+        {
+            return target.CalculateNextSlideStep(addition, cp, p1, edge);
+        }
+
+        // -----------------------------
+        // どちらも区間内 → addition
+        // -----------------------------
+        [TestCase(5, 15, 10, 20, ExpectedResult = 5)]
+        [TestCase(3, 18, 25, 10, ExpectedResult = 3)]
+        public int When_StayInsideRange(int addition, int cp, int p1, int edge)
+        {
+            return target.CalculateNextSlideStep(addition, cp, p1, edge);
+        }
     }
 }
