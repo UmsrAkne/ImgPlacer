@@ -94,13 +94,25 @@
 
 
         <StackPanel Margin="0,10" Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Text="Duration:" />
+                <materialDesign:NumericUpDown
+                    Width="30"
+                    Margin="10,0"
+                    Minimum="0"
+                    ValueStep="10"
+                    Value="{Binding Duration, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+
 
             <StackPanel Orientation="Horizontal">
                 <TextBlock VerticalAlignment="Center" Text="Delay:" />
-                <TextBox
+                <materialDesign:NumericUpDown
                     Width="40"
                     Margin="10,0"
-                    Text="{Binding Delay, UpdateSourceTrigger=PropertyChanged}" />
+                    Minimum="0"
+                    ValueStep="10"
+                    Value="{Binding Delay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
 
             <Border Width="25" />
@@ -108,34 +120,37 @@
             <StackPanel Orientation="Horizontal">
                 <TextBlock VerticalAlignment="Center" Text="Interval:" />
 
-                <TextBox
+                <materialDesign:NumericUpDown
                     Width="40"
                     Margin="10,0"
-                    Text="{Binding Interval, UpdateSourceTrigger=PropertyChanged}" />
+                    Minimum="0"
+                    ValueStep="10"
+                    Value="{Binding Interval, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
 
             <Border Width="25" />
 
-            <StackPanel Width="180" Orientation="Horizontal">
-                <TextBlock VerticalAlignment="Center" Text="Repeat:" />
-                <ComboBox
-                    Width="80"
-                    Margin="10,0"
-                    SelectedItem="{Binding RepeatPreset, Mode=TwoWay}">
-                    <ComboBoxItem Content="0" />
-                    <ComboBoxItem Content="1" />
-                    <ComboBoxItem Content="∞" />
-                    <ComboBoxItem Content="Custom" />
-                </ComboBox>
-
-                <TextBox
-                    Width="60"
-                    Margin="4,0"
-                    IsEnabled="{Binding IsRepeatCustom}"
-                    Text="{Binding RepeatCount}" />
-            </StackPanel>
-
         </StackPanel>
+
+        <StackPanel Orientation="Horizontal">
+            <TextBlock VerticalAlignment="Center" Text="Repeat:" />
+            <ComboBox
+                Width="80"
+                Margin="10,0"
+                SelectedItem="{Binding RepeatPreset, Mode=TwoWay}">
+                <ComboBoxItem Content="0" />
+                <ComboBoxItem Content="1" />
+                <ComboBoxItem Content="∞" />
+                <ComboBoxItem Content="Custom" />
+            </ComboBox>
+
+            <TextBox
+                Width="60"
+                Margin="4,0"
+                IsEnabled="{Binding IsRepeatCustom}"
+                Text="{Binding RepeatCount}" />
+        </StackPanel>
+
 
         <Border Height="10" />
 

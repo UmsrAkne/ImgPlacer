@@ -21,10 +21,11 @@
         <converters:CropConverter x:Key="CropConverter" />
     </UserControl.Resources>
 
-    <StackPanel>
+    <DockPanel>
         <ToggleButton
             Margin="4"
             HorizontalAlignment="Left"
+            DockPanel.Dock="Top"
             IsChecked="{Binding Enabled}"
             Style="{StaticResource MaterialDesignSwitchToggleButton}" />
 
@@ -169,5 +170,5 @@
             </ListBox>
         </Border>
 
-    </StackPanel>
+    </DockPanel>
 </UserControl>
