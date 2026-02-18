@@ -58,7 +58,7 @@ namespace ImgPlacer.ViewModels
 
             // 移動量
             var dx = Distance * Math.Cos(rad);
-            var dy = Distance * Math.Sin(rad);
+            var dy = -Distance * Math.Sin(rad);
 
             // Viewer へ適用（相対移動）
             ImageCanvasViewerViewModel.OffsetX += dx;
@@ -90,7 +90,7 @@ namespace ImgPlacer.ViewModels
 
             // 移動量（1回分）
             var dx = Distance * Math.Cos(rad);
-            var dy = Distance * Math.Sin(rad);
+            var dy = -Distance * Math.Sin(rad);
 
             // 一時的な位置へ移動
             ImageCanvasViewerViewModel.OffsetX = originalOffsetX + dx;

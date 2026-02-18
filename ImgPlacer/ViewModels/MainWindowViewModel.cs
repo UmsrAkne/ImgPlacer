@@ -93,7 +93,7 @@ public class MainWindowViewModel : BindableBase
                 _ => TemplateType.Image,
             };
 
-        var model = TagTemplateService.CreateModel(toType, context);
+        var model = TagTemplateService.CreateModel(toType, context, SettingPanelViewModel.IsInvertY);
         var template = SettingPanelViewModel.TemplateTexts.FirstOrDefault(tpl => tpl.TemplateType == toType);
         var text = TagTemplateService.Render(template?.Text, model);
 

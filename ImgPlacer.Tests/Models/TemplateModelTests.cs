@@ -37,11 +37,11 @@ namespace ImgPlacer.Tests.Models
                 ImageCanvasViewerViewModel = viewer,
             };
 
-            var model = TemplateModel.ToTemplateModel(context);
+            var model = TemplateModel.ToTemplateModel(context, true);
 
             var centered = viewer.GetCenteredOffset();
             var expectedX = (int)centered.X; // ToTemplateModel casts to int (truncate)
-            var expectedY = (int)centered.Y;
+            var expectedY = (int)centered.Y * -1;
 
             Assert.Multiple(() =>
             {

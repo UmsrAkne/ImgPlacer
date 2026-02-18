@@ -25,6 +25,11 @@
             <TextBlock Margin="8,0" Text="Fold the fourth layer" />
         </StackPanel>
 
+        <StackPanel Margin="0,15" Orientation="Horizontal">
+            <ToggleButton Command="{Binding SetInvertYFlagCommand}" IsChecked="{Binding IsInvertY}" />
+            <TextBlock Margin="8,0" Text="Invert Y" />
+        </StackPanel>
+
         <ItemsControl ItemsSource="{Binding TemplateTexts}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type models:TemplateText}">
