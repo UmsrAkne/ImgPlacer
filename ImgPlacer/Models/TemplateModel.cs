@@ -24,7 +24,7 @@ namespace ImgPlacer.Models
         /// </summary>
         public string Scale { get; set; }
 
-        public static TemplateModel ToTemplateModel(ToolPanelContext panelContext)
+        public static TemplateModel ToTemplateModel(ToolPanelContext panelContext, bool invertY)
         {
             var model = new TemplateModel();
             var layers = panelContext.ImageLayerManagerViewModel.Layers;
@@ -34,6 +34,11 @@ namespace ImgPlacer.Models
             model.D = layers[3].SelectedImage?.FileName;
             model.X = (int)panelContext.ImageCanvasViewerViewModel.GetCenteredOffset().X;
             model.Y = (int)panelContext.ImageCanvasViewerViewModel.GetCenteredOffset().Y;
+            if (invertY)
+            {
+                model.Y = -model.Y;
+            }
+
             model.Scale = panelContext.ImageCanvasViewerViewModel.Zoom.ToString("0.00");
 
             return model;

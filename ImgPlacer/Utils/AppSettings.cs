@@ -28,6 +28,8 @@ namespace ImgPlacer.Utils
         [JsonIgnore]
         public ToolPanelContext ToolPanelContext { private get; set; }
 
+        public bool IsInvertY { get; set; }
+
         private static JsonSerializerOptions JsonOptions => new ()
         {
             WriteIndented = true,

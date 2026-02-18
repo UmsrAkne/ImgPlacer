@@ -15,11 +15,11 @@ namespace ImgPlacer.Utils
             return tpl.Render(model, m => string.Concat(m.Name[..1].ToLower(), m.Name.AsSpan(1)));
         }
 
-        public static ITemplateModel CreateModel(TemplateType type, ToolPanelContext context)
+        public static ITemplateModel CreateModel(TemplateType type, ToolPanelContext context, bool invertY = false)
         {
             return type switch
             {
-                TemplateType.Image => TemplateModel.ToTemplateModel(context),
+                TemplateType.Image => TemplateModel.ToTemplateModel(context, invertY),
                 TemplateType.Draw => DrawTemplateModel.ToTemplateModel(context),
                 TemplateType.Slide => SlideTemplateModel.ToTemplateModel(context),
                 _ => throw new ArgumentException("未定義の TemplateType が入力されました。"),

@@ -13,6 +13,7 @@ namespace ImgPlacer.ViewModels
         private bool isExpanded;
         private bool visibleFourthLayer = true;
         private double canvasWidth;
+        private bool isInvertY;
 
         public SettingPanelViewModel(ToolPanelContext context)
         {
@@ -46,6 +47,8 @@ namespace ImgPlacer.ViewModels
             set => SetProperty(ref visibleFourthLayer, value);
         }
 
+        public bool IsInvertY { get => isInvertY; set => SetProperty(ref isInvertY, value); }
+
         public DelegateCommand ToggleExpandedCommand => new(() =>
         {
             IsExpanded = !IsExpanded;
@@ -60,6 +63,12 @@ namespace ImgPlacer.ViewModels
         {
             TemplateTexts.Clear();
             AddDefaultTemplatesIfEmpty();
+        });
+
+        public DelegateCommand SetInvertYFlagCommand => new DelegateCommand(() =>
+        {
+            AppSettings.IsInvertY = IsInvertY;
+            AppSettings.Save();
         });
 
         private AppSettings AppSettings { get; } = new AppSettings();
