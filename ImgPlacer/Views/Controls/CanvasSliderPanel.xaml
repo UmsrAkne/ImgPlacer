@@ -100,7 +100,7 @@
                     Width="30"
                     Margin="10,0"
                     Minimum="0"
-                    ValueStep="10"
+                    ValueStep="1"
                     Value="{Binding Duration, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
 
@@ -111,7 +111,7 @@
                     Width="40"
                     Margin="10,0"
                     Minimum="0"
-                    ValueStep="10"
+                    ValueStep="1"
                     Value="{Binding Delay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
 
@@ -124,7 +124,7 @@
                     Width="40"
                     Margin="10,0"
                     Minimum="0"
-                    ValueStep="10"
+                    ValueStep="1"
                     Value="{Binding Interval, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
 
