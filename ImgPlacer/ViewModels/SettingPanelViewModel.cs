@@ -17,7 +17,9 @@ namespace ImgPlacer.ViewModels
 
         public SettingPanelViewModel(ToolPanelContext context)
         {
-            TemplateTexts = new ObservableCollection<TemplateText>(AppSettings.LoadOrDefault().Templates);
+            var def = AppSettings.LoadOrDefault();
+            TemplateTexts = new ObservableCollection<TemplateText>(def.Templates);
+            IsInvertY = def.IsInvertY;
             toolPanelContext = context;
             AddDefaultTemplatesIfEmpty();
         }
