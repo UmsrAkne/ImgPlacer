@@ -71,11 +71,18 @@
             Padding="0"
             VerticalAlignment="Stretch"
             Command="{Binding ImageCanvasViewerViewModel.SetPositionCommand}"
-            Content="0"
             IsHitTestVisible="True">
             <Button.CommandParameter>
                 <enums:ImageAnchor>Right</enums:ImageAnchor>
             </Button.CommandParameter>
+            <Button.Content>
+                <StackPanel Margin="0" Orientation="Vertical">
+                    <TextBlock HorizontalAlignment="Center" Text="1" />
+                    <TextBlock HorizontalAlignment="Center" Text="8" />
+                    <TextBlock HorizontalAlignment="Center" Text="0" />
+                </StackPanel>
+
+            </Button.Content>
         </Button>
 
         <!-- 右下 -->
@@ -120,15 +127,8 @@
             Height="{StaticResource SideButtonHeight}"
             Padding="0"
             Command="{Binding ImageCanvasViewerViewModel.SetPositionCommand}"
+            Content="0"
             IsHitTestVisible="True">
-            <Button.Content>
-                <StackPanel Margin="0" Orientation="Vertical">
-                    <TextBlock HorizontalAlignment="Center" Text="1" />
-                    <TextBlock HorizontalAlignment="Center" Text="8" />
-                    <TextBlock HorizontalAlignment="Center" Text="0" />
-                </StackPanel>
-
-            </Button.Content>
             <Button.CommandParameter>
                 <enums:ImageAnchor>Left</enums:ImageAnchor>
             </Button.CommandParameter>
