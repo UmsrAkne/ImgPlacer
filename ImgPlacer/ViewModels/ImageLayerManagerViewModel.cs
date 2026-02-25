@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 using CommunityToolkit.Mvvm.Input;
 using Prism.Mvvm;
 
@@ -78,7 +79,17 @@ namespace ImgPlacer.ViewModels
                     .FirstOrDefault()?
                     .Images
                     .Where(img => img.LeadingLetter == "A")
-                    .FirstOrDefault(img => img.Thumbnail.Width is >= 1280 and <= 1680);
+                    .FirstOrDefault(img =>
+                    {
+                        // BitmapSource にキャストを試みる
+                        if (img.Thumbnail is BitmapSource bitmap)
+                        {
+                            // DPIの影響を受けない「生のピクセル幅」で判定
+                            return bitmap.PixelWidth is >= 1280 and <= 1680;
+                        }
+
+                        return false;
+                    });
 
             if (leadingImage != null)
             {
