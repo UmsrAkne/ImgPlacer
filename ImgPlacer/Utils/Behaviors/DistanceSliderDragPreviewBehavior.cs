@@ -118,7 +118,7 @@ namespace ImgPlacer.Utils.Behaviors
             var dy = distance * Math.Sin(rad);
 
             vm.OffsetX = originalOffsetX + dx;
-            vm.OffsetY = originalOffsetY + dy;
+            vm.OffsetY = originalOffsetY + -dy;
         }
     }
 }
