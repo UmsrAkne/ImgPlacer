@@ -15,7 +15,7 @@ namespace ImgPlacer.ViewModels
         private int distance;
         private int degree;
         private int duration;
-        private int repeatCount;
+        private int repeatCount = 1;
         private int delay;
         private int interval;
 
