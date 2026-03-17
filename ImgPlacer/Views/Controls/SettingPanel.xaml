@@ -35,7 +35,10 @@
                 <DataTemplate DataType="{x:Type models:TemplateText}">
                     <StackPanel Margin="0,4,0,6">
                         <TextBlock Text="{Binding ShortcutLabel}" />
-                        <TextBox Margin="15,0,0,0" Text="{Binding Text}" />
+                        <TextBox
+                            Margin="15,0,0,0"
+                            AcceptsTab="True"
+                            Text="{Binding Text}" />
                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
