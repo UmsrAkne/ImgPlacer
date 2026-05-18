@@ -19,10 +19,11 @@
                 <StackPanel Orientation="Horizontal">
                     <Slider
                         x:Name="DistanceSlider"
-                        Width="300"
+                        Width="360"
+                        IsSnapToTickEnabled="True"
                         Maximum="2000"
                         Minimum="0"
-                        TickFrequency="20"
+                        TickFrequency="10"
                         Value="{Binding Distance, Mode=TwoWay}">
                         <i:Interaction.Behaviors>
                             <behaviors:DistanceSliderDragPreviewBehavior />
