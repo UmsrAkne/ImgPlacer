@@ -117,6 +117,12 @@ namespace ImgPlacer.ViewModels
                 throw new InvalidOperationException("param is null");
             }
 
+            if (param.Value == 0)
+            {
+                Degree = 0;
+                return;
+            }
+
             Degree = (Degree + param.Value) % 360;
         });
 
