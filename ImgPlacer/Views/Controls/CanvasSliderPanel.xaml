@@ -90,6 +90,15 @@
                         <system:Int32>45</system:Int32>
                     </Button.CommandParameter>
                 </Button>
+
+                <Button
+                    Margin="5,0"
+                    Command="{Binding AddDegreeCommand}"
+                    Content="0°">
+                    <Button.CommandParameter>
+                        <system:Int32>0</system:Int32>
+                    </Button.CommandParameter>
+                </Button>
             </StackPanel>
         </StackPanel>
 
